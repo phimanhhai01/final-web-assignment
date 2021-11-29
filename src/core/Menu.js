@@ -1,23 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-const Menu = () => {
+const Menu = ({children}) => {
     return (
-    <div>
-        <nav>
-            <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="/signin">Sign in</Link>
-                </li>
-                <li>
-                    <Link to="/signup">Sign up</Link>
-                </li>
-            </ul>
-        </nav>
-    </div> 
+        <div>
+            <nav>
+                <ul>
+                    <li>
+                        <Link to="/">Home</Link>
+                    </li>
+                    <li>
+                        <Link to="/signin">Sign in</Link>
+                    </li>
+                    <li>
+                        <Link to="/list-citizens">Danh sách dân số</Link>
+                    </li>
+                </ul>
+            </nav>
+            {children}
+        </div> 
     );
 }
 
