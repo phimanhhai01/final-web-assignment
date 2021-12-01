@@ -1,20 +1,11 @@
 import React from 'react';
-const titles = [
-    "ID",
-    "Họ và tên",
-    "Giới tính",
-    "Ngày sinh",
-    "Số  mũi vacxin",
-    "Dân tộc",
-    "Tuổi",
-    "Số điện thoại"
-]
+import { titles } from '../../constants/citizen/citizens';
 const TableHead = (props) => {
     return (
         <thead>
             <tr>
-                {titles.map(element => {
-                    return <th>{element}</th>
+                {titles.map((element, index) => {
+                    return <th key={index}>{element}</th>
                 })}
             </tr>
         </thead>

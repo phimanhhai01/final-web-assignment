@@ -1,18 +1,21 @@
 import React from "react";
-import { Routes, Route, useNavigate } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import Home from "./core/Home";
 import Signin from "./users/Signin";
 import  PrivateRoute  from "./core/PrivateRoute";
 import HomeRoute from "./core/HomeRoute";
-import Table from "./components/Table/Table";
+import ListCitizens from "./views/ListCitizens/ListCitizens";
+import { useLocation } from "react-router";
 import Menu from "./core/Menu";
 const Mainrouter = () => {
+    const location = useLocation();
     return (
         <div>
+            {location.pathname !== "/signin" && <Menu />}
             <Routes>
-                <Route exact path="/" element={<Menu><PrivateRoute><Home /></PrivateRoute></Menu>} />
+                <Route exact path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
                 <Route exact path="/signin" element={<HomeRoute><Signin /></HomeRoute>} />
-                <Route exact path="/list-citizens" element={<Menu><PrivateRoute><Table /></PrivateRoute></Menu>} />
+                <Route exact path="/list-citizens" element={<PrivateRoute><ListCitizens /></PrivateRoute>} />
             </Routes>
         </div>
     );

@@ -10,9 +10,13 @@ const Home = () => {
         dispatch(userLogout());
         navigate("/signin")
     }
+    const styles = {
+        root: {
+            marginLeft: "300px"
+        }
+    }
     return (
-        <div>
-            <h1>Hello world</h1>
+        <div style={styles.root}>
             <button onClick={logout}>Log out</button>
         </div>
     );
