@@ -1,5 +1,5 @@
-import apiClient from "../axios/api";
-const token = localStorage.getItem("token");
-export const getAllCitizens = () => {
-    return apiClient().get("/citizens", );
+import apiAuthedClient from "../axios/apiAuthed";
+
+export const getAllCitizens = (token) => {
+    return apiAuthedClient(token).get("/api/citizen/");
 }
