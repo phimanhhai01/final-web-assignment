@@ -47,6 +47,9 @@ const Menu = () => {
                 <li style={isActive(location, "/management")}>
                     <Link to="/management" style={isActiveLink(location, "/management")}>Quản lý</Link>
                 </li>
+                <li style={isActive(location, "/family")}>
+                    <Link to="/family" style={isActiveLink(location, "/family")}>Quản lý gia đình</Link>
+                </li>
             </ul>
         </div> 
     );
