@@ -20,9 +20,30 @@ const citizensLoadError = (errorMessage) => {
         payload: errorMessage
     }
 }
+const citizenIdLoadStart = () => {
+    return {
+        type: actionTypes.CITIZEN_ID_LOAD_START
+    };
+}
+const citizenIdLoadSuccess = (singleCitizen) => {
+    return {
+        type: actionTypes.CITIZEN_ID_LOAD_SUCCESS,
+        payload: singleCitizen
+    }
+}
+
+const citizenIdLoadError = (errorMessage) => {
+    return {
+        type: actionTypes.CITIZEN_ID_LOAD_ERROR,
+        payload: errorMessage
+    }
+}
 
 export default {
     citizensLoadStart,
     citizensLoadSuccess,
-    citizensLoadError
+    citizensLoadError,
+    citizenIdLoadStart,
+    citizenIdLoadSuccess,
+    citizenIdLoadError
 }

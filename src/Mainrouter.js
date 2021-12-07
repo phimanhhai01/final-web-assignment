@@ -11,7 +11,7 @@ import UpdateCitizensData from "./views/UpdateCitizensData/UpdateCitizensData";
 import { useLocation } from "react-router";
 import Menu from "./core/Menu";
 import Header from "./core/Header";
-
+import ManageFamily from "./views/ManageFamily/ManageFamily";
 const Mainrouter = () => {
     const location = useLocation();
     return (
@@ -25,6 +25,7 @@ const Mainrouter = () => {
                 <Route exact path="/management" element={<PrivateRoute><ListUser /></PrivateRoute>} />
                 <Route exact path="/analys-citizens" element={<PrivateRoute><Analysis /></PrivateRoute>} />
                 <Route exact path="/update-citizens-data" element={<PrivateRoute><UpdateCitizensData /></PrivateRoute>} />
+                <Route exact path="/family" element={<PrivateRoute><ManageFamily/></PrivateRoute>} />
             </Routes>
         </div>
     );

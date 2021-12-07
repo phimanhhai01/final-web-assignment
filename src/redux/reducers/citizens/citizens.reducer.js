@@ -6,18 +6,35 @@ const citizenReducer = (state = initialStates, {type, payload}) => {
         case actionTypes.CITIZENS_LOAD_START:
             return {
                 ...state,
-                isLoading: true
+                isLoadingCitizens: true
             }
         case actionTypes.CITIZENS_LOAD_SUCCESS:
             return {
                 ...state,
-                isLoading: false,
+                isLoadingCitizens: false,
                 citizens: payload,
             }
         case actionTypes.CITIZENS_LOAD_ERROR:
             return {
                 ...state,
-                isLoading: false,
+                isLoadingCitizens: false,
+                errorMessage: payload
+            }
+        case actionTypes.CITIZEN_ID_LOAD_START:
+            return {
+                ...state,
+                isLoadingCitizenById: true,
+            }
+        case actionTypes.CITIZEN_ID_LOAD_SUCCESS:
+            return {
+                ...state,
+                isLoadingCitizenById: false,
+                citizenById: payload
+            }
+        case actionTypes.CITIZEN_ID_LOAD_ERROR: 
+            return {
+                ...state,
+                isLoadingCitizenById: false,
                 errorMessage: payload
             }
         default:

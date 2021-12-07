@@ -63,9 +63,14 @@ const Menu = () => {
                     <Management style={styles.icon} fill={styles.iconColor}/>
                     <Link to="/management" style={isActiveLink(location, "/management")}>Quản lý</Link>
                 </li>
+
                 <li style={isActive(location, "/update-citizens-data")}>
                     <Add style={styles.icon} fill={styles.iconColor}/>
                     <Link to="/update-citizens-data" style={isActiveLink(location, "/update-citizens-data")}>Nhập liệu</Link>
+                </li>
+                <li style={isActive(location, "/family")}>
+                    <Link to="/family" style={isActiveLink(location, "/family")}>Quản lý gia đình</Link>
+
                 </li>
             </ul>
         </div> 
