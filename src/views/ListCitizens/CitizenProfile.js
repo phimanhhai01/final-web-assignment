@@ -1,6 +1,6 @@
 import { LearningLevels, Ethnics, Religions } from '../../constants/citizen/citizens';
 
-const CitizenProfile = () => {
+const CitizenProfile = (props) => {
     const styles = {
         root: {
             border: "black 1px solid",
@@ -95,15 +95,15 @@ const CitizenProfile = () => {
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Họ và tên</label>
                         {/* <input style={styles.input}/> */}
-                        <div style={styles.CitizenInfo}>Nguyễn Hữu An</div>
+                        <div style={styles.CitizenInfo}>{props.name}</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Ngày sinh</label>
-                        <div style={styles.CitizenInfo}>30/12/2021 11:04</div>
+                        <div style={styles.CitizenInfo}>{props.dob}</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Ngày mất</label>
-                        <div style={styles.CitizenInfo}>30/12/2021 11:04</div>
+                        <div style={styles.CitizenInfo}>{props.dod === null && "Không"}</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Giới tính</label>
@@ -113,7 +113,7 @@ const CitizenProfile = () => {
                             <input type="radio" id="female" name="gender" value="female"></input>
                             <label for="female">Nữ</label>
                         </div> */}
-                        <div style={styles.CitizenInfo}>Nam</div>
+                        <div style={styles.CitizenInfo}>{props.gender}</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Dân tộc</label>
@@ -122,7 +122,7 @@ const CitizenProfile = () => {
                                 return <option key={index} style={styles.option}>{element}</option>
                             })}
                         </select> */}
-                        <div style={styles.CitizenInfo}>Kinh</div>
+                        <div style={styles.CitizenInfo}>{props.ethnic}</div>
                     </div>
                 </div>
                 <div style={styles.RightSide}>
@@ -133,7 +133,7 @@ const CitizenProfile = () => {
                                 return <option key={index} style={styles.option}>{element}</option>
                             })}
                         </select> */}
-                        <div style={styles.CitizenInfo}>Không</div>
+                        <div style={styles.CitizenInfo}>{props.religion === null && "Không"}</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Trình độ học vấn</label>
@@ -142,7 +142,7 @@ const CitizenProfile = () => {
                                 return <option key={index} style={styles.option}>{element}</option>
                             })}
                         </select> */}
-                        <div style={styles.CitizenInfo}>Đại học</div>
+                        <div style={styles.CitizenInfo}>{props.educational === "high" && "Đại học"}</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Trình trạng hôn nhân</label>
@@ -152,11 +152,11 @@ const CitizenProfile = () => {
                             <input type="radio" id="married" name="marital_status" value="married"></input>
                             <label for="married">Đã kết hôn</label>
                         </div> */}
-                        <div style={styles.CitizenInfo}>Độc thân</div>
+                        <div style={styles.CitizenInfo}>{props.marital_status === false ? "Độc thân" : "Đã kết hôn" }</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Địa chỉ</label>
-                        <div style={styles.CitizenInfo}>24 Bảo Linh<br/>Phường Phúc Tân<br/>Quận Hoàn Kiếm<br/>Thành phố Hà Nội</div>
+                        <div style={styles.CitizenInfo}>{props.address}</div>
                     </div>
                     {/* <div style={styles.ButtonBlock}>
                         <button style={styles.submitButton} type='submit'>Cập nhật</button>

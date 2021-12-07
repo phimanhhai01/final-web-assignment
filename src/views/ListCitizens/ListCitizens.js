@@ -19,8 +19,8 @@ const ListCitizens = () => {
         <div style={styles.root}>
             <Title name="Danh sách dân số"/>
             <Table name="ListCitizensTitles"/>
-            {currentUser.level === "1" && <A1Filter />}
-            <Table />
+            {/* {currentUser.level === "1" && <A1Filter />}
+            <Table /> */}
         </div>
     )
 }

@@ -25,7 +25,6 @@ const A2Filter = ({classes}) => {
                 Bộ lọc 
             </button>
             <Dialog
-                style={{height: "500px"}}
                 fullWidth={true}
                 open={open}
                 maxWidth={'xl'}
