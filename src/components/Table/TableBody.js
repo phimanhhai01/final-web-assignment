@@ -29,9 +29,9 @@ import { loadFamiliesAsync } from '../../redux/reducers/families/families.thunk'
 const TableBody = (props) => {
     const token = localStorage.getItem("token");
     const dispatch = useDispatch();
-    const { families } = useSelector(state => state.families);
+    const { citizens } = useSelector(state => state.citizens);
     useEffect(() => {
-        dispatch(loadFamiliesAsync(token));
+        dispatch(loadCitizensAsync(token));
     }, []);
 
     /* if (props.name === "ListFamiliesTitles") {
@@ -42,7 +42,7 @@ const TableBody = (props) => {
 
     return (
         <tbody>
-            {families && families.map((element, index) => {
+            {citizens && citizens.map((element, index) => {
                 return <TableData key={index} {...element} />
             })}
         </tbody>
