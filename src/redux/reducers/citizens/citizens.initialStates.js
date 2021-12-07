@@ -1,5 +1,7 @@
 export default {
-    isLoading: "false",
+    isLoadingCitizens: false,
+    isLoadingCitizenById: false,
     citizens: null,
-    errorMessage: null
+    errorMessage: null,
+    citizenById: null,
 }
