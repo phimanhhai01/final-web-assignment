@@ -1,19 +1,33 @@
 import React, { useEffect } from 'react';
 import TableHead from './TableHead';
 import TableBody from './TableBody';
-const Table = () => {
+import Filter from '../../components/Filter';
+import SearchBar from '../../components/SearchBar';
+
+const Table = (props) => {
     const styles = {
         root: {
-            margin: "auto",
-            display: "block",
-            width: "100%"
+            width: "100%",
+            borderTop: "black 1px solid",
+            borderCollapse: "collapse",
+        },
+        searchEngine: {
+            display: "flex",
+            margin: "0.5rem"
         }
     }
     return (
-        <table style={styles.root}>
-            <TableHead/>
-            <TableBody />
-        </table>
+        <div>
+            <div style={styles.searchEngine}>
+                <Filter/>
+                <SearchBar/>
+            </div>
+            <table style={styles.root}>
+                <TableHead name={props.name}/>
+                <TableBody name={props.name}/>
+            </table>
+        </div>
+
     );
 }
 

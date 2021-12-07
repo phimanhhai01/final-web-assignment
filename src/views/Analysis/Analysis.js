@@ -1,8 +1,7 @@
 import React from 'react';
-import Table from '../../components/Table/Table';
-import Title from '../../components/Title';
+import CitizenProfile from '../../views/ListCitizens/CitizenProfile';
 
-const ListCitizens = () => {
+const ListUser = () => {
     const styles = {
         root: {
             display: "block",
@@ -13,10 +12,9 @@ const ListCitizens = () => {
     }
     return (
         <div style={styles.root}>
-            <Title name="Danh sách dân số"/>
-            <Table name="ListCitizensTitles"/>
+            <CitizenProfile/>
         </div>
     )
 }
 
-export default ListCitizens;
+export default ListUser;
