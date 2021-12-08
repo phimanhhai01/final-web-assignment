@@ -11,7 +11,7 @@ const UpdateCitizensData = () => {
         }
     }
     return (
-        <div style={styles.root}>
+        <div style={{}}>
             
         </div>
     )

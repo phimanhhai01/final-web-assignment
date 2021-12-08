@@ -22,6 +22,21 @@ export const LearningLevels = [
     "Cao học",
 ];
 
+export const educational = {
+    primary: "Tiểu học",
+    secondary: "Trung học cơ sở",
+    high: "Trung học phổ thông",
+    university: "Cao đẳng / Đại học",
+    master: "Sau đại học"
+
+}
+
+export const gender = {
+    male: "Nữ",
+    female: "Nam"
+} 
+
+
 export const Ethnics = [
     "Ba-na",
     "Bố Y",

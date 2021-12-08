@@ -14,8 +14,10 @@ const styles = {
         position: "fixed",
         background: "white",
         height: "100%",
-        width: "17.36vw",
-        borderRight: "black 1px solid",
+        width: "var(--sidebar-width)",
+        // borderRight: "black 1px solid",
+        boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+        // marginRight: "1rem"
     },
     logo: {
         margin: "20px auto",
@@ -40,6 +42,7 @@ const styles = {
  */
 
 const Menu = () => {
+    console.log("render Menu")
     const location = useLocation();
     return (
         <div style={styles.root}>
@@ -70,7 +73,6 @@ const Menu = () => {
                 </li>
                 <li style={isActive(location, "/family")}>
                     <Link to="/family" style={isActiveLink(location, "/family")}>Quản lý gia đình</Link>
-
                 </li>
             </ul>
         </div> 
@@ -115,7 +117,7 @@ const isActiveLink = (location, path) => {
         styles.iconColor = "#FFFFFF"
         return {
             color: "#FFFFFF",
-            background: "#2E3192",
+            backgroundColor: "#2E3192",
             fontWeight: "bold",
             ...linkStyle
         }

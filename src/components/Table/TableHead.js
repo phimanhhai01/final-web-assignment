@@ -3,7 +3,8 @@ import { ListCitizensTitles } from '../../constants/citizen/citizens';
 /* import { ListUserTitles } from '../../constants/user/user';
  */
 const TableHead = (props) => {
-    let name = ListCitizensTitles;
+    // let name = ListCitizensTitles;
+    const {headers} = props
     /* if (props.name === "ListUserTitles") {
         name = ListUserTitles;
     } else if (props.name === "ListCitizensTitles") {
@@ -21,7 +22,7 @@ const TableHead = (props) => {
     return (
         <thead style={styles.root}>
             <tr style={styles.row}>
-                {name.map((element, index) => {
+                {headers.map((element, index) => {
                     return <th key={index}>{element}</th>
                 })}
             </tr>

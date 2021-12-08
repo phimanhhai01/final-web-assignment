@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
-import TableHead from './TableHead';
-import TableBody from './TableBody';
+// import TableHead from './TableHead';
+// import TableBody from './TableBody';
 import Filter from '../../components/Filter';
 import SearchBar from '../../components/SearchBar';
+import style from './table.css';
+
 
 const Table = (props) => {
+    const {heads, data, renderData} = props;
+
     const styles = {
         root: {
             width: "100%",
@@ -22,9 +26,21 @@ const Table = (props) => {
                 <Filter/>
                 <SearchBar/>
             </div>
-            <table style={styles.root}>
-                <TableHead name={props.name}/>
-                <TableBody name={props.name}/>
+            <table className="table">
+                {/* <TableHead name={props.name}/> */}
+                <thead className="table__head">
+                    <tr>
+                    {
+                        heads.map((item, index) => <th key={index}>{item}</th>)
+                    }
+                    </tr>
+                </thead>
+                <tbody className="table__body">
+                    {
+                        data.map((item, index) => renderData(item, index))
+                    }
+                </tbody>
+                {/* <TableBody name={props.name}/> */}
             </table>
         </div>
 
