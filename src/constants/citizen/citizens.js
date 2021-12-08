@@ -1,14 +1,15 @@
 export const ListCitizensTitles = [
-    "ID",
+    "Số CMND/CCCD",
     "Họ và tên",
     "Ngày sinh",
-    "Ngày mất",
     "Giới tính",
     "Dân tộc",
-    " Tôn giáo",
+    "Tôn giáo",
     "Trình độ học vấn",
-    "Tình trạng hôn nhân",
-    "Địa chỉ",
+    "Nghề nghiệp",
+    "Quê quán",
+    "Địa chỉ thường trú",
+    "Địa chỉ tạm trú"
 ];
 
 export const LearningLevels = [
