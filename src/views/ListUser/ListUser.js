@@ -11,8 +11,12 @@ const ListUser = () => {
         }
     }
     return (
-        <div style={styles.root}>
-            <Table name="ListUserTitles" />
+        <div style={{}}>
+            <Table name="ListUserTitles" 
+                heads = {[]}
+                data ={[]}
+                renderData={() => ""}
+            />
         </div>
     )
 }

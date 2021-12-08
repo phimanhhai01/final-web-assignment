@@ -1,14 +1,15 @@
 export const ListCitizensTitles = [
-    "ID",
+    "Số CMND/CCCD",
     "Họ và tên",
     "Ngày sinh",
-    "Ngày mất",
     "Giới tính",
     "Dân tộc",
-    " Tôn giáo",
+    "Tôn giáo",
     "Trình độ học vấn",
-    "Tình trạng hôn nhân",
-    "Địa chỉ",
+    "Nghề nghiệp",
+    "Quê quán",
+    "Địa chỉ thường trú",
+    "Địa chỉ tạm trú"
 ];
 
 export const LearningLevels = [
@@ -20,6 +21,21 @@ export const LearningLevels = [
     "Đại học",
     "Cao học",
 ];
+
+export const educational = {
+    primary: "Tiểu học",
+    secondary: "Trung học cơ sở",
+    high: "Trung học phổ thông",
+    university: "Cao đẳng / Đại học",
+    master: "Sau đại học"
+
+}
+
+export const gender = {
+    male: "Nữ",
+    female: "Nam"
+} 
+
 
 export const Ethnics = [
     "Ba-na",

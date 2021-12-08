@@ -1,0 +1,35 @@
+.table {
+    --border-color: #EAEAEA;
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 900px;
+    overflow: auto;
+} 
+
+/* .table__head {
+    position: fixed;
+
+} */
+.table__head tr{
+    border-bottom: 2px solid var(--border-color);
+
+}
+
+.table__head th {
+    padding: 1rem;
+    text-align: center;
+}
+
+.table__body td {
+    padding: 1rem;
+    text-align: center;
+}
+.table__body tr {
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.5 ease-in-out;
+}
+
+.table__body tr:hover {
+    background-color: var(--hover-bg);
+
+}

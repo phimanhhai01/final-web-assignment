@@ -1,7 +1,7 @@
 export default {
     isLoadingCitizens: false,
     isLoadingCitizenById: false,
-    citizens: null,
+    citizens: [],
     errorMessage: null,
     citizenById: null,
 }
