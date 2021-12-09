@@ -39,7 +39,7 @@ const citizenIdLoadError = (errorMessage) => {
     }
 }
 
-export default {
+const actions =  {
     citizensLoadStart,
     citizensLoadSuccess,
     citizensLoadError,
@@ -47,3 +47,5 @@ export default {
     citizenIdLoadSuccess,
     citizenIdLoadError
 }
+
+export default actions;

@@ -1,13 +1,7 @@
 import React from "react";
-import { Navigate, Routes, Route, Outlet  } from "react-router-dom";
+import { Navigate, Outlet  } from "react-router-dom";
 import Menu from "./Menu";
 import Header from "./Header";
-import Home from "./Home";
-import ListCitizens from "../views/ListCitizens/ListCitizens";
-import ListUser from "../views/ListUser/ListUser";
-import Analysis from "../views/Analysis/Analysis";
-import UpdateCitizensData from "../views/UpdateCitizensData/UpdateCitizensData";
-import ManageFamily from "../views/ManageFamily/ManageFamily";
 
 import { isAuthenticated } from "../api/apiUser";
 const style = {

@@ -1,4 +1,4 @@
-export default {
+const actionTypes =  {
     CITIZENS_LOAD_START: "CITIZENS_LOAD_START",
     CITIZENS_LOAD_SUCCESS: "CITIZENS_LOAD_SUCCESS",
     CITIZENS_LOAD_ERROR: "CITIZENS_LOAD_ERROR",
@@ -6,3 +6,5 @@ export default {
     CITIZEN_ID_LOAD_SUCCESS: "CITIZEN_ID_LOAD_SUCCESS",
     CITIZEN_ID_LOAD_ERROR: "CITIZEN_ID_LOAD_ERROR"
 }
+
+export default actionTypes;

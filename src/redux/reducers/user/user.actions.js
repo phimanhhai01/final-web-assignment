@@ -26,9 +26,11 @@ const userLogout = () => {
     }
 }
 
-export default {
+const actions =  {
     userLoginStart,
     userLoginError,
     userLoginSuccess,
     userLogout,
 }
+
+export default actions;

@@ -6,7 +6,8 @@ import A1Filter from '../../components/Filter/A1Filter';
 import { useSelector, useDispatch } from 'react-redux';
 import { ListCitizensTitles, educational, gender } from '../../constants/citizen/citizens';
 import { loadCitizensAsync } from '../../redux/reducers/citizens/citizens.thunk';
-
+import { Navigate, useLocation } from 'react-router';
+import { loadCitizenByIdAsync } from '../../redux/reducers/citizens/citizens.thunk';
 const styles = {
     root: {
         display: "block",
@@ -24,9 +25,14 @@ const ListCitizens = () => {
         dispatch(loadCitizensAsync());
     }, []);
     // const { currentUser } = useSelector(state => state.user);
-    const renderData = (item, index) => {
+    const RenderData = (item, index) => {
+        const [redirect, setRedirect] = useState(false);
+        const handleClick = () => {
+            setRedirect(true);
+        }
+        if (redirect) return (<Navigate replace to={`/list-citizens/${item.id}`} />)
         return (
-            <tr key={index}>
+            <tr onClick={handleClick} key={index}>
                 <td>{item.id_number? item.id_number: "-"}</td>
                 <td>{item.name}</td>
                 <td>{item.dob}</td>
@@ -48,7 +54,7 @@ const ListCitizens = () => {
                 name="ListCitizensTitles"
                 heads = {ListCitizensTitles}
                 data = {citizens}
-                renderData = {renderData}
+                renderData = {RenderData}
             />
             {/* {currentUser.level === "1" && <A1Filter />}
             <Table /> */}

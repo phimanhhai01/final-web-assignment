@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { withStyles } from '@material-ui/styles';
 import { useState } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
