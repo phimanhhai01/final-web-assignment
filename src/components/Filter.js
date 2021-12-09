@@ -2,21 +2,24 @@ import Radium from 'radium';
 
 import filterIcon from "../images/filterIcon.png";
 import { filterBy } from '../constants/filter';
+import Button from '@mui/material/Button';
+// import FilterListIcon from '@mui/icons-material/FilterList';
+
 
 const Filter = () => {
     const styles = {
         root: {
-            display: "flex",
-            width: "9vw",
-            height: "5vh",
-            background: "#2E3192",
-            borderRadius: "10px",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "0.5rem",
-            ':hover': {
-                cursor: "pointer",
-            },
+            // display: "flex",
+            // width: "9vw",
+            // height: "5vh",
+            // background: "#2E3192",
+            // borderRadius: "10px",
+            // justifyContent: "center",
+            // alignItems: "center",
+            // margin: "0.5rem",
+            // ':hover': {
+            //     cursor: "pointer",
+            // },
         },
         icon: {
             marginLeft: "0.5rem",
@@ -48,15 +51,13 @@ const Filter = () => {
     }
     return (
         <div key={1} style={styles.root}>
-            <img style={styles.icon} src={filterIcon} alt="filterIcon"/>
-            <div style={styles.filter}>
-                <p>Bộ lọc</p>
-                <ul key={2} style={styles.listMenu}>
-                    {filterBy.map((element, index) => {
-                        return <li key={index} style={styles.listItem}>{element}</li>
-                    })}
-                </ul>
-            </div>
+           <Button 
+                variant="outlined"
+                size="large"
+           >
+               Lọc
+            </Button>
+            
         </div>
     );
 }

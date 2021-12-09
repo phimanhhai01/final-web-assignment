@@ -7,7 +7,9 @@ import { isAuthenticated } from "../api/apiUser";
 const style = {
     main: {
         marginLeft: "var(--sidebar-width)",
-        padding: "0 0.5rem"
+        padding: "0 0.5rem",
+        backgroundColor: "var(--second-bg)",
+        minHeight: "100vh"
     }
 }
 const PrivateRoute = (props) => {

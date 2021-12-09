@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import Table from '../../components/Table/Table';
+import TableExtra from '../../components/Table/TableExtra';
 import Title from '../../components/Title';
-
-import A1Filter from '../../components/Filter/A1Filter';
+import { TableRow, TableCell } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { ListCitizensTitles, educational, gender } from '../../constants/citizen/citizens';
+import { citizen_columns, educational, gender, searchByCitizen } from '../../constants/citizen/citizens';
 import { loadCitizensAsync } from '../../redux/reducers/citizens/citizens.thunk';
 import { Navigate, useLocation } from 'react-router';
 import { loadCitizenByIdAsync } from '../../redux/reducers/citizens/citizens.thunk';
+import Button from '@mui/material/Button'
+
 const styles = {
     root: {
         display: "block",
         background: "white",
         paddingTop: "15vh",
         paddingLeft: "17.36vw"
+    },
+    header: {
+        marginBottom: "2rem",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between"
     }
 };
 
@@ -32,32 +39,38 @@ const ListCitizens = () => {
         }
         if (redirect) return (<Navigate replace to={`/list-citizens/${item.id}`} />)
         return (
-            <tr onClick={handleClick} key={index}>
-                <td>{item.id_number? item.id_number: "-"}</td>
-                <td>{item.name}</td>
-                <td>{item.dob}</td>
-                <td>{gender[item.gender]}</td>
-                <td>{item.ethnic}</td>
-                <td>{item.religion? item.religion: "-"}</td>
-                <td>{educational[item.educational]}</td>
-                <td>{item.occupations? item.occupations: "-" }</td>
-                <td>{item.home_town? item.home_town: "-"}</td>
-                <td>{item.address_line1? item.address_line1: "-"}</td>
-                <td>{item.address_line2? item.address_line2: "-"}</td>            
-            </tr>
+            <TableRow onClick={handleClick} key={index} hover role="checkbox" tabIndex={-1} >
+                <TableCell>{item.id_number? item.id_number: "-"}</TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.dob}</TableCell>
+                <TableCell>{gender[item.gender]}</TableCell>
+                <TableCell>{item.ethnic}</TableCell>
+                <TableCell>{item.religion? item.religion: "-"}</TableCell>
+                <TableCell>{educational[item.educational]}</TableCell>
+                <TableCell>{item.occupations? item.occupations: "-" }</TableCell>
+                <TableCell>{item.home_town? item.home_town: "-"}</TableCell>
+                <TableCell>{item.address_line1? item.address_line1: "-"}</TableCell>
+                <TableCell>{item.address_line2? item.address_line2: "-"}</TableCell>            
+            </TableRow>
         )
     }
     return (
-        <div style={{}}>
-            <Title name="Danh sách dân số"/>
-            <Table 
+        <div class="page-limit" style={{}}>
+            <div style={styles.header}>
+                <div></div>
+          
+                <Button variant="contained">
+                    Khai báo công dân mới 
+                </Button>
+            </div>
+            <TableExtra
+                searchBy = {searchByCitizen}
+                title = "Danh sách dân số"
                 name="ListCitizensTitles"
-                heads = {ListCitizensTitles}
+                columns = {citizen_columns}
                 data = {citizens}
                 renderData = {RenderData}
             />
-            {/* {currentUser.level === "1" && <A1Filter />}
-            <Table /> */}
         </div>
     )
 }

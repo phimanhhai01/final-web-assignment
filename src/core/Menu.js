@@ -74,6 +74,9 @@ const Menu = () => {
                 <li style={isActive(location, "/family")}>
                     <Link to="/family" style={isActiveLink(location, "/family")}>Quản lý gia đình</Link>
                 </li>
+                <li style={isActive(location, "/family")}>
+                    <Link to="/family" style={isActiveLink(location, "/family")}>Quản lý gia đình</Link>
+                </li>
             </ul>
         </div> 
     );
