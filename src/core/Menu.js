@@ -9,6 +9,8 @@ import {ReactComponent as List} from '../images/list-text.svg';
 import {ReactComponent as Management} from '../images/team.svg';
 import {ReactComponent as Add} from '../images/add-friend.svg';
 
+import { sidebar_items } from "../constants/menu/menu";
+import '../style/menu.css'
 const styles = {
     root: {
         position: "fixed",
@@ -35,7 +37,7 @@ const styles = {
         width: "1.7vw",
         height: "auto",
     },
-    iconColor: ""
+    iconColor: "",
 }
 
 /* const [dataAnalysisColor, setColor] = useState("#FFFFFF")
@@ -44,39 +46,28 @@ const styles = {
 const Menu = () => {
     console.log("render Menu")
     const location = useLocation();
+    console.log("🚀 ~ file: Menu.js ~ line 49 ~ Menu ~ location", location)
+    
     return (
-        <div style={styles.root}>
-            <div>
-                <img style={styles.logo} src={logo_Boyte} alt="logo_Boyte"/>
+        <div className="sidebar">
+            <div className="sidebar__logo">
+                <img src={logo_Boyte} alt="logo_Boyte"/>
             </div>
-            <ul style={styles.ulStyle}>
-                <li style={isActive(location, "/")}>
-                    <HourGlass style={styles.icon} fill={styles.iconColor}/>
-                    <Link to="/" style={isActiveLink(location, "/")}>Tiến Độ Điều Tra</Link>
-                </li>                        
-                <li style={isActive(location, "/list-citizens")}>
-                    <List style={styles.icon} fill={styles.iconColor}/>
-                    <Link to="/list-citizens" style={isActiveLink(location, "/list-citizens")}>Danh sách dân số</Link>
-                </li>
-                <li style={isActive(location, "/analys-citizens")}>
-                    <DataAnalysis style={styles.icon} fill={styles.iconColor}/>
-                    <Link to="/analys-citizens" style={isActiveLink(location, "/analys-citizens")}>Phân tích quản lý</Link>
-                </li>
-                <li style={isActive(location, "/management")}>
-                    <Management style={styles.icon} fill={styles.iconColor}/>
-                    <Link to="/management" style={isActiveLink(location, "/management")}>Quản lý</Link>
-                </li>
-
-                <li style={isActive(location, "/update-citizens-data")}>
-                    <Add style={styles.icon} fill={styles.iconColor}/>
-                    <Link to="/update-citizens-data" style={isActiveLink(location, "/update-citizens-data")}>Nhập liệu</Link>
-                </li>
-                <li style={isActive(location, "/family")}>
-                    <Link to="/family" style={isActiveLink(location, "/family")}>Quản lý gia đình</Link>
-                </li>
-                <li style={isActive(location, "/family")}>
-                    <Link to="/family" style={isActiveLink(location, "/family")}>Quản lý gia đình</Link>
-                </li>
+            
+            
+            <ul className="sidebar__menu">
+                {
+                    sidebar_items.map((item, index) => (
+                        <li key={index}>
+                            <Link to={item.path} className={`menu__item ${location.pathname === item.path? "menu__item__active":""}`}>
+                                <i className={item.icon}></i>
+                                <span>
+                                    {item.label}
+                                </span>
+                            </Link>
+                        </li>
+                    ))
+                }
             </ul>
         </div> 
     );
@@ -84,31 +75,38 @@ const Menu = () => {
 
 export default Menu;
 const isActive = (location, path) => {
-    const style = {
-        textDecoration: 'none',
-        padding: "12px",
-        marginRight: "6px",
-        display: "flex",
-        alignItems: "center"
+    return {
+
     }
-    if(location.pathname === path) {
-        styles.iconColor = "#FFFFFF"
-        return {
-            color: "#FFFFFF",
-            background: "#2E3192",
-            borderRadius: "0px 25px 25px 0px",
-            ...style
-        }
-    } else {
-        styles.iconColor = "#000000"
-        return {
-        color: "#000000",
-        ...style
-        }
-    }
+    // const style = {
+    //     textDecoration: 'none',
+    //     padding: "12px",
+    //     marginRight: "6px",
+    //     display: "flex",
+    //     alignItems: "center"
+    // }
+    // if(location.pathname === path) {
+    //     styles.iconColor = "#FFFFFF"
+    //     return {
+    //         color: "#FFFFFF",
+    //         background: "#2E3192",
+    //         borderRadius: "0px 25px 25px 0px",
+    //         ...style
+    //     }
+    // } else {
+    //     styles.iconColor = "#000000"
+    //     return {
+    //     color: "#000000",
+    //     ...style
+    //     }
+    // }
 };
 
 const isActiveLink = (location, path) => {
+    return {
+
+    }
+
     const linkStyle = {
         textDecoration: 'none',
         fontSize: "20px",
