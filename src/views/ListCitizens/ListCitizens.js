@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import TableExtra from '../../components/Table/TableExtra';
-import Title from '../../components/Title';
 import { TableRow, TableCell } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { citizen_columns, educational, gender, searchByCitizen } from '../../constants/citizen/citizens';
 import { loadCitizensAsync } from '../../redux/reducers/citizens/citizens.thunk';
-import { Navigate, useLocation } from 'react-router';
-import { loadCitizenByIdAsync } from '../../redux/reducers/citizens/citizens.thunk';
+import { Navigate } from 'react-router';
 import Button from '@mui/material/Button'
 
 const styles = {
