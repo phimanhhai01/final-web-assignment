@@ -32,7 +32,6 @@ const TableBody = () => {
 } */
 
 const TableBody = (props) => {
-    const token = localStorage.getItem("token");
     const dispatch = useDispatch();
     const { citizens } = useSelector(state => state.citizens);
     useEffect(() => {

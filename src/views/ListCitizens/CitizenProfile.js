@@ -1,6 +1,14 @@
+import React, { useEffect } from 'react';
 import { LearningLevels, Ethnics, Religions } from '../../constants/citizen/citizens';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { loadCitizenByIdAsync } from '../../redux/reducers/citizens/citizens.thunk';
 const CitizenProfile = (props) => {
+    const {id} = props;
+    const dispatch = useDispatch();
+    const { citizenById } = useSelector(state => state.citizens);
+    useEffect(() => {
+        dispatch(loadCitizenByIdAsync(id));
+    }, []);
     const styles = {
         root: {
             border: "black 1px solid",
@@ -95,15 +103,15 @@ const CitizenProfile = (props) => {
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Họ và tên</label>
                         {/* <input style={styles.input}/> */}
-                        <div style={styles.CitizenInfo}>{props.name}</div>
+                        <div style={styles.CitizenInfo}>{citizenById.name}</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Ngày sinh</label>
-                        <div style={styles.CitizenInfo}>{props.dob}</div>
+                        <div style={styles.CitizenInfo}>{citizenById.dob}</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Ngày mất</label>
-                        <div style={styles.CitizenInfo}>{props.dod === null && "Không"}</div>
+                        <div style={styles.CitizenInfo}>{citizenById.dod === null && "Không"}</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Giới tính</label>
@@ -113,7 +121,7 @@ const CitizenProfile = (props) => {
                             <input type="radio" id="female" name="gender" value="female"></input>
                             <label for="female">Nữ</label>
                         </div> */}
-                        <div style={styles.CitizenInfo}>{props.gender}</div>
+                        <div style={styles.CitizenInfo}>{citizenById.gender}</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Dân tộc</label>
@@ -122,7 +130,7 @@ const CitizenProfile = (props) => {
                                 return <option key={index} style={styles.option}>{element}</option>
                             })}
                         </select> */}
-                        <div style={styles.CitizenInfo}>{props.ethnic}</div>
+                        <div style={styles.CitizenInfo}>{citizenById.ethnic}</div>
                     </div>
                 </div>
                 <div style={styles.RightSide}>
@@ -133,7 +141,7 @@ const CitizenProfile = (props) => {
                                 return <option key={index} style={styles.option}>{element}</option>
                             })}
                         </select> */}
-                        <div style={styles.CitizenInfo}>{props.religion === null && "Không"}</div>
+                        <div style={styles.CitizenInfo}>{citizenById.religion}</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Trình độ học vấn</label>
@@ -142,7 +150,7 @@ const CitizenProfile = (props) => {
                                 return <option key={index} style={styles.option}>{element}</option>
                             })}
                         </select> */}
-                        <div style={styles.CitizenInfo}>{props.educational === "high" && "Đại học"}</div>
+                        <div style={styles.CitizenInfo}>{citizenById.educational}</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Trình trạng hôn nhân</label>
@@ -152,11 +160,11 @@ const CitizenProfile = (props) => {
                             <input type="radio" id="married" name="marital_status" value="married"></input>
                             <label for="married">Đã kết hôn</label>
                         </div> */}
-                        <div style={styles.CitizenInfo}>{props.marital_status === false ? "Độc thân" : "Đã kết hôn" }</div>
+                        <div style={styles.CitizenInfo}>{citizenById.marital_status === false ? "Độc thân" : "Đã kết hôn" }</div>
                     </div>
                     <div style={styles.CitizenInfoBlock}>
                         <label style={styles.label}>Địa chỉ</label>
-                        <div style={styles.CitizenInfo}>{props.address}</div>
+                        <div style={styles.CitizenInfo}>{citizenById.home_town}</div>
                     </div>
                     {/* <div style={styles.ButtonBlock}>
                         <button style={styles.submitButton} type='submit'>Cập nhật</button>

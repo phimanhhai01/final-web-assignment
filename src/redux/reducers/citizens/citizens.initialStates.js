@@ -1,7 +1,9 @@
-export default {
+const initialStates =  {
     isLoadingCitizens: false,
     isLoadingCitizenById: false,
     citizens: [],
     errorMessage: null,
-    citizenById: null,
+    citizenById: {},
 }
+
+export default initialStates;

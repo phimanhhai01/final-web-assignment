@@ -27,4 +27,4 @@ const Profile = ({classes, props, open, handleCloseFather}) => {
     );
 }
 
-export default withStyles(styles)(Profile);
+//export default withStyles(styles)(Profile);

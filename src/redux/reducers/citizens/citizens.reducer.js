@@ -1,7 +1,7 @@
 import actionTypes from './citizens.actionTypes';
 import initialStates from './citizens.initialStates';
 
-const citizenReducer = (state = initialStates, {type, payload}) => {
+const citizensReducer = (state = initialStates, {type, payload}) => {
     switch(type){
         case actionTypes.CITIZENS_LOAD_START:
             return {
@@ -42,4 +42,4 @@ const citizenReducer = (state = initialStates, {type, payload}) => {
     }
 }
 
-export default citizenReducer;
+export default citizensReducer;

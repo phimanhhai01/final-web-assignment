@@ -14,6 +14,6 @@ export const loadCitizenByIdAsync = (id) => {
     return dispatch => {
         dispatch(actions.citizenIdLoadStart());
         getCitizenById(id).then(response => dispatch(actions.citizenIdLoadSuccess(response.data)))
-                        .catch(error => dispatch(actions.citizenIdLoadError(error.message)))
+                        .catch(error => dispatch(actions.citizenIdLoadError(error.message)));
     }
 }
