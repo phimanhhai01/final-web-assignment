@@ -12,6 +12,34 @@ export const ListCitizensTitles = [
     "Địa chỉ tạm trú"
 ];
 
+export const citizen_columns = [
+    {id: "id_number",  label:"Số CMND/CCCD"},
+    {id: "name",  label:"Họ và tên"},
+    {id: "dob",  label:"Ngày sinh"},
+    {id: "gender",  label:"Giới tính"},
+    {id: "ethnic",  label:"Dân tộc"},
+    {id: "religion",  label:"Tôn giáo"},
+    {id: "educational",  label:"Trình độ học vấn"},
+    {id: "occupations",  label:"Nghề nghiệp"},
+    {id: "ethnic",  label:"Quê quán"},
+    {id: "address_line1",  label:"Địa chỉ thường trú"},
+    {id: "address_line2",  label:"Địa chỉ tạm trú"},
+];
+
+export const searchByCitizen = [
+    {value: "id_number",  label:"Số CMND/CCCD"},
+    {value: "name",  label:"Họ và tên"},
+    {value: "dob",  label:"Ngày sinh"},
+    // {value: "gender",  label:"Giới tính"},
+    {value: "ethnic",  label:"Dân tộc"},
+    {value: "religion",  label:"Tôn giáo"},
+    // {value: "educational",  label:"Trình độ học vấn"},
+    {value: "occupations",  label:"Nghề nghiệp"},
+    {value: "ethnic",  label:"Quê quán"},
+    {value: "address_line1",  label:"Địa chỉ thường trú"},
+    {value: "address_line2",  label:"Địa chỉ tạm trú"},
+];
+
 export const LearningLevels = [
     "Tiểu học",
     "Trung học cơ sở",

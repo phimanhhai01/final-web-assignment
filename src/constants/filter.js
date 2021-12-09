@@ -1,14 +1,44 @@
 export const searchBy = [
-    "Theo ID",
-    "Theo Họ và tên",
-    "Theo Ngày sinh",
-    "Theo Ngày mất",
-    "Theo Giới tính",
-    "Theo Dân tộc",
-    "Theo Tôn giáo",
-    "Theo Trình độ học vấn",
-    "Theo Tình trạng hôn nhân",
-    "Theo Địa chỉ",
+    {
+        value: "id",
+        label: "Theo ID",
+    },
+    {
+        value: "name",
+        label: "Theo Họ và tên"
+    },
+    {
+        value: "dob",
+        label: "Theo Ngày sinh"
+    },
+    {
+        value: "name",
+        label: "Theo Họ và tên"
+    },
+    {
+        value: "gender",
+        label: "Theo Giới tính"
+    },
+    {
+        value: "ethnic",
+        label: "Theo Dân tộc"
+    },
+    {
+        value: "religion",
+        label: "Theo Tôn giáo"
+    },
+    {
+        value: "educational",
+        label: "Theo Trình độ học vấn"
+    },
+    {
+        value: "gender",
+        label: "Theo Giới tính"
+    },
+    {
+        value: "gender",
+        label: "Theo Giới tính"
+    }
 ];
 
 export const filterBy = [

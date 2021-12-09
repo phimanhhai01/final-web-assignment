@@ -17,14 +17,24 @@ const Table = (props) => {
         },
         searchEngine: {
             display: "flex",
-            margin: "0.5rem"
+            alignItems: "center",
+            borderBottom: "1px solid var(--border-color)",
+            padding: "0.5rem"
+            // margin: "0.5rem"
+        }, 
+        searchBarWapper: {
+            flexGrow: 1
         }
     }
     return (
         <div>
             <div style={styles.searchEngine}>
-                <Filter/>
-                <SearchBar/>
+                <div>
+                    <Filter/>
+                </div>
+                <div style={styles.searchBarWapper}>
+                    <SearchBar/>
+                </div>
             </div>
             <table className="table">
                 {/* <TableHead name={props.name}/> */}
@@ -37,7 +47,7 @@ const Table = (props) => {
                 </thead>
                 <tbody className="table__body">
                     {
-                        data.map((item, index) => renderData(item, index))
+                       data? data.map((item, index) => renderData(item, index)):null
                     }
                 </tbody>
                 {/* <TableBody name={props.name}/> */}
