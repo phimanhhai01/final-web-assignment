@@ -4,7 +4,7 @@ import { TableRow, TableCell } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { citizen_columns, educational, gender, searchByCitizen } from '../../constants/citizen/citizens';
 import { loadCitizensAsync } from '../../redux/reducers/citizens/citizens.thunk';
-import { Navigate } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
 import Button from '@mui/material/Button'
 
 const styles = {
@@ -23,19 +23,17 @@ const styles = {
 };
 
 const ListCitizens = () => {
-    // const token = localStorage.getItem("token");
     const dispatch = useDispatch();
     const { citizens } = useSelector(state => state.citizens);
     useEffect(() => {
         dispatch(loadCitizensAsync());
     }, []);
-    // const { currentUser } = useSelector(state => state.user);
-    const RenderData = (item, index) => {
-        const [redirect, setRedirect] = useState(false);
+    const navigate = useNavigate()
+    const renderData = (item, index) => {
+        
         const handleClick = () => {
-            setRedirect(true);
+            navigate(`/list-citizens/${item.id}`)
         }
-        if (redirect) return (<Navigate replace to={`/list-citizens/${item.id}`} />)
         return (
             <TableRow onClick={handleClick} key={index} hover role="checkbox" tabIndex={-1} >
                 <TableCell>{item.id_number? item.id_number: "-"}</TableCell>
@@ -67,7 +65,7 @@ const ListCitizens = () => {
                 name="ListCitizensTitles"
                 columns = {citizen_columns}
                 data = {citizens}
-                renderData = {RenderData}
+                renderData = {renderData}
             />
         </div>
     )

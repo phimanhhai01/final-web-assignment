@@ -1,3 +1,5 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
 import {ReactComponent as Avatar} from '../images/default-avatar.svg';
 import {ReactComponent as Notice} from '../images/noNotice.svg';
 const styles = {
@@ -23,10 +25,11 @@ const styles = {
 }
 
 const Header = () => {
-    console.log("render header")
+    const {currentUser} = useSelector(state => state.user);
+    
     return (
         <div style={styles.root}>
-            <p style={styles.name}>HỆ THỐNG ĐIỀU TRA DÂN SỐ VIỆT NAM</p>
+            <p style={styles.name}>{currentUser.agency.name}</p>
             <div>
                 <Notice style={styles.avatar}/>
                 <Avatar style={styles.avatar}/>
