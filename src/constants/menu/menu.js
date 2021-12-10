@@ -19,11 +19,4 @@ export const sidebar_items = [
         label: "Giám sát đơn vị",
         path: "/management"       
     },
-    {
-        icon: "bx bx-dialpad-alt",
-        label: "Nhập liệu",
-        path: "/update-citizens-data"       
-    }
-   
-
 ]

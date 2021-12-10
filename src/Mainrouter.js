@@ -8,7 +8,7 @@ import HomeRoute from "./core/HomeRoute";
 // import Menu from "./Menu";
 // import Header from "../Header";
 import ListCitizens from "./views/ListCitizens/ListCitizens";
-import ListUser from "./views/ListUser/ListUser";
+import ListAgencies from "./views/ListAgencies/ListAgencies";
 import Analysis from "./views/Analysis/Analysis";
 import UpdateCitizensData from "./views/UpdateCitizensData/UpdateCitizensData";
 import ManageFamily from "./views/ManageFamily/ManageFamily";
@@ -25,7 +25,7 @@ const Mainrouter = () => {
                 <Route  path="/" element={<PrivateRoute></PrivateRoute>} >
                     <Route exact path="list-citizens" element={<ListCitizens />} />
                     <Route exact path = "list-citizens/:id" element={<Profile />} />
-                    <Route exact path="management" element={<ListUser />} />
+                    <Route exact path="management" element={<ListAgencies />} />
                     <Route exact path="analys-citizens" element={<Analysis />} />
                     <Route exact path="update-citizens-data" element={<UpdateCitizensData />} />
                     <Route exact path="family" element={<ManageFamily/>} />
