@@ -29,7 +29,7 @@ const Header = () => {
     
     return (
         <div style={styles.root}>
-            <p style={styles.name}>{currentUser.agency.name}</p>
+            {/* <p style={styles.name}>{currentUser.agency.name}</p> */}
             <div>
                 <Notice style={styles.avatar}/>
                 <Avatar style={styles.avatar}/>
