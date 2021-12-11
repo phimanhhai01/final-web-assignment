@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState} from "react";
 import { Navigate, Outlet  } from "react-router-dom";
 import Menu from "./Menu";
 import Header from "./Header";
@@ -13,8 +13,11 @@ const style = {
     }
 }
 const PrivateRoute = (props) => {
-    
+    // const [loading, setLoadding] = useState(true)
     const authed = isAuthenticated() // isauth() returns true or false based on localStorage
+    // lay cais user neeus cos roif thig thooi 
+   
+
     return authed ?(
         <div>
             <Menu />

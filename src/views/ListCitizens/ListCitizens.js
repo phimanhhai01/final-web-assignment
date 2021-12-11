@@ -4,7 +4,7 @@ import { TableRow, TableCell } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { citizen_columns, educational, gender, searchByCitizen } from '../../constants/citizen/citizens';
 import { loadCitizensAsync } from '../../redux/reducers/citizens/citizens.thunk';
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import Button from '@mui/material/Button'
 
 const styles = {
@@ -25,6 +25,7 @@ const styles = {
 const ListCitizens = () => {
     const dispatch = useDispatch();
     const { citizens } = useSelector(state => state.citizens);
+    const {currentUser} = useSelector(state => state.user);
     useEffect(() => {
         dispatch(loadCitizensAsync());
     }, []);
@@ -51,13 +52,16 @@ const ListCitizens = () => {
         )
     }
     return (
-        <div class="page-limit" style={{}}>
+        <div className="page-limit" style={{}}>
             <div style={styles.header}>
                 <div></div>
-          
-                <Button variant="contained">
-                    Khai báo công dân mới 
-                </Button>
+                {
+                    currentUser && currentUser.level >= "3"? (
+                        <Button variant="contained">
+                            Khai báo công dân mới 
+                        </Button>
+                    ):null
+                }
             </div>
             <TableExtra
                 searchBy = {searchByCitizen}

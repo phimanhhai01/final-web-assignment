@@ -47,3 +47,30 @@ body{
     margin: 0 auto;
     width: 1280px;
 }
+
+.card {
+    --padding: 0.5rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 4px;
+
+}
+
+.card__header {
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--padding);
+
+}
+
+.card__body {
+    padding: var(--padding);
+}
+
+.card__footer {
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    border-top: 1px solid var(--border-color);
+    padding: var(--padding);
+
+}

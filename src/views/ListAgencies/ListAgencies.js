@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import {column_titles, searchByAgency} from '../../constants/agency/agency';
 import { loadAgenciesAsync } from '../../redux/reducers/agencies/agencies.thunk';
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router';
+import AgencyForm from '../agency/AgencyForm';
 
 const styles = {
     root: {
@@ -27,11 +29,13 @@ const styles = {
 const ListAgencies = () => {
     // const token = localStorage.getItem("token");
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const { agencies } = useSelector(state =>{
         return state.agencies
     } );
     console.log("🚀 ~ file: ListUser.js ~ line 23 ~ ListAgencies ~ subagencies", agencies)
-   
+    const {currentUser} = useSelector(state => state.user);
+
     useEffect(() => {
         console.log("call Agency")
         dispatch(loadAgenciesAsync());
@@ -54,10 +58,12 @@ const ListAgencies = () => {
         <div className="page-limit">
             <div style={styles.header}>
                 <div></div>
-          
-                <Button variant="contained">
-                    Thêm đơn vị mới 
-                </Button>
+                {
+                    currentUser && currentUser.level >= "3"? (
+                        <AgencyForm label="Thêm đơn vị"/>
+                    ):null
+                }
+                
             </div>
            <TableExtra 
                 name="agencies"

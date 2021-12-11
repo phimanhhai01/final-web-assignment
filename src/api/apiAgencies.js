@@ -7,3 +7,7 @@ export const getAllAgencies = () => {
 export const getAgencyById = (id) => {
     return apiAuthedClient().get(`/api/agency/${id}/`);
 }
+
+export const createAgency = (data) => {
+    return apiAuthedClient().post(`/api/agency/`, data={data});
+}
