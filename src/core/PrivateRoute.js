@@ -14,7 +14,8 @@ const style = {
 }
 const PrivateRoute = (props) => {
     
-    const authed = isAuthenticated() // isauth() returns true or false based on localStorage
+    const authed = isAuthenticated(); // isauth() returns true or false based on localStorag
+    console.log(authed);
     return authed ?(
         <div>
             <Menu />

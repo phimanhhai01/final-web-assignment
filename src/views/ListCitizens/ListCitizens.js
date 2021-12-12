@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TableExtra from '../../components/Table/TableExtra';
 import { TableRow, TableCell } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { citizen_columns, educational, gender, searchByCitizen } from '../../constants/citizen/citizens';
 import { loadCitizensAsync } from '../../redux/reducers/citizens/citizens.thunk';
-import { Navigate, useNavigate } from 'react-router';
-import Button from '@mui/material/Button'
+import { useNavigate } from 'react-router';
+import Button from '@mui/material/Button';
+import { userPersist } from '../../redux/reducers/user/user.thunk';
 
 const styles = {
     root: {
@@ -25,10 +26,12 @@ const styles = {
 const ListCitizens = () => {
     const dispatch = useDispatch();
     const { citizens } = useSelector(state => state.citizens);
+    console.log(citizens)
     useEffect(() => {
         dispatch(loadCitizensAsync());
+        //dispatch(userPersist());
     }, []);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const renderData = (item, index) => {
         
         const handleClick = () => {
@@ -51,13 +54,11 @@ const ListCitizens = () => {
         )
     }
     return (
-        <div class="page-limit" style={{}}>
+        <div className="page-limit" style={{}}>
             <div style={styles.header}>
-                <div></div>
-          
-                <Button variant="contained">
+                {/* {currentUser && (currentUser.level == "3" || currentUser.level == "4") && <Button variant="contained">
                     Khai báo công dân mới 
-                </Button>
+                </Button>} */}
             </div>
             <TableExtra
                 searchBy = {searchByCitizen}

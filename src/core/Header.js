@@ -1,7 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { userLogout } from "../redux/reducers/user/user.thunk";
+import { useNavigate } from 'react-router';
 import {ReactComponent as Avatar} from '../images/default-avatar.svg';
-import {ReactComponent as Notice} from '../images/noNotice.svg';
+import Button from '@mui/material/Button';
+//import {ReactComponent as Notice} from '../images/noNotice.svg';
 const styles = {
     root: {
         display: "flex",
@@ -26,13 +29,19 @@ const styles = {
 
 const Header = () => {
     const {currentUser} = useSelector(state => state.user);
-    
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const handleLogOut = () => {
+        dispatch(userLogout());
+        navigate("/signin")
+    }
     return (
         <div style={styles.root}>
-            <p style={styles.name}>{currentUser.agency.name}</p>
+            <p style={styles.name}>{currentUser && currentUser.agency.name}</p>
             <div>
-                <Notice style={styles.avatar}/>
-                <Avatar style={styles.avatar}/>
+                {/* <Notice style={styles.avatar}/> */}
+                <Button onClick={handleLogOut} variant="contained">Đăng xuất</Button>
+                {/* <Avatar style={styles.avatar}/> */}
             </div>
         </div>
     );
