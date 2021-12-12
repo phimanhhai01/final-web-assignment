@@ -1,6 +1,6 @@
 import actions from "./user.actions";
 
-import { apiLoginUser } from "../../../api/apiUser";
+import { apiLoginUser, apiPersistUser } from "../../../api/apiUser";
 
 export const userLoginAsync = ({username, password}) => {
     return dispatch => {
@@ -20,5 +20,16 @@ export const userLogout = () => {
     return dispatch => {
         localStorage.removeItem("token");
         dispatch(actions.userLogout());
+    }
+}
+
+export const userPersist = () => {
+    return dispatch => {
+        dispatch(actions.userLoginStart());
+        apiPersistUser().then(response => {
+            dispatch(actions.userLoginSuccess(response.data))
+        })
+        .catch(error => {dispatch(actions.userLoginError(error.message))});
+    
     }
 }

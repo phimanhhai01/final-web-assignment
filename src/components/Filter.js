@@ -1,7 +1,7 @@
 import Radium from 'radium';
 
-import filterIcon from "../images/filterIcon.png";
-import { filterBy } from '../constants/filter';
+//import filterIcon from "../images/filterIcon.png";
+//import { filterBy } from '../constants/filter';
 import Button from '@mui/material/Button';
 // import FilterListIcon from '@mui/icons-material/FilterList';
 
