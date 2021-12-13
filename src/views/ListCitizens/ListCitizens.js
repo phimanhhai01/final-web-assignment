@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TableExtra from '../../components/Table/TableExtra';
 import { TableRow, TableCell } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,6 +6,7 @@ import { citizen_columns, educational, gender, searchByCitizen } from '../../con
 import { loadCitizensAsync } from '../../redux/reducers/citizens/citizens.thunk';
 import { useNavigate } from 'react-router';
 import Button from '@mui/material/Button'
+
 
 const styles = {
     root: {
@@ -25,11 +26,14 @@ const styles = {
 const ListCitizens = () => {
     const dispatch = useDispatch();
     const { citizens } = useSelector(state => state.citizens);
+
     const {currentUser} = useSelector(state => state.user);
+
     useEffect(() => {
         dispatch(loadCitizensAsync());
+        //dispatch(userPersist());
     }, []);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const renderData = (item, index) => {
         
         const handleClick = () => {

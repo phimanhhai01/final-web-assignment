@@ -13,10 +13,11 @@ const style = {
     }
 }
 const PrivateRoute = (props) => {
+
     // const [loading, setLoadding] = useState(true)
     const authed = isAuthenticated() // isauth() returns true or false based on localStorage
     // lay cais user neeus cos roif thig thooi 
-   
+
 
     return authed ?(
         <div>
