@@ -8,7 +8,6 @@ const educational = {
     high: "Trung học phổ thông",
     university: "Cao đẳng / Đại học",
     master: "Sau đại học"
-
 }
 const TableData = (props) => {
     const styles = {

@@ -1,5 +1,4 @@
 import React from 'react';
-import CitizenProfile from '../../views/ListCitizens/CitizenProfile';
 
 const ListUser = () => {
     const styles = {
@@ -12,7 +11,6 @@ const ListUser = () => {
     }
     return (
         <div style={styles.root}>
-            <CitizenProfile/>
         </div>
     )
 }
