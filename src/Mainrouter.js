@@ -14,7 +14,7 @@ import UpdateCitizensData from "./views/UpdateCitizensData/UpdateCitizensData";
 import ManageFamily from "./views/ManageFamily/ManageFamily";
 
 import Profile from "./views/ListCitizens/Profile";
-import AddAgency from "./views/agency/AddAgency";
+import AgencySetting from "./views/agency/AgencySetting";
 
 const Mainrouter = () => {
     return (
@@ -27,7 +27,8 @@ const Mainrouter = () => {
                     <Route exact path="list-citizens" element={<ListCitizens />} />
                     <Route exact path = "list-citizens/:id" element={<Profile />} />
                     <Route exact path="management" element={<ListAgencies />} />
-                    <Route exact path="agency/add" element={<AddAgency />} />
+                    <Route exact path="management/:id" element={<AgencySetting />} />
+                    {/* <Route exact path="agency/add" element={<AddAgency />} /> */}
                     <Route exact path="analys-citizens" element={<Analysis />} />
                     <Route exact path="update-citizens-data" element={<UpdateCitizensData />} />
                     <Route exact path="family" element={<ManageFamily/>} />

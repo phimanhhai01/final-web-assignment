@@ -1,5 +1,5 @@
 import apiAuthedClient from "../axios/apiAuthed";
-
+import axiosClient from "../axios/myapi";
 export const getAllAgencies = () => {
     return apiAuthedClient().get("/api/agency/");
 }
@@ -9,5 +9,16 @@ export const getAgencyById = (id) => {
 }
 
 export const createAgency = (data) => {
-    return apiAuthedClient().post(`/api/agency/`, data={data});
+    return axiosClient.post(`agency/`, data);
+}
+
+export const getAgency= (id) => {
+    return axiosClient.get(`agency/${id}/`, );
+}
+
+export const agencyRename = (id, data) => {
+    return axiosClient.put(`agency/${id}/`, data);
+}
+export const changePassword = (id, data) => {
+    return axiosClient.post(`user/${id}/change_password/`, data);
 }

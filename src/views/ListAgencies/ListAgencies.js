@@ -43,7 +43,9 @@ const ListAgencies = () => {
     // const { currentUser } = useSelector(state => state.user);
     const renderData = (item, index) => {
         return (
-            <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+            <TableRow hover role="checkbox" tabIndex={-1} key={index}
+                onClick={() => navigate(`/management/${item.id}`)}
+            >
                 <TableCell>
                   {item.id}
                 </TableCell>

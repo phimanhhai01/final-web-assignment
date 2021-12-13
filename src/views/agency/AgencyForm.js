@@ -10,6 +10,9 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import { useSelector, useDispatch } from 'react-redux';
 import { createAgency } from '../../api/apiAgencies';
+
+import { appendAgency } from '../../redux/reducers/agencies/agencies.thunk';
+
 const init = {
   id:'',
   name: '',
@@ -17,27 +20,32 @@ const init = {
   staff: {
     username: '',
     password: '',
-    operate_from: '',
-    operate_to: '',
-  }
+    operate_from: null,
+    operate_to: null,
+  },
+  error: {}
 }
 
 let clicked = false
 const validate = (data, username) => {
   let error = {}
   const id_reg = RegExp(`^${username}[0-9][0-9]`)
-  console.log(id_reg)
+  // console.log(id_reg)
   if(!id_reg.test(data.id)) {
     // alert("True")
-    error.id = ['Mã đơn vị phải bắt đầu với tên đăng nhập của bạn + thêm 1 số  từ 01-99']
-  
+    error.id = [`Mã đơn vị phải có dạng '${username}xx' ví dụ: '${username}02'`]
   } 
   if (data.name.trim().length <= 3) {
     error.name = ['Tên cần ít nhất 4 ký tự']
   }
+  if (data.staff.password.trim().length < 3) {
+    error.staff = {password:['Password cần ít nhất 3 ký tự']}
+  }
   return error
 }
+
 export default function AgencyForm({label, action, initData=init}) {
+  const dispatch = useDispatch()
 
   const [open, setOpen] = React.useState(false)
   const currentUser = useSelector(state => state.user.currentUser)
@@ -45,11 +53,12 @@ export default function AgencyForm({label, action, initData=init}) {
     initData.id = currentUser.username;
     initData.staff.username = currentUser.username;
   }
+
   const [data, setData] = React.useState(initData)
-  
   
   const onSubmit = () => {
     if (clicked) {
+      console.log("return")
       return 
     }
     clicked = true
@@ -57,10 +66,21 @@ export default function AgencyForm({label, action, initData=init}) {
     if(Object.keys(err).length === 0) {
       (async () => {
         try {
+          console.log(data)
           let res = await createAgency(data)
           console.log(res)
           if (res.status === 201) {
               console.log(res.data)
+              dispatch(appendAgency(res.data))
+              setData({
+                ...initData,
+                id: currentUser.username,
+                staff: {
+                  ...initData.staff,
+                  username: currentUser.username,              
+                }
+              })
+
           } else if (res.status === 400) {
             console.log(res.data)
             setData({
@@ -68,15 +88,18 @@ export default function AgencyForm({label, action, initData=init}) {
               error: res.data
             })
           }
+          clicked = false
         } catch (error) {
-          
+          clicked = false
         }
       })()
+    } else {
+      clicked = false
+      setData({
+        ...data,
+        error: err
+      })
     }
-
-
-    
-    clicked = false
   }
   const handleChange = (e) => {
     const l = currentUser.username.length
@@ -84,7 +107,6 @@ export default function AgencyForm({label, action, initData=init}) {
     let {name, value} = e.target;
     if (name ==='id') {
       if (!isNaN(value) && value.length >= l && value.length <= l + 2) {
-        
         setData({
           ...data,
           id:value
@@ -96,8 +118,7 @@ export default function AgencyForm({label, action, initData=init}) {
         name: value
       })
     }else {
-      let staff = {...data.staff}
-
+      let staff = {...data.staff, [name]: value}
       setData({
         ...data,
         staff: staff
@@ -133,6 +154,8 @@ export default function AgencyForm({label, action, initData=init}) {
             autoComplete="off"
           >
             <TextField
+              error= {typeof data.error.id !== 'undefined'}
+              helperText = {data.error.id? data.error.id[0]:''}
               onChange={handleChange} 
               autoFocus
               margin="dense"
@@ -147,7 +170,8 @@ export default function AgencyForm({label, action, initData=init}) {
             />
           <TextField
             onChange={handleChange} 
-           
+            error= {typeof data.error.name !== 'undefined'}
+            helperText = {data.error.name? data.error.name[0]:''}
             margin="dense"
             id="name"
             name="name"
@@ -176,12 +200,14 @@ export default function AgencyForm({label, action, initData=init}) {
               name="username"
               label="Tên đăng nhập"
               type="email"
-              // fullWidth
+              
               variant="outlined"
               size="small"
               value={data.id}
             />
             <TextField
+              error= {data.error.staff && typeof data.error.staff.password !== 'undefined'}
+              helperText = {data.error.staff && data.error.staff.password? data.error.staff.password[0]:''}
               onChange={handleChange} 
               margin="dense"
               id="pasword"
@@ -191,7 +217,7 @@ export default function AgencyForm({label, action, initData=init}) {
               // fullWidth
               variant="outlined"
               size="small"
-              value={data.password}
+              value={data.staff.password}
             />
           </Box>
           
