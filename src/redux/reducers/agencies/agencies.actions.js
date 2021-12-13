@@ -41,7 +41,15 @@ const agencyIdLoadError = (errorMessage) => {
     }
 }
 
+const agencyAppend = (agency) => {
+    return {
+        type: actionTypes.AGENCY_APPEND,
+        payload: agency
+    }
+}
+
 const a =  {
+    agencyAppend,
     agenciesLoadStart,
     agenciesLoadSuccess,
     agenciesLoadError,

@@ -37,6 +37,11 @@ const agencyReducer = (state = initialStates, {type, payload}) => {
                 isLoadingAgencyById: false,
                 errorMessage: payload
             }
+        case actionTypes.AGENCY_APPEND: 
+        return {
+            ...state,
+            agencies: [...state.agencies, payload]
+        }
         default:
             return state;
     }

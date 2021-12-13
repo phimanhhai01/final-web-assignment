@@ -3,5 +3,8 @@ export default {
     isLoadingAgencyById: false,
     agencies: [],
     errorMessage: null,
-    agencyById: null,
+    agencyById: {
+        name: "",
+        
+    },
 }

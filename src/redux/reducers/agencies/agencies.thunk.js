@@ -17,3 +17,9 @@ export const loadAgencyByIdAsync = (id) => {
                         .catch(error => dispatch(actions.agencyIdLoadError(error.message)))
     }
 }
+
+export const appendAgency = (agency) => {
+    return dispatch => {
+        dispatch(actions.agencyAppend(agency));
+    }
+}
