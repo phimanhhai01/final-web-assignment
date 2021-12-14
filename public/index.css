@@ -79,3 +79,22 @@ body{
     padding: var(--padding);
 
 }
+.badge {
+    padding: 0.5rem;
+    border-radius: 4px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+}
+.badge-success {
+    background-color: #018786;
+    color: #fff;
+}
+.badge-pending {
+    background-color: var(--main-color);
+    color: #fff;
+}
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

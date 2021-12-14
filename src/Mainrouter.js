@@ -15,6 +15,7 @@ import ManageFamily from "./views/ManageFamily/ManageFamily";
 
 import Profile from "./views/ListCitizens/Profile";
 import AgencySetting from "./views/agency/AgencySetting";
+import Agencies from "./views/agency/Agencies";
 
 const Mainrouter = () => {
     return (
@@ -23,11 +24,14 @@ const Mainrouter = () => {
             {location.pathname !== "/signin" && <Header />} */}
             <Routes>
                 <Route exact path="signin" element={<HomeRoute><Signin /></HomeRoute>} />
-                <Route  path="/" element={<PrivateRoute></PrivateRoute>} >
-                    <Route exact path="list-citizens" element={<ListCitizens />} />
+                <Route exact path="" element={<PrivateRoute></PrivateRoute>} >
                     <Route exact path = "list-citizens/:id" element={<Profile />} />
-                    <Route exact path="management" element={<ListAgencies />} />
-                    <Route exact path="management/:id" element={<AgencySetting />} />
+                    <Route exact path="list-citizens" element={<ListCitizens />} />
+                    <Route  path="management" element={<Agencies />}>
+                        <Route exact path="" element={<ListAgencies />} />
+                        <Route exact path=":id" element={<AgencySetting />} />
+                    </Route>
+                    
                     {/* <Route exact path="agency/add" element={<AddAgency />} /> */}
                     <Route exact path="analys-citizens" element={<Analysis />} />
                     <Route exact path="update-citizens-data" element={<UpdateCitizensData />} />

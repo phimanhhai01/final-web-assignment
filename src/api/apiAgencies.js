@@ -22,3 +22,11 @@ export const agencyRename = (id, data) => {
 export const changePassword = (id, data) => {
     return axiosClient.post(`user/${id}/change_password/`, data);
 }
+
+export const toggleDeclarePermision = (id) => {
+    return axiosClient.get(`user/${id}/toggle_declare_permission`);
+}//http://127.0.0.1:8000/api/user/6/toggle_declare_permission
+
+export const scheduleDeclarePermission = (data) => {
+    return axiosClient.post(`user/schedule/`, data);
+}

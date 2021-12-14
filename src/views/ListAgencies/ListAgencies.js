@@ -44,13 +44,24 @@ const ListAgencies = () => {
     const renderData = (item, index) => {
         return (
             <TableRow hover role="checkbox" tabIndex={-1} key={index}
-                onClick={() => navigate(`/management/${item.id}`)}
+                onClick={() => navigate(`${item.id}`)}
             >
                 <TableCell>
                   {item.id}
                 </TableCell>
                 <TableCell>
                   {item.name}
+                </TableCell>
+                <TableCell align='center'>
+                    <span className={`badge ${item.staff.declared_permission? 'badge-success': 'badge-pending '}`}>
+                        {item.staff.declared_permission? 'Đang bật':'Đã tắt'}
+                    </span>
+                 
+                </TableCell>
+                <TableCell align='center'>
+                    <span className={`badge ${item.completed_declared? 'badge-success': 'badge-pending '}`}>
+                    {item.completed_declared? 'Đã khai báo xong': 'Chưa khai báo xong'}
+                    </span>
                 </TableCell>
             </TableRow>
         )
@@ -61,11 +72,10 @@ const ListAgencies = () => {
             <div style={styles.header}>
                 <div></div>
                 {
-                    currentUser && currentUser.level >= "3"? (
+                    currentUser && currentUser.level <= "3"? (
                         <AgencyForm label="Thêm đơn vị"/>
                     ):null
                 }
-                
             </div>
            <TableExtra 
                 name="agencies"
