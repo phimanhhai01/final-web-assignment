@@ -23,3 +23,9 @@ export const appendAgency = (agency) => {
         dispatch(actions.agencyAppend(agency));
     }
 }
+
+export const updateAgency = (agency) => {
+    return dispatch => {
+        dispatch(actions.agencyUpdate(agency));
+    }
+}

@@ -38,10 +38,21 @@ const agencyReducer = (state = initialStates, {type, payload}) => {
                 errorMessage: payload
             }
         case actionTypes.AGENCY_APPEND: 
-        return {
-            ...state,
-            agencies: [...state.agencies, payload]
-        }
+            return {
+                ...state,
+                agencies: [...state.agencies, payload]
+            }
+        case actionTypes.AGENCY_UPDATE: 
+            let agencies = state.agencies
+            let index = agencies.findIndex(item => item.id === payload.id)
+            if (index !== -1) {
+                agencies[index] = payload
+            }
+            return {
+                ...state,
+                agencies: agencies
+            }
+            
         default:
             return state;
     }

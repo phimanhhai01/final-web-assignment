@@ -47,8 +47,14 @@ const agencyAppend = (agency) => {
         payload: agency
     }
 }
-
+const agencyUpdate = (agency) => {
+    return {
+        type: actionTypes.AGENCY_UPDATE,
+        payload: agency
+    }
+}
 const a =  {
+    agencyUpdate,
     agencyAppend,
     agenciesLoadStart,
     agenciesLoadSuccess,

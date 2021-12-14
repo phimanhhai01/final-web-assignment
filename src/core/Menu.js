@@ -13,7 +13,7 @@ const Menu = () => {
     return (
         <div className="sidebar">
             <div className="sidebar__logo">
-                <img src={logo_Boyte} alt="logo_Boyte"/>
+                <img src={logo_Boyte} alt="logo_Boyte" draggable='false'/>
             </div>
             
             
@@ -21,7 +21,9 @@ const Menu = () => {
                 {
                     sidebar_items.map((item, index) => (
                         <li key={index}>
-                            <Link to={item.path} className={`menu__item ${location.pathname === item.path? "menu__item__active":""}`}>
+                            <Link to={item.path} 
+                                className={`menu__item ${(location.pathname.startsWith(item.path) && index !==0) || 
+                                    (index ===0 && location.pathname === item.path)? "menu__item__active":""}`}>
                                 <i className={item.icon}></i>
                                 <span>
                                     {item.label}
