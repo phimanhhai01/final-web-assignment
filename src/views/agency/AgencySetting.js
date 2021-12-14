@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
-import AgencyForm from "./AgencyForm";
 import { getAgency, agencyRename, changePassword, toggleDeclarePermision, scheduleDeclarePermission } from "../../api/apiAgencies";
 import Loader from "../../core/Loader";
 import { TextField, Button, Switch, InputLabel, CircularProgress } from "@mui/material";
@@ -14,7 +13,8 @@ import RenameIcon from "@mui/icons-material/DriveFileRenameOutline";
 import PasswordIcon from "@mui/icons-material/Password";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import { Box } from "@mui/system";
-
+import {updateAgency} from '../../redux/reducers/agencies/agencies.thunk'
+import { useDispatch } from 'react-redux';
 const styles = {
   showOut: {
     height: "auto",
@@ -60,6 +60,8 @@ const AddAgency = () => {
       operate_to: null
      
   });
+  const dispatch = useDispatch()
+
 
   useEffect(() => {
     (async () => {
@@ -93,10 +95,15 @@ const AddAgency = () => {
               ...data.staff,
               declared_permission: !data.staff.declared_permission,
             }
-            setData({
+            // console.log(staff)
+            let dt = {
               ...data,
-              staff: staff,
-            })
+              staff
+            }
+            setData(dt)
+            
+            dispatch(updateAgency(dt))
+            
             setLoading({
               ...loading,
                 istoggle: false,
@@ -129,6 +136,7 @@ const AddAgency = () => {
           dt.staff.password = "";
           pre = dt; // store pre value
           setData(dt);
+          dispatch(updateAgency(data))
           setLoading({
             ...loading,
             rename: false,

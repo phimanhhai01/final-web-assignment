@@ -38,7 +38,9 @@ const ListAgencies = () => {
 
     useEffect(() => {
         console.log("call Agency")
-        dispatch(loadAgenciesAsync());
+        if (agencies.length === 0) {
+            dispatch(loadAgenciesAsync());
+        }
     }, []);
     // const { currentUser } = useSelector(state => state.user);
     const renderData = (item, index) => {

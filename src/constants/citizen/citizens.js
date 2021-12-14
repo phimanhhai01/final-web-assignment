@@ -21,9 +21,9 @@ export const citizen_columns = [
     {id: "religion",  label:"Tôn giáo"},
     {id: "educational",  label:"Trình độ học vấn"},
     {id: "occupations",  label:"Nghề nghiệp"},
-    {id: "home_town",  label:"Quê quán"},
+    // {id: "home_town",  label:"Quê quán"},
     {id: "address_line1",  label:"Địa chỉ thường trú"},
-    {id: "address_line2",  label:"Địa chỉ tạm trú"},
+    // {id: "address_line2",  label:"Địa chỉ tạm trú"},
 ];
 
 export const searchByCitizen = [

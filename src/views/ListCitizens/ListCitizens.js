@@ -49,9 +49,9 @@ const ListCitizens = () => {
                 <TableCell>{item.religion? item.religion: "-"}</TableCell>
                 <TableCell>{educational[item.educational]}</TableCell>
                 <TableCell>{item.occupations? item.occupations: "-" }</TableCell>
-                <TableCell>{item.home_town? item.home_town: "-"}</TableCell>
+                {/* <TableCell>{item.home_town? item.home_town: "-"}</TableCell> */}
                 <TableCell>{item.address_line1? item.address_line1: "-"}</TableCell>
-                <TableCell>{item.address_line2? item.address_line2: "-"}</TableCell>            
+                {/* <TableCell>{item.address_line2? item.address_line2: "-"}</TableCell>             */}
             </TableRow>
         )
     }
