@@ -35,7 +35,7 @@ const filterData = (data, search) => {
     return data
   } else {
     console.log(search)
-    return data.filter(item => item[search.searchBy] && item[search.searchBy].toString().includes(search.query))
+    return data.filter(item => item[search.searchBy] && item[search.searchBy].toString().toLowerCase().includes(search.query.toLowerCase()))
   }
 }
 

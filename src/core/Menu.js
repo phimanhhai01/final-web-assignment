@@ -4,33 +4,7 @@ import { useLocation } from "react-router";
 import logo_Boyte from "../images/logo_Boyte.png";
 import { sidebar_items } from "../constants/menu/menu";
 import '../style/menu.css'
-const styles = {
-    root: {
-        position: "fixed",
-        background: "white",
-        height: "100%",
-        width: "var(--sidebar-width)",
-        boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
 
-    },
-    logo: {
-        margin: "20px auto",
-        display: "block"
-    },
-    ulStyle: {
-        listStyleType: "none",
-        paddingLeft: "0"
-    },
-    linkStyle: {
-        textDecoration: 'none',
-        fontsize: "20px"
-    },
-    icon: {
-        width: "1.7vw",
-        height: "auto",
-    },
-    iconColor: "",
-}
 const Menu = () => {
     console.log("render Menu")
     const location = useLocation();
@@ -39,7 +13,7 @@ const Menu = () => {
     return (
         <div className="sidebar">
             <div className="sidebar__logo">
-                <img src={logo_Boyte} alt="logo_Boyte"/>
+                <img src={logo_Boyte} alt="logo_Boyte" draggable='false'/>
             </div>
             
             
@@ -47,7 +21,9 @@ const Menu = () => {
                 {
                     sidebar_items.map((item, index) => (
                         <li key={index}>
-                            <Link to={item.path} className={`menu__item ${location.pathname === item.path? "menu__item__active":""}`}>
+                            <Link to={item.path} 
+                                className={`menu__item ${(location.pathname.startsWith(item.path) && index !==0) || 
+                                    (index ===0 && location.pathname === item.path)? "menu__item__active":""}`}>
                                 <i className={item.icon}></i>
                                 <span>
                                     {item.label}

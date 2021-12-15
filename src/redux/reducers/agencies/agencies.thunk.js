@@ -17,3 +17,21 @@ export const loadAgencyByIdAsync = (id) => {
                         .catch(error => dispatch(actions.agencyIdLoadError(error.message)))
     }
 }
+
+export const appendAgency = (agency) => {
+    return dispatch => {
+        dispatch(actions.agencyAppend(agency));
+    }
+}
+
+export const updateAgency = (agency) => {
+    return dispatch => {
+        dispatch(actions.agencyUpdate(agency));
+    }
+}
+
+export const deleteAgency = (id) => {
+    return dispatch => {
+        dispatch(actions.agencyDelete(id));
+    }
+}

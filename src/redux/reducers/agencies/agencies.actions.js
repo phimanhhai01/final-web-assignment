@@ -41,7 +41,29 @@ const agencyIdLoadError = (errorMessage) => {
     }
 }
 
+const agencyAppend = (agency) => {
+    return {
+        type: actionTypes.AGENCY_APPEND,
+        payload: agency
+    }
+}
+const agencyUpdate = (agency) => {
+    return {
+        type: actionTypes.AGENCY_UPDATE,
+        payload: agency
+    }
+}
+
+const agencyDelete = (id) => {
+    return {
+        type: actionTypes.AGENCY_DELETE,
+        payload: id
+    }
+}
 const a =  {
+    agencyDelete,
+    agencyUpdate,
+    agencyAppend,
     agenciesLoadStart,
     agenciesLoadSuccess,
     agenciesLoadError,
