@@ -88,10 +88,6 @@ const CitizenProfile = (props) => {
       console.log("Enter nameX");
       handleNameChange(event);
     }
-    if (id_numberX.value === "") {
-      console.log("Enter id_numberX");
-      handleId_numberChange(event);
-    }
     if (address_line1X.value === "") {
       console.log("Enter add1");
       handleAddress_line1Change(event);
@@ -100,9 +96,7 @@ const CitizenProfile = (props) => {
       console.log("Enter add2");
       handleAddress_line2Change(event);
     }
-    console.log("Here");
-    // console.log(id,id_numberX,nameX,dobX,gender,ethnic,religion,educational,occupations,village_id,home_town,address_line1X,address_line2X);
-    if (nameX.error === "" && id_numberX.error === "" && address_line1X.error === "" && address_line2X.error === "") {
+    if (nameX.error === "" && address_line1X.error === "" && address_line2X.error === "") {
       const dob = dobX.toLocaleDateString('en-CA');
       const educational = formatEducational(learningLevel);
       const name = nameX.value;
@@ -213,22 +207,17 @@ const CitizenProfile = (props) => {
 
   const handleId_numberChange = (event) => {
     const content = event.target.value;
-    if (content.length === 0) {
-      setId_number({
-        value: content,
-        error: "Không được để trống!"
-      });
-    } else if (allIsNumber(content) === false) {
+    if (allIsNumber(content) === false) {
       setId_number({
         value: content,
         error: "Chỉ được chứa chữ số!"
       });
-    } else if (content.length < 9) {
+    } else if (0 < content.length && content.length < 9) {
       setId_number({
         value: content,
-        error: "Số CMND/CCCD phải đủ 9/12 chữ số!"
+        error: "Số CMND/CCCD phải đủ 9/12 chữ số hoặc để trống khi chưa được cấp!"
       });
-    } else if (content.length < 12 && content.length !== 9) {
+    } else if (9 < content.length && content.length < 12) {
       setId_number({
         value: content,
         error: "Số CCCD phải đủ 12 chữ số!"
