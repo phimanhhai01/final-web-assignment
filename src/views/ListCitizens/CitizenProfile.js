@@ -43,68 +43,207 @@ const CitizenProfile = (props) => {
     master: "Sau đại học"
   }
 
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: "#2E3192",
-            },
-        },
-    });
+  const theme = createTheme({
+      palette: {
+          primary: {
+              main: "#2E3192",
+          },
+      },
+  });
 
-    const styles = {
-        root: {
-            width: "45vw",
-            marginTop: "8vh",
-            background: "white",
-            borderRadius: "10px",
-            padding: "40px"
-        },
-        title: {
-            fontWeight: "bold",
-            fontSize: "25px",
-            paddingBottom: "1vh"
-        }
+  const styles = {
+    root: {
+      width: "45vw",
+      marginTop: "8vh",
+      background: "white",
+      borderRadius: "10px",
+      padding: "40px"
+    },
+    title: {
+      fontWeight: "bold",
+      fontSize: "25px",
+      paddingBottom: "1vh"
     }
-
-    const formatEducational = (learningLevel) => {
-      if (learningLevel === "Tiểu học") {
-        return "primary";
-      } else if (learningLevel === "Trung học cơ sở") {
-        return "secondary";
-      } else if (learningLevel === "Trung học phổ thông") {
-        return "high";
-      } else if (learningLevel === "Cao đẳng / Đại học") {
-        return "university";
-      } else {
-        return "master";
-      }
-    }
-
-    const navigate = useNavigate();
-
-    const handleUpdate = (event) => {
-      event.preventDefault();
-      const dob = new Date(dobX).toLocaleDateString('en-CA');
-      const educational = formatEducational(learningLevel);
-      updateCitizen({id,id_number,name,dob,gender,ethnic,religion,educational,occupations,village_id,home_town,address_line1,address_line2});
-      navigate(`/list-citizens`);
-    }
-
-    const handleDelete = () => {
-      deleteCitizen(id);
-      navigate(`/list-citizens`);
-    }
-
-    const [name, setName] = useState(citizenById.name);
-    
-  const handleNameChange = (event) => {
-      setName(event.target.value);
   }
 
-  const [id_number, setId_number] = useState(citizenById.id_number);
+  const formatEducational = (learningLevel) => {
+    if (learningLevel === "Tiểu học") {
+      return "primary";
+    } else if (learningLevel === "Trung học cơ sở") {
+      return "secondary";
+    } else if (learningLevel === "Trung học phổ thông") {
+      return "high";
+    } else if (learningLevel === "Cao đẳng / Đại học") {
+      return "university";
+    } else {
+      return "master";
+    }
+  }
+
+  const navigate = useNavigate();
+
+  const handleUpdate = (event) => {
+    event.preventDefault();
+    if (nameX.value === "") {
+      console.log("Enter nameX");
+      handleNameChange(event);
+    }
+    if (id_numberX.value === "") {
+      console.log("Enter id_numberX");
+      handleId_numberChange(event);
+    }
+    if (address_line1X.value === "") {
+      console.log("Enter add1");
+      handleAddress_line1Change(event);
+    }
+    if (address_line2X.value === "") {
+      console.log("Enter add2");
+      handleAddress_line2Change(event);
+    }
+    console.log("Here");
+    // console.log(id,id_numberX,nameX,dobX,gender,ethnic,religion,educational,occupations,village_id,home_town,address_line1X,address_line2X);
+    if (nameX.error === "" && id_numberX.error === "" && address_line1X.error === "" && address_line2X.error === "") {
+      const dob = dobX.toLocaleDateString('en-CA');
+      const educational = formatEducational(learningLevel);
+      const name = nameX.value;
+      const id_number = id_numberX.value;
+      const address_line1 = address_line1X.value;
+      const address_line2 = address_line2X.value;
+      updateCitizen({id,id_number,name,dob,gender,ethnic,religion,educational,occupations,village_id,home_town,address_line1,address_line2});
+      navigate(`/list-citizens/`);
+    }
+  }
+
+  const handleDelete = () => {
+    deleteCitizen(id);
+    navigate(`/list-citizens`);
+  }
+    
+  const containUpperCase = (word) => {
+    if (/[ÁÀÃẢẠĂẮẰẲẴẶÂẤẦẨẪẬĐÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÔỐỒỔỖỘƠỚỜỞỠỢÓÒÕỎỌƯỨỪỬỮỰÚÙỦŨỤÝỲỶỸỴA-Z]/.test(word)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  const containLowerCase = (word) => {
+    if (/[aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]/.test(word)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  const containSpecialCharacter = (word) => {
+    // except for white-space
+    for (var x = 0; x < word.length; x++) {
+      if (!containLowerCase(word[x]) && !containUpperCase(word[x]) && !/\d/.test(word[x]) && !/\s/.test(word[x])) {
+        return true;
+      }
+    }
+    return false;
+  }
+  const allIsNumber = (word) => {
+    for (var x = 0; x < word.length; x++) {
+      if (!/\d/.test(word[x])) {
+        return false;
+      }
+    }
+    return true;
+  }
+  const handleNameChange = (event) => {
+    const content = event.target.value;
+    const words = content.split(/\s/);
+    if (content === "") {
+      setName({
+        value: content,
+        error: "Không được để trống!"
+      });
+    } else if (content[0] === " ") {
+      setName({
+        value: content,
+        error: "Không được bắt đầu bằng khoảng trắng!"
+      });
+    } else if (content[content.length - 1] === " ") {
+      setName({
+        value: content,
+        error: "Không được kết thúc bằng khoảng trắng!"
+      });
+    } else if (/\d/.test(content)) {
+      setName({
+        value: content,
+        error: "Không được chứa chữ số!"
+      });
+    } else if (containLowerCase(content[0]) || containLowerCase(words[words.length - 1][0])) {
+      setName({
+        value: content,
+        error: "Viết hoa ký tự đầu tiên của mỗi từ!"
+      });
+    } else if ((content.length > 1 && containUpperCase(content.substr(1)) && words.length < 2) || (words[words.length - 1].length > 1 && containUpperCase(words[words.length - 1].substr(1)))) {
+      setName({
+        value: content,
+        error: "Chỉ viết hoa chữ cái đầu tiên của từ!"
+      });
+    } else if (containSpecialCharacter(content)) {
+      setName({
+        value: content,
+        error: "Không được chứa ký tự đặc biệt!"
+      });
+    } else if (content.split(/\s/).length - 1 < 1) {
+      setName({
+        value: content,
+        error: "Ít nhất 2 từ đơn!"
+      });
+    } else {
+      setName({
+        value: content,
+        error: ""
+      });
+    }
+  }
+
+  const [nameX, setName] = useState({
+    value: citizenById.name,
+    error: "",
+  });
+
+  const [id_numberX, setId_number] = useState({
+    value: citizenById.id_number,
+    error: ""
+  });
 
   const handleId_numberChange = (event) => {
-    setId_number(event.target.value);
+    const content = event.target.value;
+    if (content.length === 0) {
+      setId_number({
+        value: content,
+        error: "Không được để trống!"
+      });
+    } else if (allIsNumber(content) === false) {
+      setId_number({
+        value: content,
+        error: "Chỉ được chứa chữ số!"
+      });
+    } else if (content.length < 9) {
+      setId_number({
+        value: content,
+        error: "Số CMND/CCCD phải đủ 9/12 chữ số!"
+      });
+    } else if (content.length < 12 && content.length !== 9) {
+      setId_number({
+        value: content,
+        error: "Số CCCD phải đủ 12 chữ số!"
+      });
+    } else if (content.length > 12) {
+      setId_number({
+        value: content,
+        error: "Không hợp lệ!"
+      });
+    } else {
+      setId_number({
+        value: content,
+        error: ""
+      });
+    }
   }
 
   const [gender, setGender] = useState(citizenById.gender);
@@ -113,7 +252,7 @@ const CitizenProfile = (props) => {
     setGender(event.target.value);
   }
 
-  const [dobX, handleDoBChange] = useState(citizenById.dob);
+  const [dobX, handleDoBChange] = useState(new Date(citizenById.dob));
 
   const [ethnic, setEthnic] = React.useState(citizenById.ethnic);
 
@@ -145,16 +284,44 @@ const CitizenProfile = (props) => {
     setHomeTown(event.target.value);
   };
 
-  const [address_line1, setAddress_line1] = React.useState(citizenById.address_line1);
+  const [address_line1X, setAddress_line1] = React.useState({
+    value: citizenById.address_line1,
+    error: ""
+  });
 
   const handleAddress_line1Change = (event) => {
-    setAddress_line1(event.target.value);
+    const content = event.target.value;
+    if (content.length === 0) {
+      setAddress_line1({
+        value: content,
+        error: "Không được để trống!"
+      });
+    } else {
+      setAddress_line1({
+        value: content,
+        error: ""
+      });
+    }
   };
 
-  const [address_line2, setAddress_line2] = React.useState(citizenById.address_line2);
+  const [address_line2X, setAddress_line2] = React.useState({
+    value: citizenById.address_line2,
+    error: ""
+  });
 
   const handleAddress_line2Change = (event) => {
-    setAddress_line2(event.target.value);
+    const content = event.target.value;
+    if (content.length === 0) {
+      setAddress_line2({
+        value: content,
+        error: "Không được để trống!"
+      });
+    } else {
+      setAddress_line2({
+        value: content,
+        error: ""
+      });
+    }
   };
 
     return (
@@ -163,13 +330,21 @@ const CitizenProfile = (props) => {
           <p style={styles.title}>Thông tin chi tiết</p>
           <form>
               <TextField
-                style={{ marginRight: "1vw"}}   
+                error= {nameX.error !== ""}
+                helperText = {nameX.error? nameX.error:''}
                 defaultValue={citizenById.name}
                 margin="dense"
-                id="name"
                 label="Họ và tên"
                 variant="standard"
                 onChange={handleNameChange}
+                style={{width: "100%", marginRight: "1vw"}}
+                inputProps={{
+                  style: {
+                    fontSize: "14px",
+                    height: "30px",
+                  }
+                }}
+                required
               />
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <DatePicker
@@ -182,15 +357,15 @@ const CitizenProfile = (props) => {
                 format="dd/MM/yyyy"
                 label="Ngày sinh"
                 views={["year", "month", "date"]}
-                value={dobX}
+                /* value={dobX.value} */
                 onChange={handleDoBChange}
               />
               </MuiPickersUtilsProvider>
               <TextField
-                style={{ marginRight: "1vw"}}
+                error= {id_numberX.error !== ""}
+                helperText = {id_numberX.error? id_numberX.error:''}
                 defaultValue={citizenById.id_number}
                 margin="dense"
-                id="name"
                 label="Số CCCD/CMND"
                 variant="standard"
                 onChange={handleId_numberChange}
@@ -209,6 +384,7 @@ const CitizenProfile = (props) => {
                   defaultValue={citizenById.ethnic}
                   label="Dân tộc"
                   onChange={handleEthnicChange}
+                  required
                 >
                 {
                   Ethnics.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
@@ -222,6 +398,7 @@ const CitizenProfile = (props) => {
                   defaultValue={citizenById.religion}
                   label="Tôn giáo"
                   onChange={handleReligionChange}
+                  required
                 >
                 {
                   Religions.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
@@ -235,6 +412,7 @@ const CitizenProfile = (props) => {
                   defaultValue={educational[citizenById.educational]}
                   label="Trình độ học vấn"
                   onChange={handleLearningLevelChange}
+                  required
                 >
                 {
                   LearningLevels.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
@@ -248,6 +426,7 @@ const CitizenProfile = (props) => {
                   defaultValue={citizenById.occupations}
                   label="Nghề nghiệp"
                   onChange={handleOccupationChange}
+                  required
                 >
                 {
                   Occupations.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
@@ -261,6 +440,7 @@ const CitizenProfile = (props) => {
                   defaultValue={citizenById.home_town}
                   label="Quê quán"
                   onChange={handleHomeTownChange}
+                  required
                 >
                 {
                   HomeTowns.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
@@ -268,6 +448,8 @@ const CitizenProfile = (props) => {
                 </Select>
               </FormControl>
               <TextField
+                error= {address_line1X.error !== ""}
+                helperText = {address_line1X.error? address_line1X.error:''}
                 style={{ marginTop: "3vh" }}
                 defaultValue={citizenById.address_line1}
                 margin="dense"
@@ -279,6 +461,8 @@ const CitizenProfile = (props) => {
                 onChange={handleAddress_line1Change}
               />
               <TextField
+                error= {address_line2X.error !== ""}
+                helperText = {address_line2X.error? address_line2X.error:''}
                 style={{ marginTop: "3vh" }}
                 defaultValue={citizenById.address_line2}
                 margin="dense"
