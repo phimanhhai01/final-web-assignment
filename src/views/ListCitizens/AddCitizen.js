@@ -1,69 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadCitizenByIdAsync } from '../../redux/reducers/citizens/citizens.thunk';
-import { Navigate, useNavigate } from 'react-router';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import {createTheme} from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
-import FormControl from '@mui/material/FormControl';
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from '@date-io/date-fns';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormLabel from '@mui/material/FormLabel';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import Button from "@mui/material/Button";
+import { Navigate, useNavigate } from 'react-router';
 import { Ethnics } from "../../constants/citizen/citizens";
 import { Religions } from "../../constants/citizen/citizens";
 import { LearningLevels } from "../../constants/citizen/citizens";
 import { Occupations } from "../../constants/citizen/citizens";
 import { HomeTowns } from "../../constants/citizen/citizens";
-import MenuItem from '@mui/material/MenuItem';
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from '@date-io/date-fns';
+import { addCitizen } from "../../api/apiCitizens";
 
-import { updateCitizen, deleteCitizen } from "../../api/apiCitizens";
-
-const CitizenProfile = (props) => {
+const AddCitizen = () => {
   const {currentUser} = useSelector(state => state.user);
   const village_id = currentUser.agency.id;
 
-  const {id} = props;
-  const dispatch = useDispatch();
-  const { citizenById } = useSelector(state => state.citizens);
-  useEffect(() => {
-      dispatch(loadCitizenByIdAsync(id));
-  }, []);
-
-  const educational = {
-    primary: "Tiểu học",
-    secondary: "Trung học cơ sở",
-    high: "Trung học phổ thông",
-    university: "Cao đẳng / Đại học",
-    master: "Sau đại học"
-  }
-
   const theme = createTheme({
-      palette: {
-          primary: {
-              main: "#2E3192",
-          },
-      },
+        palette: {
+            primary: {
+                main: "#2E3192",
+            },
+        },
   });
 
   const styles = {
-    root: {
-      width: "45vw",
-      marginTop: "8vh",
-      background: "white",
-      borderRadius: "10px",
-      padding: "40px"
-    },
-    title: {
-      fontWeight: "bold",
-      fontSize: "25px",
-      paddingBottom: "1vh"
-    }
+        root: {
+            width: "45vw",
+            background: "white",
+            borderRadius: "10px",
+            padding: "40px"
+        },
+        title: {
+            fontWeight: "bold",
+            fontSize: "25px",
+            paddingBottom: "1vh"
+        },
+        marginRight: {
+          marginRight: "1vw"
+        }
   }
 
   const formatEducational = (learningLevel) => {
@@ -82,20 +67,18 @@ const CitizenProfile = (props) => {
 
   const navigate = useNavigate();
 
-  const handleUpdate = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     if (nameX.value === "") {
-      console.log("Enter nameX");
       handleNameChange(event);
     }
     if (address_line1X.value === "") {
-      console.log("Enter add1");
       handleAddress_line1Change(event);
     }
     if (address_line2X.value === "") {
-      console.log("Enter add2");
       handleAddress_line2Change(event);
     }
+    
     if (nameX.error === "" && address_line1X.error === "" && address_line2X.error === "") {
       const dob = dobX.toLocaleDateString('en-CA');
       const educational = formatEducational(learningLevel);
@@ -103,15 +86,15 @@ const CitizenProfile = (props) => {
       const id_number = id_numberX.value;
       const address_line1 = address_line1X.value;
       const address_line2 = address_line2X.value;
-      updateCitizen({id,id_number,name,dob,gender,ethnic,religion,educational,occupations,village_id,home_town,address_line1,address_line2});
+      addCitizen({id_number,name,dob,gender,ethnic,religion,educational,occupations,village_id,home_town,address_line1,address_line2});
       navigate(`/list-citizens/`);
     }
   }
 
-  const handleDelete = () => {
-    deleteCitizen(id);
-    navigate(`/list-citizens`);
-  }
+  const [nameX, setName] = useState({
+    value: "",
+    error: "",
+  });
     
   const containUpperCase = (word) => {
     if (/[ÁÀÃẢẠĂẮẰẲẴẶÂẤẦẨẪẬĐÉÈẺẼẸÊẾỀỂỄỆÍÌỈĨỊÔỐỒỔỖỘƠỚỜỞỠỢÓÒÕỎỌƯỨỪỬỮỰÚÙỦŨỤÝỲỶỸỴA-Z]/.test(word)) {
@@ -195,13 +178,8 @@ const CitizenProfile = (props) => {
     }
   }
 
-  const [nameX, setName] = useState({
-    value: citizenById.name,
-    error: "",
-  });
-
   const [id_numberX, setId_number] = useState({
-    value: citizenById.id_number,
+    value: "",
     error: ""
   });
 
@@ -235,46 +213,46 @@ const CitizenProfile = (props) => {
     }
   }
 
-  const [gender, setGender] = useState(citizenById.gender);
+  const [gender, setGender] = useState("male");
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   }
 
-  const [dobX, handleDoBChange] = useState(new Date(citizenById.dob));
+  const [dobX, handleDoBChange] = useState(new Date());
 
-  const [ethnic, setEthnic] = React.useState(citizenById.ethnic);
+  const [ethnic, setEthnic] = React.useState("Kinh (Việt)");
 
   const handleEthnicChange = (event) => {
     setEthnic(event.target.value);
   };
 
-  const [religion, setReligion] = React.useState(citizenById.religion);
+  const [religion, setReligion] = React.useState("Không");
 
   const handleReligionChange = (event) => {
     setReligion(event.target.value);
   };
 
-  const [learningLevel, setLearningLevel] = React.useState(educational[citizenById.educational]);
+  const [learningLevel, setLearningLevel] = React.useState("Cao đẳng / Đại học");
 
   const handleLearningLevelChange = (event) => {
     setLearningLevel(event.target.value);
   };
 
-  const [occupations, setOccupation] = React.useState(citizenById.occupations);
+  const [occupations, setOccupation] = React.useState("Nhà chuyên môn bậc cao (đại học trở lên)");
 
   const handleOccupationChange = (event) => {
     setOccupation(event.target.value);
   };
 
-  const [home_town, setHomeTown] = React.useState(citizenById.home_town);
+  const [home_town, setHomeTown] = React.useState("Hà Nội");
 
   const handleHomeTownChange = (event) => {
     setHomeTown(event.target.value);
   };
 
   const [address_line1X, setAddress_line1] = React.useState({
-    value: citizenById.address_line1,
+    value: "",
     error: ""
   });
 
@@ -294,7 +272,7 @@ const CitizenProfile = (props) => {
   };
 
   const [address_line2X, setAddress_line2] = React.useState({
-    value: citizenById.address_line2,
+    value: "",
     error: ""
   });
 
@@ -316,13 +294,15 @@ const CitizenProfile = (props) => {
     return (
         <div style={styles.root}>
         <ThemeProvider theme={theme}>
-          <p style={styles.title}>Thông tin chi tiết</p>
+          <p style={styles.title}>Khai báo công dân</p>
           <form>
-              <TextField
+              <TextField   
                 error= {nameX.error !== ""}
                 helperText = {nameX.error? nameX.error:''}
-                defaultValue={citizenById.name}
                 margin="dense"
+                name="name" 
+                /* value={nameX.value} */
+                defaultValue=""
                 label="Họ và tên"
                 variant="standard"
                 onChange={handleNameChange}
@@ -337,42 +317,46 @@ const CitizenProfile = (props) => {
               />
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <DatePicker
+                defaultValue={null}
                 name="dob" 
                 style={{marginTop: "8px", marginRight: "1vw"}}
                 disableFuture
-                defaultValue={new Date(citizenById.dob).toLocaleDateString('en-GB')}
                 autoOk
                 openTo="year"
                 format="dd/MM/yyyy"
-                label="Ngày sinh"
+                label="Ngày sinh *"
                 views={["year", "month", "date"]}
-                /* value={dobX.value} */
+                value={dobX}
                 onChange={handleDoBChange}
               />
               </MuiPickersUtilsProvider>
               <TextField
                 error= {id_numberX.error !== ""}
                 helperText = {id_numberX.error? id_numberX.error:''}
-                defaultValue={citizenById.id_number}
                 margin="dense"
+                name="id_number" 
+                /* value={id_numberX.value} */
+                /* defaultValue="" */
                 label="Số CCCD/CMND"
                 variant="standard"
                 onChange={handleId_numberChange}
+                required
               />
               <FormControl style={{margin: "2vh 0 0 0", width: "100%"}} component="fieldset">
                 <FormLabel component="legend" style={{fontSize: "13px"}}>Giới tính</FormLabel>
-                <RadioGroup row aria-label="gender" name="gender" defaultValue={citizenById.gender} onChange={handleGenderChange}>
+                <RadioGroup row aria-label="gender" name="gender" /* value="male" */ defaultValue="male" onChange={handleGenderChange}>
                   <FormControlLabel value="male" control={<Radio />} label="Nam" />
                   <FormControlLabel value="female" control={<Radio />} label="Nữ" />
                 </RadioGroup>
               </FormControl>
-              <FormControl variant="standard" sx={{ m: 1 }} style={{minWidth: 120, margin: "1.5vh 1vw 0 0"}}>
-                <InputLabel >Dân tộc</InputLabel>
+              <FormControl variant="standard" sx={{ m: 1 }} style={{minWidth: 120, marginTop: "1.5vh", marginRight: "1vw"}}>
+                <InputLabel >Dân tộc *</InputLabel>
                 <Select
                   name="ethnic"
-                  defaultValue={citizenById.ethnic}
-                  label="Dân tộc"
+                  defaultValue="Kinh (Việt)"
+                  /* value="Kinh (Việt)" */
                   onChange={handleEthnicChange}
+                  label="Dân tộc *"
                   required
                 >
                 {
@@ -380,56 +364,56 @@ const CitizenProfile = (props) => {
                 }
                 </Select>
               </FormControl>
-              <FormControl variant="standard" sx={{ m: 1}} style={{minWidth: 120, margin: "1.5vh 1vw 0 0"}}>
-                <InputLabel >Tôn giáo</InputLabel>
+              <FormControl variant="standard" sx={{ m: 1}} style={{minWidth: 120, marginTop: "1.5vh", marginRight: "1vw"}}>
+                <InputLabel >Tôn giáo *</InputLabel>
                 <Select
                   name="religion"
-                  defaultValue={citizenById.religion}
-                  label="Tôn giáo"
+                  defaultValue="Không"
+                  /* value="Không" */
                   onChange={handleReligionChange}
-                  required
+                  label="Tôn giáo *"
                 >
                 {
                   Religions.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
                 }
                 </Select>
               </FormControl>
-              <FormControl variant="standard" sx={{ m: 1 }} style={{minWidth: 180, margin: "1.5vh 1vw 0 0"}}>
-                <InputLabel >Trình độ học vấn</InputLabel>
+              <FormControl variant="standard" sx={{ m: 1 }} style={{minWidth: 180, marginTop: "1.5vh", marginRight: "1vw"}}>
+                <InputLabel >Trình độ học vấn *</InputLabel>
                 <Select
                   name="educational"
-                  defaultValue={educational[citizenById.educational]}
-                  label="Trình độ học vấn"
+                  defaultValue="Cao đẳng / Đại học"
+                  /* value="Cao đẳng / Đại học" */
                   onChange={handleLearningLevelChange}
-                  required
+                  label="Trình độ học vấn *"
                 >
                 {
                   LearningLevels.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
                 }
                 </Select>
               </FormControl>
-              <FormControl variant="standard" sx={{ m: 1 }} style={{minWidth: 150, margin: "1.5vh 1vw 0 0"}}>
-                <InputLabel >Nghề nghiệp</InputLabel>
+              <FormControl variant="standard" sx={{ m: 1 }} style={{minWidth: 150, marginTop: "1.5vh", marginRight: "1vw"}}>
+                <InputLabel >Nghề nghiệp *</InputLabel>
                 <Select
                   name="occupations"
-                  defaultValue={citizenById.occupations}
-                  label="Nghề nghiệp"
+                  defaultValue="Nhà chuyên môn bậc cao (đại học trở lên)"
+                  /* value="Nhà chuyên môn bậc cao (đại học trở lên)" */
                   onChange={handleOccupationChange}
-                  required
+                  label="Nghề nghiệp *"
                 >
                 {
                   Occupations.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
                 }
                 </Select>
               </FormControl>
-              <FormControl variant="standard" sx={{ m: 1 }} style={{minWidth: 150, margin: "1.5vh 1vw 0 0"}}>
-                <InputLabel >Quê quán</InputLabel>
+              <FormControl variant="standard" sx={{ m: 1 }} style={{minWidth: 150, marginTop: "1.5vh", marginRight: "1vw"}}>
+                <InputLabel >Quê quán *</InputLabel>
                 <Select
                   name="home_town"
-                  defaultValue={citizenById.home_town}
-                  label="Quê quán"
+                  defaultValue="Hà Nội"
+                  /* value="Hà Nội" */
                   onChange={handleHomeTownChange}
-                  required
+                  label="Quê quán *"
                 >
                 {
                   HomeTowns.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
@@ -440,36 +424,37 @@ const CitizenProfile = (props) => {
                 error= {address_line1X.error !== ""}
                 helperText = {address_line1X.error? address_line1X.error:''}
                 style={{ marginTop: "3vh" }}
-                defaultValue={citizenById.address_line1}
-                margin="dense"
-                id="name"
+                name="address_line1"
+                /* value={address_line1X.value} */
+                defaultValue=""
+                onChange={handleAddress_line1Change}
                 label="Địa chỉ thường trú"
                 fullWidth
-                multiline
+                multiline={true}
                 variant="standard"
-                onChange={handleAddress_line1Change}
+                required
               />
               <TextField
                 error= {address_line2X.error !== ""}
                 helperText = {address_line2X.error? address_line2X.error:''}
-                style={{ marginTop: "3vh" }}
-                defaultValue={citizenById.address_line2}
-                margin="dense"
-                id="name"
+                style={{ marginTop: "3vh"}}
+                name="address_line2"
+                /* value={address_line2X.value} */
+                defaultValue=""
+                onChange={handleAddress_line2Change}
                 label="Địa chỉ tạm trú"
                 fullWidth
-                multiline
+                multiline={true}
                 variant="standard"
-                onChange={handleAddress_line2Change}
+                required
               />
-              <div style={{display: "flex", justifyContent: "flex-end", marginTop: "3vh"}}>
-                <Button style={{marginRight: "10px", background: "lightgrey"}} onClick={handleDelete} type="button">Xóa</Button>
-                <Button style={{background: "#2E3192", color: "white"}} onClick={handleUpdate} type="button">Cập nhật</Button>
-              </div>
+          <div style={{display: "flex", justifyContent: "flex-end", marginTop: "3vh"}}>
+            <Button style={{background: "#2E3192", color: "white"}} type="submit" onClick={handleSubmit}>Thêm</Button>
+          </div>
           </form>
         </ThemeProvider>
     </div>
     );
 }
 
-export default CitizenProfile;
+export default AddCitizen;

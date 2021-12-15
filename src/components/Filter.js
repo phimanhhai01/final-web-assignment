@@ -3,10 +3,24 @@ import Radium from 'radium';
 //import filterIcon from "../images/filterIcon.png";
 //import { filterBy } from '../constants/filter';
 import Button from '@mui/material/Button';
+import { Dialog } from '@mui/material';
+import A1Filter from './Filter/A1Filter';
+import { useState } from 'react';
 // import FilterListIcon from '@mui/icons-material/FilterList';
 
 
 const Filter = () => {
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+        setOpen(true);
+    }
+    const handleClose = () => {
+        setOpen(false);
+    }
+    const handleConfirmation = () => {
+        console.log("alo");
+        setOpen(false);
+    }
     const styles = {
         root: {
             // display: "flex",
@@ -51,13 +65,23 @@ const Filter = () => {
     }
     return (
         <div key={1} style={styles.root}>
-           <Button 
+            <Button 
                 variant="outlined"
                 size="large"
-           >
+                onClick={handleOpen}
+            >
                Lọc
             </Button>
-            
+            <Dialog onClose={handleClose}  open={open}>
+                <A1Filter />
+                <Button 
+                    variant="outlined"
+                    size="large"
+                    onClick={handleConfirmation}
+                >
+                    Xác nhận
+                </Button>
+            </Dialog>
         </div>
     );
 }

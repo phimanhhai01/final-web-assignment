@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-// import TableHead from './TableHead';
-// import TableBody from './TableBody';
 import Filter from '../../components/Filter';
 import SearchBar from '../../components/SearchBar';
 import style from './table.css';
@@ -20,7 +18,6 @@ const Table = (props) => {
             alignItems: "center",
             borderBottom: "1px solid var(--border-color)",
             padding: "0.5rem"
-            // margin: "0.5rem"
         }, 
         searchBarWapper: {
             flexGrow: 1
