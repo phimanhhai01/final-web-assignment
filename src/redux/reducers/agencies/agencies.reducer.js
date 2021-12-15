@@ -52,6 +52,12 @@ const agencyReducer = (state = initialStates, {type, payload}) => {
                 ...state,
                 agencies: agencies
             }
+        case actionTypes.AGENCY_DELETE: 
+            let new_agencies = state.agencies.filter(item => item.id !== payload)
+            return {
+                ...state,
+                agencies: new_agencies
+            }
             
         default:
             return state;

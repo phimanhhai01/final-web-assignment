@@ -29,3 +29,9 @@ export const updateAgency = (agency) => {
         dispatch(actions.agencyUpdate(agency));
     }
 }
+
+export const deleteAgency = (id) => {
+    return dispatch => {
+        dispatch(actions.agencyDelete(id));
+    }
+}
