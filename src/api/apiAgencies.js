@@ -30,3 +30,7 @@ export const toggleDeclarePermision = (id) => {
 export const scheduleDeclarePermission = (data) => {
     return axiosClient.post(`user/schedule/`, data);
 }
+
+export const deleteAgencyApi = (id) => {
+    return axiosClient.delete(`agency/${id}`);
+}

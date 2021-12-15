@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { getAgency, agencyRename, changePassword, toggleDeclarePermision, scheduleDeclarePermission } from "../../api/apiAgencies";
+import { getAgency, agencyRename, changePassword, toggleDeclarePermision, scheduleDeclarePermission, deleteAgencyApi} from "../../api/apiAgencies";
 import Loader from "../../core/Loader";
 import { TextField, Button, Switch, InputLabel, CircularProgress } from "@mui/material";
 import DateTimePicker from "@mui/lab/DateTimePicker";
@@ -13,8 +13,16 @@ import RenameIcon from "@mui/icons-material/DriveFileRenameOutline";
 import PasswordIcon from "@mui/icons-material/Password";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import { Box } from "@mui/system";
-import {updateAgency} from '../../redux/reducers/agencies/agencies.thunk'
+import {updateAgency, deleteAgency} from '../../redux/reducers/agencies/agencies.thunk'
 import { useDispatch } from 'react-redux';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import { useNavigate } from "react-router";
+import {addToast} from "../../utils"
 const styles = {
   showOut: {
     height: "auto",
@@ -32,6 +40,11 @@ const styles = {
     justifyContent: "space-between",
   },
 };
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const init = {
   id: "",
   name: "",
@@ -54,14 +67,44 @@ const AddAgency = () => {
     schedule: false,
     istoggle: false
   });
-
   const [scheduleTime, setSchedule] = useState({
       operate_from: null,
       operate_to: null
      
   });
+  const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    
+    setOpenDialog(false);
+  };
+  
+
+  const handleDelete = (id) => {
+    (async () => {
+      try {
+        let res = await deleteAgencyApi(data.id)
+        if (res.status === 204 || res.status === 200) {
+          dispatch(deleteAgency(id))
+          // handleCloseDialog(false)
+          addToast({type:'success', title:'Xong!', message:`Đã xóa ${data.name}`, duration: 5000})
+          navigate('/management')
+        } else {
+          addToast({type:'error', title:'Hỏng!', message:`Đã xảy ra lỗi khi xóa ${data.name}`, duration: 5000})
+        }
+
+      } catch (error) {
+        alert(error)
+      }
+    })()
+    
+  }
 
   useEffect(() => {
     (async () => {
@@ -95,6 +138,11 @@ const AddAgency = () => {
               ...data.staff,
               declared_permission: !data.staff.declared_permission,
             }
+            addToast({
+              type:'success', 
+              title:'Xong!', 
+              message:`${staff.declared_permission? 'Đã bật quyền khai báo':'Đã tắt quyền khai báo.'}`, 
+              duration: 5000})
             // console.log(staff)
             let dt = {
               ...data,
@@ -111,7 +159,11 @@ const AddAgency = () => {
 
           }
         } catch (error) {
-          
+          addToast({
+            type:'error', 
+            title:'Lỗi!', 
+            message:`Không thể thực hiện.`, 
+            duration: 5000})
         }
       }
     )()
@@ -141,8 +193,9 @@ const AddAgency = () => {
             ...loading,
             rename: false,
           });
+          addToast({type:'success', title:'Xong!', message:`Đã đổi tên thành công.`, duration: 5000})
         } else {
-          alert("error");
+          addToast({type:'error', title:'Lỗi!', message:`Đã có lỗi xảy ra.`, duration: 5000})
         }
       } catch (error) {}
     })();
@@ -167,16 +220,15 @@ const AddAgency = () => {
             ...loading,
             rename: false,
           });
+          addToast({type:'success', title:'Xong!', message:`Đã đổi mật khẩu thành công.`, duration: 5000})
         } else {
-          alert("error");
+          addToast({type:'error', title:'Hỏng!', message:`Đã xảy ra lỗi khi dổi mật khẩu`, duration: 5000})
         }
       } catch (error) {}
     })();
   };
 
-  if (data.id === "") {
-    return <Loader />;
-  }
+  
 
   const handleChange = (e) => {
     console.log(e.target);
@@ -217,11 +269,16 @@ const AddAgency = () => {
         }
         let res = await scheduleDeclarePermission(data_schedule)
         if (res.status === 200) {
-        
           let staff = {...data.staff, 
                         operate_from: res.data.operate_from, 
                         operate_to: res.data.operate_to
                       }
+          addToast({
+            type:'success', 
+            title:'Xong!', 
+            message:`Đã lên lịch thành công!`, 
+            duration: 5000
+          })           
           setData({
             ...data, 
             staff: staff
@@ -238,12 +295,21 @@ const AddAgency = () => {
           schedule: false,
         })   
       } catch (error) {
-        console.log('eoor')
+        addToast({
+          type:'error', 
+          title:'Lỗi!', 
+          message:`Không thể thực hiện.`, 
+          duration: 5000
+        })
       }
     })()
 
     
   };
+  if (data.id === "") {
+    return <Loader />;
+  }
+
   return (
     <div className="page-limit">
       <div style={styles.header}>
@@ -455,6 +521,28 @@ const AddAgency = () => {
           </div>
         </div>
       </div>
+      <div className="detail-footer">
+        <span></span>
+        <Button variant="contained" color="error" onClick={handleClickOpenDialog}>Xóa</Button>
+      </div>
+      <Dialog
+        open={openDialog}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleCloseDialog}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>Bạn muốn xóa đơn vị này?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Cả tài khoản kèm theo các đơn vị, tài khoản cấp dưới và cả các công dân thuộc đơn vị này đều bị xóa hết.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)}>Hủy</Button>
+          <Button onClick={() => handleDelete(data.id)}>Xóa</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

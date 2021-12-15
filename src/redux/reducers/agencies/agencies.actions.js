@@ -53,7 +53,15 @@ const agencyUpdate = (agency) => {
         payload: agency
     }
 }
+
+const agencyDelete = (id) => {
+    return {
+        type: actionTypes.AGENCY_DELETE,
+        payload: id
+    }
+}
 const a =  {
+    agencyDelete,
     agencyUpdate,
     agencyAppend,
     agenciesLoadStart,
