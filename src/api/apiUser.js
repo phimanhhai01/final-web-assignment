@@ -1,5 +1,6 @@
 import apiClient from "../axios/api";
 import apiAuthedClient from "../axios/apiAuthed";
+import axiosClient from "../axios/myapi"
 
 export const apiLoginUser = ({username, password}) => {
     return apiClient().post("/api/user/login/", {username, password})
@@ -28,4 +29,8 @@ export const isAuthenticated = () => {
     else{
         return false;
     }
+}
+
+export const myUser = () => {
+    return axiosClient.get("user/my/")
 }
