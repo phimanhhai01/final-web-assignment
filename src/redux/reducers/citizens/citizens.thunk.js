@@ -20,3 +20,21 @@ export const loadCitizenByIdAsync = (id) => {
                         .catch(error => dispatch(actions.citizenIdLoadError(error.message)));
     }
 }
+
+export const appendCitizen = (citizen) => {
+    return dispatch => {
+        dispatch(actions.citizenAppend(citizen));
+    }
+}
+
+export const updateCitizenInTable = (citizen) => {
+    return dispatch => {
+        dispatch(actions.citizenUpdate(citizen));
+    }
+}
+
+export const deleteCitizenInTable = (id) => {
+    return dispatch => {
+        dispatch(actions.citizenDelete(id));
+    }
+}

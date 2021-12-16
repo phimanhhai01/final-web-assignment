@@ -3894,9 +3894,9 @@
     "lodash.uniq" "^4.5.0"
 
 "caniuse-lite@^1.0.0", "caniuse-lite@^1.0.30000981", "caniuse-lite@^1.0.30001109", "caniuse-lite@^1.0.30001125", "caniuse-lite@^1.0.30001181":
-  "integrity" "sha512-xJJqzyd+7GCJXkcoBiQ1GuxEiOBCLQ0aVW9HMekifZsAVGdj5eJ4mFB9fEhSHipq9IOk/QXFJUiIr9lZT+EsGw=="
-  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001191.tgz"
-  "version" "1.0.30001191"
+  "integrity" "sha512-zaEMRH6xg8ESMi2eQ3R4eZ5qw/hJiVsO/HlLwniIwErij0JDr9P+8V4dtx1l+kLq6j3yy8l8W4fst1lBnat5wQ=="
+  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001286.tgz"
+  "version" "1.0.30001286"
 
 "capture-exit@^2.0.0":
   "integrity" "sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g=="
@@ -8189,10 +8189,10 @@
     "array-includes" "^3.1.2"
     "object.assign" "^4.1.2"
 
-"just-diff-apply@^3.0.0":
+"just-diff-apply@^3.0.0", "just-diff-apply@^4.0.1":
   "version" "3.0.0"
 
-"just-diff@^3.0.1":
+"just-diff@^3.0.1", "just-diff@^5.0.1":
   "integrity" "sha512-sdMWKjRq8qWZEjDcVA6llnUT8RDEBIfOiGpYFPYa9u+2c39JCsejktSP7mj5eRid5EIvTzIpQ2kDOCw1Nq9BjQ=="
   "resolved" "https://registry.npmjs.org/just-diff/-/just-diff-3.1.1.tgz"
   "version" "3.1.1"
@@ -9739,7 +9739,7 @@
     "pbkdf2" "^3.0.3"
     "safe-buffer" "^5.1.1"
 
-"parse-conflict-json@*", "parse-conflict-json@^1.1.1":
+"parse-conflict-json@*":
   "integrity" "sha512-4gySviBiW5TRl7XHvp1agcS7SOe0KZOjC//71dzZVWJrY9hCrgtvl5v3SyIxCZ4fZF47TxD9nfzmxcx76xmbUw=="
   "resolved" "https://registry.npmjs.org/parse-conflict-json/-/parse-conflict-json-1.1.1.tgz"
   "version" "1.1.1"
@@ -9747,6 +9747,13 @@
     "json-parse-even-better-errors" "^2.3.0"
     "just-diff" "^3.0.1"
     "just-diff-apply" "^3.0.0"
+
+"parse-conflict-json@^1.1.1":
+  "version" "2.0.1"
+  dependencies:
+    "json-parse-even-better-errors" "^2.3.1"
+    "just-diff" "^5.0.1"
+    "just-diff-apply" "^4.0.1"
 
 "parse-json@^2.2.0":
   "integrity" "sha1-9ID0BDTvgHQfhGkJn43qGPVaTck="

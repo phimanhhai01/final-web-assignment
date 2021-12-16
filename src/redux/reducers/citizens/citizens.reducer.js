@@ -37,6 +37,28 @@ const citizensReducer = (state = initialStates, {type, payload}) => {
                 isLoadingCitizenById: false,
                 errorMessage: payload
             }
+        case actionTypes.CITIZEN_APPEND: 
+            return {
+                ...state,
+                citizens: [...state.citizens, payload]
+            }
+        case actionTypes.CITIZEN_UPDATE: 
+            let citizens = state.citizens
+            let index = citizens.findIndex(item => item.id === payload.id)
+            if (index !== -1) {
+                citizens[index] = payload
+            }
+            return {
+                ...state,
+                citizens: citizens
+            }
+        case actionTypes.CITIZEN_DELETE: 
+            let new_citizens = state.citizens.filter(item => item.id !== payload)
+            return {
+                ...state,
+                citizens: new_citizens
+            }
+            
         default:
             return state;
     }
