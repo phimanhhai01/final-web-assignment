@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createAgency } from '../../api/apiAgencies';
 
 import { appendAgency } from '../../redux/reducers/agencies/agencies.thunk';
+import {addToast} from '../../utils'
 
 const init = {
   id:'',
@@ -70,7 +71,13 @@ export default function AgencyForm({label, action, initData=init}) {
           let res = await createAgency(data)
           console.log(res)
           if (res.status === 201) {
-              console.log(res.data)
+              // console.log(res.data)
+              addToast({
+                type:'success', 
+                title:'Xong!', 
+                message:`Đã thêm ${res.data.name}`, 
+                duration: 5000
+              })
               dispatch(appendAgency(res.data))
               setData({
                 ...initData,
@@ -82,7 +89,7 @@ export default function AgencyForm({label, action, initData=init}) {
               })
 
           } else if (res.status === 400) {
-            console.log(res.data)
+            // console.log(res.data)
             setData({
               ...data,
               error: res.data
@@ -91,6 +98,12 @@ export default function AgencyForm({label, action, initData=init}) {
           clicked = false
         } catch (error) {
           clicked = false
+          addToast({
+            type:'error', 
+            title:'Lỗi!', 
+            message:`Không thể thực hiện.`, 
+            duration: 5000
+          })
         }
       })()
     } else {

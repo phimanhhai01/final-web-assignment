@@ -2,7 +2,8 @@ const userActionTypes =  {
     USER_LOGIN_START: "USER_LOGIN_START",
     USER_LOGIN_ERROR: "USER_LOGIN_ERROR",
     USER_LOGIN_SUCCESS: "USER_LOGIN_SUCCESS",
-    USER_LOGOUT: "USER_LOGOUT"
+    USER_LOGOUT: "USER_LOGOUT",
+    USER_FILL: "USER_FILL"
 }
 
 export default userActionTypes;

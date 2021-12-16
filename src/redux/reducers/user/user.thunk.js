@@ -33,3 +33,9 @@ export const userPersist = () => {
     
     }
 }
+
+export const userFill = (data) => {
+    return dispatch => {
+        dispatch(actions.userLoginSuccess(data));
+    }
+}
