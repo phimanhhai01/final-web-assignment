@@ -39,3 +39,9 @@ export const userFill = (data) => {
         dispatch(actions.userLoginSuccess(data));
     }
 }
+
+export const userToggleCompletedDeclare = (current) => {
+    return dispatch => {
+        dispatch(actions.toggleConpletedDeclare(current));
+    }
+}

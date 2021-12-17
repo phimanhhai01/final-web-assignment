@@ -34,3 +34,9 @@ export const scheduleDeclarePermission = (data) => {
 export const deleteAgencyApi = (id) => {
     return axiosClient.delete(`agency/${id}`);
 }
+
+export const toggleCompletedDeclareApi = () => {
+    return axiosClient.get(`agency/completed_declared_toggle`);
+}
+
+//
