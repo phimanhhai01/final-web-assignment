@@ -16,6 +16,7 @@ export const userLoginAsync = ({username, password}) => {
         });
     }
 }
+
 export const userLogout = () => {
     return dispatch => {
         localStorage.removeItem("token");

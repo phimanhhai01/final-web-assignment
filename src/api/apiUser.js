@@ -34,3 +34,7 @@ export const isAuthenticated = () => {
 export const myUser = () => {
     return axiosClient.get("user/my/")
 }
+
+export const loginApi = (data) => {
+    return axiosClient.post("user/login/", data)
+}

@@ -1,20 +1,31 @@
 import React, { useState } from "react";
-import { userLoginAsync } from "../redux/reducers/user/user.thunk";
+// import { userLoginAsync } from "../redux/reducers/user/user.thunk";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router";
 import logo_Boyte from './logo_Boyte.png';
 import Background from './connectivity.jpeg';
-
+import {TextField} from "@mui/material";
+// import { Box } from "@mui/system";
+import LoadingButton from "@mui/lab/LoadingButton";
+import InputAdornment from '@mui/material/InputAdornment';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import HttpsIcon from '@mui/icons-material/Https';
 // import { Redirect } from "react-router-dom";
 //import { useHistory } from "react-router-dom";
-import Radium from 'radium';
+// import Radium from 'radium';
+import { loginApi } from "../api/apiUser";
+import userActions from "../redux/reducers/user/user.actions"
+import {addToast} from "../utils"
 
+import "./signin.css"
 const Signin = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
     //const [redirectToHomePage, setRedirectToHomePage] = useState(false);
     const dispatch = useDispatch();
-    const { isLoading, currentUser, errorMessage } = useSelector(state => state.user);
+    const currentUser_id = useSelector(state => state.user.currentUser.id);
 
     const handleChangeUsername = (e) => {
         setUsername(e.target.value);
@@ -25,132 +36,126 @@ const Signin = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(userLoginAsync({username, password}));
+        let errors = validate()
+        setErrors(errors)
+        if (Object.keys(errors).length === 0) {
+            (async () => {
+                setLoading(true)
+                try {
+                    let res = await loginApi({password: password, username: username})
+                    console.log(res)
+                    if (res.status === 200) {
+                        localStorage.setItem("token", res.data.jwt)
+                        dispatch(userActions.userLoginSuccess(res.data.user_logedin))
+                    } else if (res.status === 400) {
+                        setErrors(res.data)
+                    }
+                    setLoading(false)
+                } catch (error) {
+                    addToast({type:'error', title:'Lỗi!', message:'Đã có xự cố ngoài ý muốn xảy ra', duration: 5000})              
+                }
+            })()
+            // dispatch(userLoginAsync({username, password}));
+        }
+
+    }
+    const validate = () => {
+        let errors = {
+
+        }
+        if (username.trim() === '') {
+            errors.username = ['Hãy nhập tên đăng nhập của bạn']
+
+        }
+        if (password.trim() === '') {
+            errors.password = ['Hãy nhập mật khẩu của bạn']
+            
+        }
+        return errors
     }
 
     const styles = {
         body: {
             backgroundImage: "url(" + Background + ")",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            height: "100vh",
-            fontFamily: "Helvetica, sans-serif",
-            background: "#2E3192",
-        },
-        SignIn_Area: {
-            display: "flex",
-            paddingTop: "15vh",
-            justifyContent: "center",
-        },
-        SignIn: {
-            display: "flex",
-            flexWrap: "wrap",
-            width: "30vw",
-            height: "66.7vh",
-            background: "white",
-            flexDirection: "column",
-            borderRadius: "20px 0 0 20px",
-        },
-        Logo: {
-            display: "inline-block",
-            flexWrap: "wrap",
-            width: "30vw",
-            height: "66.7vh",
-            background: "white",
-        },
-        Xinchao: {
-            fontSize: "30px",
-            fontWeight: "bold",
-            padding: "1.7vh 0 0 3vw",
-            marginBottom: "7.5vh",
-        },
-        InputBlock: {
-            display: "flex",
-            flexDirection: "column",
-            marginBottom: "4vh",
-            padding: "0 3vw 0 3vw",
-        },
-        label: {
-            fontSize: "15px",
-            fontWeight: "bold",
-            paddingBottom: "1vh",
-        },
-        input: {
-            paddingLeft: "1.5vw",
-            fontSize: "15px",
-            borderWidth: "0",
-            borderBottomWidth: "0.3vh",
-            borderColor: "#2E3192",
-            height: "6vh",
-            ':focus': {
-                borderBottomWidth: "0vh",
-            }
-        },
-        submitButton: {
-            background: "#2E3192",
-            color: "white",
-            fontSize: "17px",
-            borderRadius: "17px",
-            border: "none",
-            width: "10vw",
-            height: "5vh",
-        },
-        ButtonBlock: {
-            marginTop: "8vh",
-            paddingLeft: "10vw",
-        },
-        Logo_Area: {
-            width: "30vw",
-            background: "rgba(255,255,255,0.85)",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: "0 20px 20px 0",
-        },
-        Logo_img: {
-            width: "50%",
-            height: "auto",
-        },
-        AppName: {
-            fontWeight: "bold",
-            fontSize: "26px",
-            textAlign: "center",
-            lineHeight: "35px",
+           
         }
     }
+    
     return (
         <div style={styles.body}>
-            {currentUser
+            {currentUser_id !== ""
              ? <Navigate replace to="/" />
              
-        :   <div style={styles.SignIn_Area}>   
-                <div style={styles.SignIn}>
-                    <p style={styles.Xinchao}>Xin chào! 🇻🇳</p>
-                    <form onSubmit={handleSubmit}>
-                        {isLoading && <p>is loading</p>}
-                        <div style={styles.InputBlock}>
-                            <label style={styles.label}>Tên đăng nhập</label>
-                            <input style={styles.input} key={1} type="text" name="username" value={username} onChange={handleChangeUsername} />
-                        </div>
-                        <div style={styles.InputBlock}>
-                            <label style={styles.label}>Mật khẩu</label>
-                            <input style={styles.input} key={2} type="password" name="password" value={password} onChange={handleChangePassword}/>
-                        </div>
-                        <div style={styles.ButtonBlock}>
-                            <button style={styles.submitButton} type='submit'>Đăng nhập</button>
-                        </div>
-                        {errorMessage && <p>{errorMessage}</p>}
-                    </form>
-                </div>
-                <div style={styles.Logo_Area}>
-                    <img style={styles.Logo_img} src={logo_Boyte} alt="logo_Boyte"></img>
-                    <p style={styles.AppName}>HỆ THỐNG ĐIỀU TRA DÂN SỐ VIỆT NAM</p>
+        :   <div className="signin-page">   
+                <div className="signin">
+                    <div className="signin__form">
+                        <p className="signin__label">Xin chào! 🇻🇳</p>
+                        <form onSubmit={handleSubmit}>
+                            <div class="form__fields">
+                                <TextField
+                                    autoFocus
+                                    error = {errors.username ? true: false}
+                                    helperText= {errors.username ? errors.username[0]: ''}
+                                    onChange={handleChangeUsername}
+                                    margin="dense"
+                                    id="username"
+                                    name="username"
+                                    label="Tên đăng nhập"
+                                    type="text"
+                                    fullWidth
+                                    InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                        <AccountCircle />
+                                        </InputAdornment>
+                                    ),
+                                    }}
+                                    variant="standard"
+                                />
+                                <TextField
+                                    onChange={handleChangePassword}
+                                    margin="dense"
+                                    id="password"
+                                    name="password"
+                                    label="Mật khẩu"
+                                    type="password"
+                                    variant="standard"
+                                    error = {errors.password ? true: false}
+                                    helperText= {errors.password ? errors.password[0]: ''}
+                                    fullWidth
+                                    InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <HttpsIcon />
+                                        </InputAdornment>
+                                    ),
+                                    }}
+                                />
+                            </div>
+                            <div className="flex-space-between">
+                                <div></div>
+                                <LoadingButton
+                                    type="submit"
+                                    variant="contained"
+                                    loading={loading}
+                                    loadingPosition="end"
+                                >
+                                    Đăng nhập
+                                </LoadingButton>
+                            </div>
+                            {/* {errorMessage && <p>{errorMessage}</p>} */}
+                        </form>
+                    </div>
+                    <div className="signin__logo">
+                     
+                        <img style={styles.Logo_img} src={logo_Boyte} alt="logo_Bo y te" draggable></img>
+                        <p >HỆ THỐNG ĐIỀU TRA DÂN SỐ VIỆT NAM</p>
+                        
+                    </div>
                 </div>
             </div>}
         </div>
     );
 }
 
-export default Radium(Signin);
+export default Signin;

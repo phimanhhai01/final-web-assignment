@@ -23,7 +23,7 @@ const userReducer = (state = userInitialStates, {type, payload}) => {
         case userActionTypes.USER_LOGOUT:
             return {
                 ...state,
-                currentUser: null,
+                currentUser: {id: ''},
                 errorMessage: null,
             }
         case userActionTypes.USER_TOGGLE_COMPLETED_DECLARE:
