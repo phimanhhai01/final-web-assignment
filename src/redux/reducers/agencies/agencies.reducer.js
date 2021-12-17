@@ -75,6 +75,8 @@ const agencyReducer = (state = initialStates, {type, payload}) => {
                 isLoadingSubAgencies: false,
                 errorMessage: payload
             }
+        case actionTypes.AGENCY_RESET: 
+            return initialStates
         default:
             return state;
     }
