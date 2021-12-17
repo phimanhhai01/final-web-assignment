@@ -58,6 +58,13 @@ const citizenDelete = (id) => {
         payload: id
     }
 }
+const citizenAddFilterList = (filterList) => {
+    return {
+        type: actionTypes.CITIZEN_ADD_FILTER_LIST,
+        payload: filterList
+    }
+}
+
 const actions =  {
     citizenDelete,
     citizenUpdate,
@@ -67,7 +74,8 @@ const actions =  {
     citizensLoadError,
     citizenIdLoadStart,
     citizenIdLoadSuccess,
-    citizenIdLoadError
+    citizenIdLoadError,
+    citizenAddFilterList
 }
 
 export default actions;

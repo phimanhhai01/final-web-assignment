@@ -27,11 +27,26 @@ const styles = {
 const ListCitizens = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { citizens } = useSelector(state =>{
-        return state.citizens
-    } );
     const {currentUser} = useSelector(state => state.user);
-
+    const { filterList, citizens } = useSelector(state => state.citizens);
+    
+    const filteredListCitizens = (citizens, filterList) => {
+        let filteredCitizens = [];
+        let filterListId = filterList.map(e => e.id);
+        filteredCitizens = citizens.filter(e => {
+            for(let i = 0 ; i<filterListId.length ; i++){
+                if(e.village_id.search(filterListId[i]) !== -1){
+                    return true;
+                }
+            }
+        });
+        console.log(filteredCitizens);
+        return filteredCitizens;
+    }
+    const getAgencyNames = (filterList) => {
+        let filteredListNames = filterList.map(e => e.name);
+        return filteredListNames.join(", ");
+    }
     useEffect(() => {
         if (citizens.length === 0) {
             dispatch(loadCitizensAsync());
@@ -68,10 +83,10 @@ const ListCitizens = () => {
             </div>
             <TableExtra
                 searchBy = {searchByCitizen}
-                title = "Danh sách dân số"
+                title = {filterList.length > 0 ? `Danh sách dân số  thuộc: ${getAgencyNames(filterList)}` : `Danh sách dân số  thuộc toàn tỉnh`}
                 name="ListCitizensTitles"
                 columns = {citizen_columns}
-                data = {citizens}
+                data = {filterList.length > 0 ? filteredListCitizens(citizens, filterList) : citizens}
                 renderData = {renderData}
             />
         </div>

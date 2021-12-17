@@ -1,12 +1,12 @@
 import actions from './agencies.actions';
 
-import { getAllAgencies, getAgencyById } from '../../../api/apiAgencies';
+import { getAllAgencies, getAgencyById, getSubAgencies } from '../../../api/apiAgencies';
 
 export const loadAgenciesAsync = () => {
     return dispatch => {
         dispatch(actions.agenciesLoadStart());
         getAllAgencies().then(response => dispatch(actions.agenciesLoadSuccess(response.data)))
-                    .catch(error => dispatch(actions.agenciesLoadError(error.message)));
+                        .catch(error => dispatch(actions.agenciesLoadError(error.message)));
     }
 }
 
@@ -33,5 +33,13 @@ export const updateAgency = (agency) => {
 export const deleteAgency = (id) => {
     return dispatch => {
         dispatch(actions.agencyDelete(id));
+    }
+}
+
+export const loadSubAgenciesAsync = () => {
+    return dispatch => {
+        dispatch(actions.subAgenciesLoadStart());
+        getSubAgencies().then(response => dispatch(actions.subAgenciesLoadSuccess(response.data)))
+                        .catch(error => dispatch(actions.subAgenciesLoadError(error.message)));
     }
 }

@@ -38,3 +38,9 @@ export const deleteCitizenInTable = (id) => {
         dispatch(actions.citizenDelete(id));
     }
 }
+
+export const addFilterList = (filterList) => {
+    return dispatch => {
+        dispatch(actions.citizenAddFilterList(filterList));
+    }
+}

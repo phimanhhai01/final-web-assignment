@@ -70,7 +70,6 @@ const AddAgency = () => {
   const [scheduleTime, setSchedule] = useState({
       operate_from: null,
       operate_to: null
-     
   });
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch()
@@ -122,7 +121,7 @@ const AddAgency = () => {
         console.log(error);
       }
     })();
-  }, []);
+  }, [])
 
   const togglePermission = () => {
     (
@@ -316,9 +315,9 @@ const AddAgency = () => {
         <h2>Thiết lập</h2>
         <div></div>
       </div>
-      <div className="grid grid-col-2 grid-col-sm-1">
+      <div className="grid grid-col-2 grid-col-sm-1" style={{gridAutoRows: '1fr'}}>
         <div>
-          <div className="card">
+          <div className="card" style={{display: "flex", flexDirection: "column", height: '100%'}}>
             <div style={{padding: '0.5rem'}}className="card__header">
               <div className='flex-space-between'>
                 <span>Thông tin chung</span>
@@ -327,7 +326,7 @@ const AddAgency = () => {
                 </span>
               </div>
             </div>
-            <div className="card__body">
+            <div className="card__body" style={{marginBottom: 'auto'}}>
               <div className="grid">
                 <TextField
                   label="Mã đơn vị"
@@ -367,10 +366,10 @@ const AddAgency = () => {
             </div>
           </div>
         </div>
-        <div className="">
-          <div className="card">
+        <div>
+          <div className="card" >
             <div className="card__header">Thông tin về tài khoản</div>
-            <div className="card__body">
+            <div className="card__body" >
               <div className="grid">
                 <TextField
                   label="Tên đăng nhập"

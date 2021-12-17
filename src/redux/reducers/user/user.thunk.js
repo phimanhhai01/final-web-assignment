@@ -1,5 +1,4 @@
 import actions from "./user.actions";
-
 import { apiLoginUser, apiPersistUser } from "../../../api/apiUser";
 
 export const userLoginAsync = ({username, password}) => {
@@ -16,6 +15,7 @@ export const userLoginAsync = ({username, password}) => {
         });
     }
 }
+
 export const userLogout = () => {
     return dispatch => {
         localStorage.removeItem("token");
@@ -31,5 +31,17 @@ export const userPersist = () => {
         })
         .catch(error => {dispatch(actions.userLoginError(error.message))});
     
+    }
+}
+
+export const userFill = (data) => {
+    return dispatch => {
+        dispatch(actions.userLoginSuccess(data));
+    }
+}
+
+export const userToggleCompletedDeclare = (current) => {
+    return dispatch => {
+        dispatch(actions.toggleConpletedDeclare(current));
     }
 }

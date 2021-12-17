@@ -21,18 +21,52 @@ import MenuItem from '@mui/material/MenuItem';
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from '@date-io/date-fns';
 import {addToast} from "../../utils"
-import { updateCitizen, deleteCitizen } from "../../api/apiCitizens";
+import { getCitizenById, updateCitizen, deleteCitizen } from "../../api/apiCitizens";
 import { updateCitizenInTable, deleteCitizenInTable } from '../../redux/reducers/citizens/citizens.thunk'
+import Loader from "../../core/Loader";
 
 const CitizenProfile = (props) => {
   const {currentUser} = useSelector(state => state.user);
   const village_id = currentUser.agency.id;
-  let editable = currentUser && currentUser.level === "4" ? true:false;
+  let editable = currentUser && currentUser.level >= "3" ? true:false;
+  const init = {
+    id: "",
+    id_number: "",
+    name: "",
+    dob: "",
+    gender: "",
+    ethnic: "",
+    religion: "",
+    educational: "",
+    declarer: "",
+    occupations: "",
+    village_id: "",
+    home_town: "",
+    address_line1: "",
+    address_line2: ""
+  };
   const {id} = props;
   const dispatch = useDispatch();
-  const { citizenById } = useSelector(state => state.citizens);
+  /* const { citizenById } = useSelector(state => state.citizens);
   useEffect(() => {
       dispatch(loadCitizenByIdAsync(id));
+  }, []); */
+
+  const [citizenById, setData] = useState(init);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        let res = await getCitizenById(id);
+        if (res.status === 200) {
+          setData(res.data);
+        } else if (res.status === 404) {
+          alert("Not found");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, []);
 
   const educational = {
@@ -385,6 +419,10 @@ const CitizenProfile = (props) => {
     }
   };
 
+  console.log(citizenById);
+  if (citizenById.id === "") {
+    return <Loader />;
+  } 
     return (
         <div style={styles.root}>
         <ThemeProvider theme={theme}>

@@ -1,6 +1,6 @@
 const userInitialStates =  {
     isLoading: false,
-    currentUser: null,
+    currentUser: {id:''},
     errorMessage: null,
 }
 export default userInitialStates;

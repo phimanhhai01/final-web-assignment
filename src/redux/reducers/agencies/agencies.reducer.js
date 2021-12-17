@@ -58,7 +58,23 @@ const agencyReducer = (state = initialStates, {type, payload}) => {
                 ...state,
                 agencies: new_agencies
             }
-            
+        case actionTypes.SUBAGENCIES_LOAD_START:
+            return {
+                ...state,
+                isLoadingSubAgencies: true,
+            }
+        case actionTypes.SUBAGENCIES_LOAD_SUCCESS:
+            return {
+                ...state,
+                subAgencies: payload,
+                isLoadingSubAgencies: false,
+            }
+        case actionTypes.SUBAGENCIES_LOAD_ERROR: 
+            return {
+                ...state,
+                isLoadingSubAgencies: false,
+                errorMessage: payload
+            }
         default:
             return state;
     }
