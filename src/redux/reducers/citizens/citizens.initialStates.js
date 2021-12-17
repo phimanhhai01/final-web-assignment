@@ -4,6 +4,7 @@ const initialStates =  {
     citizens: [],
     errorMessage: null,
     citizenById: {},
+    filterList: []
 }
 
 export default initialStates;

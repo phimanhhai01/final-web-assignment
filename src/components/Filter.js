@@ -1,3 +1,5 @@
+import React, {useEffect} from 'react';
+
 import Radium from 'radium';
 
 //import filterIcon from "../images/filterIcon.png";
@@ -7,19 +9,24 @@ import { Dialog } from '@mui/material';
 import A1Filter from './Filter/A1Filter';
 import { useState } from 'react';
 // import FilterListIcon from '@mui/icons-material/FilterList';
-
+import { useDispatch } from 'react-redux';
+import { loadSubAgenciesAsync } from '../redux/reducers/agencies/agencies.thunk';
 
 const Filter = () => {
-    const [open, setOpen] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+    const dispatch = useDispatch();
+    useEffect(() => {
+      dispatch(loadSubAgenciesAsync());
+    }, []);
+    
     const handleOpen = () => {
-        setOpen(true);
+        setOpenDialog(true);
     }
     const handleClose = () => {
-        setOpen(false);
+        setOpenDialog(false);
     }
     const handleConfirmation = () => {
-        console.log("alo");
-        setOpen(false);
+        setOpenDialog(false);
     }
     const styles = {
         root: {
@@ -72,15 +79,8 @@ const Filter = () => {
             >
                Lọc
             </Button>
-            <Dialog onClose={handleClose}  open={open}>
-                <A1Filter />
-                <Button 
-                    variant="outlined"
-                    size="large"
-                    onClick={handleConfirmation}
-                >
-                    Xác nhận
-                </Button>
+            <Dialog onClose={handleClose} open={openDialog}>
+                <A1Filter setOpenDialog={setOpenDialog} />
             </Dialog>
         </div>
     );
