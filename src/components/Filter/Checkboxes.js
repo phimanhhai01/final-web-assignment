@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addFilterList } from '../../redux/reducers/citizens/citizens.thunk';
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
-const FilterComponent = ({data, setOpenDialog, filterList}) => {
+const FilterComponent = ({data, setOpen, filterList}) => {
     const [selectedOptions, setSelectedOptions] = useState(filterList);
     const handleChange = (event, value) => {
         setSelectedOptions(value)
@@ -41,15 +41,17 @@ const FilterComponent = ({data, setOpenDialog, filterList}) => {
                 <TextField {...params} label="Chọn đơn vị" placeholder="Nhập tên" />
             )}
         />
-        <Button
-          variant="contained"
-          onClick={() => {
-            setOpenDialog(false);
-            dispatch(addFilterList(selectedOptions))
-          }}
-        >
-          Xác nhận
-        </Button>
+        <div style={{width: "100%"}}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setOpen(false);
+              dispatch(addFilterList(selectedOptions));
+            }}
+          >
+            Xác nhận
+          </Button>
+        </div>
       </>
     );
 }

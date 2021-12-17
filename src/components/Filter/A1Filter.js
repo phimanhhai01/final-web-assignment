@@ -7,7 +7,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import FilterComponent from './Checkboxes';
 import { useSelector } from 'react-redux';
 
-const A1Filter = ({setOpenDialog}) => {
+const A1Filter = ({setOpen}) => {
     const { currentUser } = useSelector(state => state.user);
     const [value, setValue] = React.useState('1');
     const { subAgencies } = useSelector(state => state.agencies);
@@ -18,7 +18,7 @@ const A1Filter = ({setOpenDialog}) => {
     
     if(currentUser.level == "1"){
       return (
-        <Box sx={{ width: '100%' }}>
+        <div style={{background: "white"}}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -27,18 +27,18 @@ const A1Filter = ({setOpenDialog}) => {
               </TabList>
             </Box>
             <TabPanel value="1">
-                <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 4) ? filterList : []} setOpenDialog={setOpenDialog} data={subAgencies[0]} />
+                <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 4) ? filterList : []} setOpen={setOpen} data={subAgencies[0]} />
             </TabPanel>
             <TabPanel value="2">
-                <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 6) ? filterList : []} setOpenDialog={setOpenDialog} data={subAgencies[1]} />
+                <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 6) ? filterList : []} setOpen={setOpen} data={subAgencies[1]} />
             </TabPanel>
           </TabContext>
-        </Box>
+        </div>
       );
     }
     if(currentUser.level == "2"){
       return (
-        <Box sx={{ width: '100%', typography: 'body1' }}>
+        <div sx={{ width: '100%', typography: 'body1' }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -46,16 +46,16 @@ const A1Filter = ({setOpenDialog}) => {
               </TabList>
             </Box>
             <TabPanel value="1">
-                <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 6) ? filterList : []} setOpenDialog={setOpenDialog} data={subAgencies[0]} />
+                <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 6) ? filterList : []} setOpen={setOpen} data={subAgencies[0]} />
             </TabPanel>
           </TabContext>
-        </Box>
+        </div>
       );
     }
 
     if(currentUser.level == "3"){
       return (
-        <Box sx={{ width: '100%', typography: 'body1' }}>
+        <div sx={{ width: '100%', typography: 'body1' }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -63,14 +63,14 @@ const A1Filter = ({setOpenDialog}) => {
               </TabList>
             </Box>
             <TabPanel value="1">
-                <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 8) ? filterList : []} setOpenDialog={setOpenDialog} data={subAgencies[0]}/>
+                <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 8) ? filterList : []} setOpen={setOpen} data={subAgencies[0]}/>
             </TabPanel>
           </TabContext>
-        </Box>
+        </div>
       )
     }
     return (
-    <Box sx={{ width: '100%', typography: 'body1' }}>
+    <div sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -80,16 +80,16 @@ const A1Filter = ({setOpenDialog}) => {
           </TabList>
         </Box>
         <TabPanel value="1">
-            <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 2) ? filterList : []} setOpenDialog={setOpenDialog} data={subAgencies[0]}/>
+            <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 2) ? filterList : []} setOpen={setOpen} data={subAgencies[0]}/>
         </TabPanel>
         <TabPanel value="2">
-            <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 4) ? filterList : []} setOpenDialog={setOpenDialog} data={subAgencies[1]}/>
+            <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 4) ? filterList : []} setOpen={setOpen} data={subAgencies[1]}/>
         </TabPanel>
         <TabPanel value="3">
-            <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 6) ? filterList : []} setOpenDialog={setOpenDialog} data={subAgencies[2]}/>
+            <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 6) ? filterList : []} setOpen={setOpen} data={subAgencies[2]}/>
         </TabPanel>
       </TabContext>
-    </Box>
+    </div>
     );
 }
 
