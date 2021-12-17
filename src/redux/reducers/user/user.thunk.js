@@ -1,5 +1,4 @@
 import actions from "./user.actions";
-// import Cookies from 'js-cookie';
 import { apiLoginUser, apiPersistUser } from "../../../api/apiUser";
 
 export const userLoginAsync = ({username, password}) => {
