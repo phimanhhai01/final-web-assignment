@@ -1,9 +1,13 @@
 import React, { useEffect, useState} from "react";
-import { Navigate, Outlet  } from "react-router-dom";
+import { Navigate, Outlet, useNavigate  } from "react-router-dom";
 import Menu from "./Menu";
 import Header from "./Header";
+import Loader from "./Loader"
+import { useSelector, useDispatch } from "react-redux";
+import {myUser} from "../api/apiUser"
+import {userFill} from "../redux/reducers/user/user.thunk"
+import { addToast } from "../utils";
 
-import { isAuthenticated } from "../api/apiUser";
 const style = {
     main: {
         marginLeft: "var(--sidebar-width)",
@@ -13,13 +17,53 @@ const style = {
     }
 }
 const PrivateRoute = (props) => {
+    const navigate = useNavigate()
+    const currentUser_id = useSelector(state => state.user.currentUser.id)
 
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (!currentUser_id) {
+            (async () => {
+                try {
+                    let res = await myUser()
+                    console.log(res)
+                    if (res.status === 200) {
+                        dispatch(userFill(res.data))
+                    } else {
+                        localStorage.removeItem('token')
+                        navigate('/signin')
+                        addToast({
+                            type:'info', 
+                            title:'Hey!', 
+                            message:`Bạn cần đăng nhập lại!`, 
+                            duration: 5000
+                        })
+                    }
+                    
+                } catch (error) {
+                    alert(error.message)
+                    navigate('/signin')
+                }
+            })()
+        } else {
+            // alert('Just login')
+            addToast({
+                type:'success', 
+                title:'Thành công!', 
+                message:`Chào cán bộ!`, 
+                duration: 5000
+            })
+        }
+    }, [])
     // const [loading, setLoadding] = useState(true)
-    const authed = isAuthenticated() // isauth() returns true or false based on localStorage
-    // lay cais user neeus cos roif thig thooi 
+    // const authed = isAuthenticated() // isauth() returns true or false based on localStorage
+    // lay cais user neeus cos roif thig thooi
+    if (! currentUser_id ) {
+        return <Loader />
+    }
+    return (
 
-
-    return authed ? (
         <div>
             <Menu />
             <main style={style.main}>
@@ -29,7 +73,7 @@ const PrivateRoute = (props) => {
                 </div>
             </main>
         </div>
-    ): <Navigate replace to="/signin" />;
+    )
 }
 
 export default PrivateRoute;

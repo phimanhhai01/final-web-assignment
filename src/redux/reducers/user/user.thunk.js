@@ -33,3 +33,15 @@ export const userPersist = () => {
     
     }
 }
+
+export const userFill = (data) => {
+    return dispatch => {
+        dispatch(actions.userLoginSuccess(data));
+    }
+}
+
+export const userToggleCompletedDeclare = (current) => {
+    return dispatch => {
+        dispatch(actions.toggleConpletedDeclare(current));
+    }
+}

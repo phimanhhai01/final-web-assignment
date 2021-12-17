@@ -26,7 +26,14 @@ const userLogout = () => {
     }
 }
 
+const toggleConpletedDeclare = (current) => {
+    return {
+        type: userActionTypes.USER_TOGGLE_COMPLETED_DECLARE,
+        payload: current
+    }
+}
 const actions =  {
+    toggleConpletedDeclare,
     userLoginStart,
     userLoginError,
     userLoginSuccess,
