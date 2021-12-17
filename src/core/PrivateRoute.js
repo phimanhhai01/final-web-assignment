@@ -18,12 +18,12 @@ const style = {
 }
 const PrivateRoute = (props) => {
     const navigate = useNavigate()
-    const currentUser = useSelector(state => state.user.currentUser)
+    const currentUser_id = useSelector(state => state.user.currentUser.id)
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (!currentUser.id) {
+        if (!currentUser_id) {
             (async () => {
                 try {
                     let res = await myUser()
@@ -59,7 +59,7 @@ const PrivateRoute = (props) => {
     // const [loading, setLoadding] = useState(true)
     // const authed = isAuthenticated() // isauth() returns true or false based on localStorage
     // lay cais user neeus cos roif thig thooi 
-    if (! currentUser.id ) {
+    if (! currentUser_id ) {
         return <Loader />
     }
     return (

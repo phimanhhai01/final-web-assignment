@@ -9,6 +9,9 @@ import { loadAgenciesAsync } from '../../redux/reducers/agencies/agencies.thunk'
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router';
 import AgencyForm from '../agency/AgencyForm';
+import {userToggleCompletedDeclare} from "../../redux/reducers/user/user.thunk"
+import {toggleCompletedDeclareApi } from "../../api/apiAgencies"
+import {addToast} from "../../utils"
 
 const styles = {
     root: {
@@ -68,11 +71,42 @@ const ListAgencies = () => {
             </TableRow>
         )
     }
+
+    const toggleCompletedDeclare = () => {
+        (async () => {
+            try {
+                let res = await toggleCompletedDeclareApi()
+                if (res.status === 200) {
+                    dispatch(userToggleCompletedDeclare(res.data.current))
+                    addToast(
+                        {
+                            type:`${res.data.current? 'success': 'info'}`, 
+                            title:'Xong!', 
+                            message:`${res.data.current? "Chúc mừng bạn đã hoàn thành khai báo":"Ỏ. Sớm hoàn thành nhé!"}`, 
+                            duration: 5000}
+                        )
+                }
+                
+            } catch (error) {
+                
+            }
+        })()
+    }
     
     return (
         <div className="page-limit">
             <div style={styles.header}>
-                <div></div>
+                <div>
+                    {
+                        currentUser && currentUser.level !== "0"? (
+                            <Button variant='outlined'
+                            onClick={toggleCompletedDeclare}
+                            >
+                                {!currentUser.agency.completed_declare? 'Đánh dấu khai báo xong':'Đánh dấu chưa khai báo xong'}
+                            </Button>
+                        ):null
+                    }
+                </div>
                 {
                     currentUser && currentUser.level <= "3"? (
                         <AgencyForm label="Thêm đơn vị"/>
