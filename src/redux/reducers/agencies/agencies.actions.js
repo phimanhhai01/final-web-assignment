@@ -78,7 +78,14 @@ const subAgenciesLoadSuccess = (subAgencies) => {
         payload: subAgencies
     }
 }
+
+const agencyReset = () => {
+    return {
+        type: actionTypes.AGENCY_RESET
+    }
+}
 const a =  {
+    agencyReset,
     agencyDelete,
     agencyUpdate,
     agencyAppend,

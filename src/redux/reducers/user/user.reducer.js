@@ -21,11 +21,12 @@ const userReducer = (state = userInitialStates, {type, payload}) => {
                 currentUser: payload
             }
         case userActionTypes.USER_LOGOUT:
-            return {
-                ...state,
-                currentUser: {id: ''},
-                errorMessage: null,
-            }
+            return userInitialStates
+            // return {
+            //     ...state,
+            //     currentUser: {id: '', agency: null},
+            //     errorMessage: null,
+            // }
         case userActionTypes.USER_TOGGLE_COMPLETED_DECLARE:
             if (state.currentUser && state.currentUser.agency) {
                 let agency = {...state.currentUser.agency, completed_declare: payload}
