@@ -27,7 +27,7 @@ const styles = {
 const ListCitizens = () => {
     const dispatch = useDispatch();
     const { filterList, citizens } = useSelector(state => state.citizens);
-    
+    const current_user_level = useSelector(state => state.user.currentUser.level)
     const filteredListCitizens = (citizens, filterList) => {
         let filteredCitizens = [];
         let filterListId = filterList.map(e => e.id);
@@ -83,9 +83,9 @@ const ListCitizens = () => {
         <div className="page-limit" style={{}}>
             <div style={styles.header}>
                 <div></div>
-                <Button variant="contained" onClick={handleOpen}>
+                {current_user_level >= "3" && <Button variant="contained" onClick={handleOpen}>
                     Khai báo công dân mới 
-                </Button>
+                </Button>}
             </div>
             <TableExtra
                 searchBy = {searchByCitizen}
