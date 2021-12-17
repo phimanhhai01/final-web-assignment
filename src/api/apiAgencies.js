@@ -34,3 +34,7 @@ export const scheduleDeclarePermission = (data) => {
 export const deleteAgencyApi = (id) => {
     return axiosClient.delete(`agency/${id}`);
 }
+
+export const getSubAgencies = () => {
+    return axiosClient.get(`agency/subtree/`)
+}

@@ -17,10 +17,11 @@ const Table = (props) => {
             display: "flex",
             alignItems: "center",
             borderBottom: "1px solid var(--border-color)",
-            padding: "0.5rem"
+            padding: "0.5rem",
         }, 
         searchBarWapper: {
-            flexGrow: 1
+            flexGrow: 1,
+            width: "400px"
         }
     }
     return (

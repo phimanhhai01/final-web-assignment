@@ -19,7 +19,7 @@ const PrivateRoute = (props) => {
     // lay cais user neeus cos roif thig thooi 
 
 
-    return authed ?(
+    return authed ? (
         <div>
             <Menu />
             <main style={style.main}>

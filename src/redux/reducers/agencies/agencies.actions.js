@@ -60,6 +60,24 @@ const agencyDelete = (id) => {
         payload: id
     }
 }
+
+const subAgenciesLoadStart = () => {
+    return {
+        type: actionTypes.SUBAGENCIES_LOAD_START
+    };
+}
+const subAgenciesLoadError = (errorMessage) => {
+    return {
+        type: actionTypes.SUBAGENCIES_LOAD_START,
+        payload: errorMessage
+    };
+}
+const subAgenciesLoadSuccess = (subAgencies) => {
+    return {
+        type: actionTypes.SUBAGENCIES_LOAD_SUCCESS,
+        payload: subAgencies
+    }
+}
 const a =  {
     agencyDelete,
     agencyUpdate,
@@ -69,7 +87,10 @@ const a =  {
     agenciesLoadError,
     agencyIdLoadStart,
     agencyIdLoadSuccess,
-    agencyIdLoadError
+    agencyIdLoadError,
+    subAgenciesLoadStart,
+    subAgenciesLoadError,
+    subAgenciesLoadSuccess
 }
 
 export default a

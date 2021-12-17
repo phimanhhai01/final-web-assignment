@@ -20,3 +20,9 @@ export const loadCitizenByIdAsync = (id) => {
                         .catch(error => dispatch(actions.citizenIdLoadError(error.message)));
     }
 }
+
+export const addFilterList = (filterList) => {
+    return dispatch => {
+        dispatch(actions.citizenAddFilterList(filterList));
+    }
+}

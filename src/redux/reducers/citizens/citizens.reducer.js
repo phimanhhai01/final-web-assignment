@@ -37,6 +37,11 @@ const citizensReducer = (state = initialStates, {type, payload}) => {
                 isLoadingCitizenById: false,
                 errorMessage: payload
             }
+        case actionTypes.CITIZEN_ADD_FILTER_LIST: 
+            return {
+                ...state,
+                filterList: [...payload]
+            }
         default:
             return state;
     }

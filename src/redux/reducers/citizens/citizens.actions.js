@@ -39,13 +39,21 @@ const citizenIdLoadError = (errorMessage) => {
     }
 }
 
+const citizenAddFilterList = (filterList) => {
+    return {
+        type: actionTypes.CITIZEN_ADD_FILTER_LIST,
+        payload: filterList
+    }
+}
+
 const actions =  {
     citizensLoadStart,
     citizensLoadSuccess,
     citizensLoadError,
     citizenIdLoadStart,
     citizenIdLoadSuccess,
-    citizenIdLoadError
+    citizenIdLoadError,
+    citizenAddFilterList
 }
 
 export default actions;
