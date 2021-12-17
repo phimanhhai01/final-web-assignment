@@ -11,22 +11,23 @@ import { useState } from 'react';
 // import FilterListIcon from '@mui/icons-material/FilterList';
 import { useDispatch } from 'react-redux';
 import { loadSubAgenciesAsync } from '../redux/reducers/agencies/agencies.thunk';
+import { Popper } from '@material-ui/core';
 
 const Filter = () => {
-    const [openDialog, setOpenDialog] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+
     const dispatch = useDispatch();
     useEffect(() => {
       dispatch(loadSubAgenciesAsync());
     }, []);
     
-    const handleOpen = () => {
-        setOpenDialog(true);
+    const handleOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+        setOpen(!open);
     }
     const handleClose = () => {
-        setOpenDialog(false);
-    }
-    const handleConfirmation = () => {
-        setOpenDialog(false);
+        setOpen(false);
     }
     const styles = {
         root: {
@@ -79,9 +80,9 @@ const Filter = () => {
             >
                Lọc
             </Button>
-            <Dialog onClose={handleClose} open={openDialog}>
-                <A1Filter setOpenDialog={setOpenDialog} />
-            </Dialog>
+            <Popper style={{zIndex: 99, border: "1px solid black"}} anchorEl={anchorEl} placement="bottom-start" onClose={handleClose} open={open}>
+                <A1Filter setOpen={setOpen} />
+            </Popper>
         </div>
     );
 }
