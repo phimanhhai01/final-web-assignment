@@ -38,16 +38,17 @@ const FilterComponent = ({data, setOpen, filterList}) => {
             onChange={handleChange}
             style={{ width: 500 }}
             renderInput={(params) => (
-                <TextField {...params} label="Chọn đơn vị" placeholder="Nhập tên" />
+                <TextField {...params} size="small" label="Chọn đơn vị" placeholder="Nhập tên" />
             )}
         />
-        <div style={{width: "100%"}}>
+        <div style={{width: "100%", marginTop: "8px", display: "flex", justifyContent: "end"}}>
           <Button
             variant="contained"
             onClick={() => {
               setOpen(false);
               dispatch(addFilterList(selectedOptions));
             }}
+            size="small"
           >
             Xác nhận
           </Button>

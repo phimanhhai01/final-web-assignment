@@ -6,7 +6,7 @@ import Radium from 'radium';
 //import { filterBy } from '../constants/filter';
 import Button from '@mui/material/Button';
 import { Dialog } from '@mui/material';
-import A1Filter from './Filter/A1Filter';
+import FilterBox from './Filter/FilterBox';
 import { useState } from 'react';
 // import FilterListIcon from '@mui/icons-material/FilterList';
 import { useDispatch } from 'react-redux';
@@ -74,14 +74,14 @@ const Filter = () => {
     return (
         <div key={1} style={styles.root}>
             <Button 
-                variant="outlined"
+                variant="contained"
                 size="large"
                 onClick={handleOpen}
             >
                Lọc
             </Button>
-            <Popper style={{zIndex: 99, border: "1px solid black"}} anchorEl={anchorEl} placement="bottom-start" onClose={handleClose} open={open}>
-                <A1Filter setOpen={setOpen} />
+            <Popper style={{zIndex: 99, boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }} anchorEl={anchorEl} placement="bottom-start" onClose={handleClose} open={open}>
+                <FilterBox setOpen={setOpen} />
             </Popper>
         </div>
     );
