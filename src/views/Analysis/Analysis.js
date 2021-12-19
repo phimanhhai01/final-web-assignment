@@ -4,6 +4,7 @@ import { loadCitizensAsync } from '../../redux/reducers/citizens/citizens.thunk'
 import Description from './Description';
 import PieChartComponent from './PieChart';
 import BarChartComponent from './BarChart';
+import PopulationPyramid from './GenderAnalysis/PopulationPyramid';
 import { occupationsDescription, genderDescription } from '../../constants/description/description';
 const ListUser = () => {
     const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const ListUser = () => {
     }, []);
     const styles = {
         root: {
-            background: "white",
+            display: "flex"
         },
         firstChart: {
             
@@ -23,12 +24,16 @@ const ListUser = () => {
             display: "flex",
             justifyContent: "space-around",
             flexDirection: "row"
+        },
+        age: {
+            background: "white",
+            width: "70%"
         }
     }
 
     return (
         <div style={styles.root}>
-            <div>
+            {/* <div>
                 <h2>Phân tích nhóm tuổi theo nghề  nghiệp</h2>
                 <div style={styles.charts}>
                     <PieChartComponent startYear={null} endYear={null} />
@@ -36,8 +41,8 @@ const ListUser = () => {
                     <PieChartComponent startYear={"2000"} endYear={"2003"} />
                 </div>
                 <Description width={"50%"} descriptions={occupationsDescription}/>
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
                 <h2>Phân tích nhóm tuổi theo giới tính</h2>
                 <div style={styles.charts}>
                     <BarChartComponent year={null} />
@@ -45,7 +50,11 @@ const ListUser = () => {
                     <BarChartComponent year={"2005"}/>
                 </div>
                 <Description width={"10%"} descriptions={genderDescription}/>
-            </div>
+            </div> */}
+            
+        
+            <PopulationPyramid />
+            <PieChartComponent startYear={"1990"} endYear={"1999"} />
         </div>
     );
 }
