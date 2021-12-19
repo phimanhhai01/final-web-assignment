@@ -76,7 +76,7 @@ const ListCitizens = () => {
             <div style={styles.header}>
                 <div></div>
                 {
-                    currentUser && currentUser.level === "4" || currentUser.level === "3"? (
+                    currentUser && (currentUser.level === "4" || currentUser.level === "3")? (
                         <AddCitizen/>
                     ):null
                 }

@@ -27,8 +27,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { appendCitizen } from '../../redux/reducers/citizens/citizens.thunk';
 import {addToast} from "../../utils"
 import { loadAgenciesAsync } from '../../redux/reducers/agencies/agencies.thunk';
-import { EventAvailableOutlined } from '@mui/icons-material';
-import Loader from "../../core/Loader";
 
 const AddCitizen = () => {
   const {currentUser} = useSelector(state => state.user);
@@ -108,6 +106,7 @@ const AddCitizen = () => {
     address_line1: "",
     address_line2: "",
   }
+
   const [citizen, setData] = useState(citizenById);
   const [er, setError] = useState(error);
 
@@ -151,15 +150,7 @@ const AddCitizen = () => {
     } 
   }
 
-  const navigate = useNavigate();
   const dispatch = useDispatch()
-
-  const handleChangeError = (name, value) => {
-    setError({
-      ...er,
-      [name]: value
-    });
-  }
   
   const handleChangeValue = (e) => {
     // village_id 
@@ -193,28 +184,15 @@ const AddCitizen = () => {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    if (citizen.name === "") {
-      validateNameInput(event);
-    }
-    if (citizen.home_town === "") {
-      validateHomeTownInput(event);
-    }
-    if (citizen.address_line1 === "") {
-      validateAddress_line1Input(event);
-    }
-    if (citizen.address_line2 === "") {
-      validateAddress_line2Input(event);
-    }
-    if (citizen.name !== "" && citizen.home_town !== "" && citizen.address_line1 !== "" && citizen.address_line2 !== "") {
+    let err = validateBeforeSubmit();
+    if (err.name === "" && err.id_number === "" && err.home_town === "" && err.address_line1 === "" && err.address_line2 === "") {
       (async () => {
         try {
           let res = await addCitizen(citizen);
           if (res.status === 200) {
-            dispatch(appendCitizen(citizen));
-            handleClose();
-            window.location.reload(false);
+            dispatch(appendCitizen(res.data));
             addToast({type:'success', title:'Xong!', message:`Khai báo công dân thành công.`, duration: 5000});
+            handleResetInput();
           } else {
             addToast({type:'error', title:'Hỏng!', message:`Đã xảy ra lỗi khi thêm công dân.`, duration: 5000})
           }
@@ -229,6 +207,8 @@ const AddCitizen = () => {
           }
         }
       })();
+    } else {
+      setError(err);
     }
   }
     
@@ -256,72 +236,161 @@ const AddCitizen = () => {
     return false;
   }
 
-  const validateNameInput = (event) => {
+  const validateNameInput = () => {
     const content = citizen.name;
     const words = content.split(/\s/);
-    if (content === "") {
-      handleChangeError("name", "Không được để trống!");
+    if (content === '') {
+      setError({
+        ...er,
+        name: "Không được để trống!"
+      })
+      return "Không được để trống!";
     } else if (content[0] === " ") {
-      handleChangeError("name", "Không được bắt đầu bằng khoảng trắng!");
+      setError({
+        ...er,
+        name: "Không được bắt đầu bằng khoảng trắng!"
+      })
+      return "Không được bắt đầu bằng khoảng trắng!";
     } else if (content[content.length - 1] === " ") {
-      handleChangeError("name", "Không được kết thúc bằng khoảng trắng!");
+      setError({
+        ...er,
+        name: "Không được kết thúc bằng khoảng trắng!"
+      })
+      return "Không được kết thúc bằng khoảng trắng!";
     } else if (/\d/.test(content)) {
-      handleChangeError("name", "Không được chứa chữ số!");
+      setError({
+        ...er,
+        name: "Không được chứa chữ số!"
+      })
+      return "Không được chứa chữ số!";
     } else if (containLowerCase(content[0]) || containLowerCase(words[words.length - 1][0])) {
-      handleChangeError("name", "Viết hoa ký tự đầu tiên của mỗi từ!");
+      setError({
+        ...er,
+        name: "Viết hoa ký tự đầu tiên của mỗi từ!"
+      })
+      return "Viết hoa ký tự đầu tiên của mỗi từ!";
     } else if ((content.length > 1 && containUpperCase(content.substr(1)) && words.length < 2) || (words[words.length - 1].length > 1 && containUpperCase(words[words.length - 1].substr(1)))) {
-      handleChangeError("name", "Chỉ viết hoa chữ cái đầu tiên của từ!");
+      setError({
+        ...er,
+        name: "Chỉ viết hoa chữ cái đầu tiên của từ!"
+      })
+      return "Chỉ viết hoa chữ cái đầu tiên của từ!";
     } else if (containSpecialCharacter(content)) {
-      handleChangeError("name", "Không được chứa ký tự đặc biệt!");
+      setError({
+        ...er,
+        name: "Không được chứa ký tự đặc biệt!"
+      })
+      return "Không được chứa ký tự đặc biệt!";
     } else if (content.split(/\s/).length - 1 < 1) {
-      handleChangeError("name", "Ít nhất 2 từ đơn!");
+      setError({
+        ...er,
+        name: "Ít nhất 2 từ đơn!"
+      })
+      return "Ít nhất 2 từ đơn!";
     } else {
-      handleChangeError("name", "");
+      setError({
+        ...er,
+        name: ""
+      })
+      return "";
     }
   }
 
-  const validateId_numberInput = (event) => {
+  const validateId_numberInput = () => {
     const content = citizen.id_number;
     if (allIsNumber(content) === false) {
-      handleChangeError("id_number", "Chỉ được chứa chữ số!");
+      setError({
+        ...er,
+        id_number: "Chỉ được chứa chữ số!"
+      })
+      return "Chỉ được chứa chữ số!";
     } else if (0 < content.length && content.length < 9) {
-      handleChangeError("id_number", "Số CMND/CCCD phải đủ 9/12 chữ số hoặc để trống khi chưa được cấp!");
+      setError({
+        ...er,
+        id_number: "Số CMND/CCCD phải đủ 9/12 chữ số hoặc để trống khi chưa được cấp!"
+      })
+      return "Số CMND/CCCD phải đủ 9/12 chữ số hoặc để trống khi chưa được cấp!";
     } else if (9 < content.length && content.length < 12) {
-      handleChangeError("id_number", "Số CCCD phải đủ 12 chữ số!");
+      setError({
+        ...er,
+        id_number: "Số CCCD phải đủ 12 chữ số!"
+      })
+      return "Số CCCD phải đủ 12 chữ số!";
     } else if (content.length > 12) {
-      handleChangeError("id_number", "Không hợp lệ!");
+      setError({
+        ...er,
+        id_number: "Không hợp lệ!"
+      })
+      return "Không hợp lệ!";
     } else {
-      handleChangeError("id_number", "");
+      setError({
+        ...er,
+        id_number: ""
+      })
+      return ""
     }
   }
 
-  const validateHomeTownInput = (event) => {
+  const validateHomeTownInput = () => {
     const content = citizen.home_town;
-    if (content.length === 0) {
-      handleChangeError("home_town", "Không được để trống!")
+    if (content === '') {
+      setError({
+        ...er,
+        home_town: "Không được để trống!"
+      })
+      return "Không được để trống!";
     } else {
-      handleChangeError("home_town", "")
+      setError({
+        ...er,
+        home_town: ""
+      })
+      return "";
     }
   };
 
-  const validateAddress_line1Input = (event) => {
+  const validateAddress_line1Input = () => {
     const content = citizen.address_line1;
-    if (content.length === 0) {
-      handleChangeError("address_line1", "Không được để trống!")
+    if (content === '') {
+      setError({
+        ...er,
+        address_line1: "Không được để trống!"
+      })
+      return "Không được để trống!";
     } else {
-      handleChangeError("address_line1", "")
+      setError({
+        ...er,
+        address_line1: ""
+      })
+      return "";
     }
   };
 
-  const validateAddress_line2Input = (event) => {
+  const validateAddress_line2Input = () => {
     const content = citizen.address_line2;
-    if (content.length === 0) {
-      handleChangeError("address_line2", "Không được để trống!")
+    if (content === '') {
+      setError({
+        ...er,
+        address_line2: "Không được để trống!"
+      })
+      return "Không được để trống!";
     } else {
-      handleChangeError("address_line2", "")
+      setError({
+        ...er,
+        address_line2: ""
+      })
+      return "";
     }
   };
 
+  const validateBeforeSubmit = () => {
+    let err = {}
+    err.name = validateNameInput();
+    err.id_number = validateId_numberInput();
+    err.home_town = validateHomeTownInput();
+    err.address_line1 = validateAddress_line1Input();
+    err.address_line2 = validateAddress_line2Input();
+    return err;
+  }
 
   if (village_id.length === 8) {
     subAgencies.push(mapSubAgenciesId(village_id));
@@ -346,9 +415,6 @@ const AddCitizen = () => {
     setOpen(false);
     handleResetInput();
   };
-  /* if (agencies.length === 0) {
-    return <Loader />;
-  } */
     return (
       <div>
         <Button variant="contained" onClick={handleClickOpen}>

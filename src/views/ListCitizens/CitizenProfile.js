@@ -138,7 +138,6 @@ const CitizenProfile = (props) => {
   }
   
   const handleChangeValue = (e) => {
-    // village_id 
     if (!isNaN(Date.parse(e))) {
       setData({
         ...citizen,
@@ -201,9 +200,9 @@ const CitizenProfile = (props) => {
   const handleDelete = () => {
     (async () => {
       try {
-        let res = await deleteCitizen(id);
+        let res = await deleteCitizen(citizen.id);
         if (res.status === 200 || res.status === 204) {
-          dispatch(deleteCitizenInTable(id));
+          dispatch(deleteCitizenInTable(citizen.id));
           addToast({type:'success', title:'Xong!', message:`Xóa thông tin công dân thành công.`, duration: 5000});
           navigate('/list-citizens');
         } else {
@@ -334,8 +333,8 @@ const CitizenProfile = (props) => {
   }
 
   if (citizen.id === "") {
-    return <Loader />;
-  } 
+    return <Loader/>
+  }
   return (
         <div style={styles.root}>
         <ThemeProvider theme={theme}>
