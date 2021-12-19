@@ -1,14 +1,8 @@
 import React, {useEffect} from 'react';
-
-import Radium from 'radium';
-
-//import filterIcon from "../images/filterIcon.png";
-//import { filterBy } from '../constants/filter';
 import Button from '@mui/material/Button';
 import { Dialog } from '@mui/material';
 import FilterBox from './Filter/FilterBox';
 import { useState } from 'react';
-// import FilterListIcon from '@mui/icons-material/FilterList';
 import { useDispatch } from 'react-redux';
 import { loadSubAgenciesAsync } from '../redux/reducers/agencies/agencies.thunk';
 import { Popper } from '@material-ui/core';
@@ -16,18 +10,13 @@ import { Popper } from '@material-ui/core';
 const Filter = () => {
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
-
     const dispatch = useDispatch();
     useEffect(() => {
       dispatch(loadSubAgenciesAsync());
     }, []);
-    
     const handleOpen = (event) => {
         setAnchorEl(event.currentTarget);
         setOpen(!open);
-    }
-    const handleClose = () => {
-        setOpen(false);
     }
     const styles = {
         root: {
@@ -80,11 +69,11 @@ const Filter = () => {
             >
                Lọc
             </Button>
-            <Popper style={{zIndex: 99, boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }} anchorEl={anchorEl} placement="bottom-start" onClose={handleClose} open={open}>
+            <Popper style={{zIndex: 99, boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }} anchorEl={anchorEl} placement="bottom-start" open={open}>
                 <FilterBox setOpen={setOpen} />
             </Popper>
         </div>
     );
 }
 
-export default Radium(Filter);
+export default Filter;

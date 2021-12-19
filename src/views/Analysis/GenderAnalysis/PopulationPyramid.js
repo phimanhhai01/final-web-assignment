@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {  useSelector } from 'react-redux';
 import { groupAge } from '../../../constants/analysis/analysis';
 
@@ -12,6 +12,7 @@ import {
   Tooltip,
 } from "recharts";
 const PopulationPyramid = () => {
+    const [year, setYear] = useState("2021");
     const { citizens } = useSelector(state => state.citizens);
     const data = caculateMaleData(citizens, "2021");
     const styles={

@@ -21,6 +21,24 @@ export const loadCitizenByIdAsync = (id) => {
     }
 }
 
+export const appendCitizen = (citizen) => {
+    return dispatch => {
+        dispatch(actions.citizenAppend(citizen));
+    }
+}
+
+export const updateCitizenInTable = (citizen) => {
+    return dispatch => {
+        dispatch(actions.citizenUpdate(citizen));
+    }
+}
+
+export const deleteCitizenInTable = (id) => {
+    return dispatch => {
+        dispatch(actions.citizenDelete(id));
+    }
+}
+
 export const addFilterList = (filterList) => {
     return dispatch => {
         dispatch(actions.citizenAddFilterList(filterList));

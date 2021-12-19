@@ -38,6 +38,25 @@ const citizenIdLoadError = (errorMessage) => {
         payload: errorMessage
     }
 }
+const citizenAppend = (citizen) => {
+    return {
+        type: actionTypes.CITIZEN_APPEND,
+        payload: citizen
+    }
+}
+const citizenUpdate = (citizen) => {
+    return {
+        type: actionTypes.CITIZEN_UPDATE,
+        payload: citizen
+    }
+}
+
+const citizenDelete = (id) => {
+    return {
+        type: actionTypes.CITIZEN_DELETE,
+        payload: id
+    }
+}
 
 const citizenAddFilterList = (filterList) => {
     return {
@@ -47,6 +66,9 @@ const citizenAddFilterList = (filterList) => {
 }
 
 const actions =  {
+    citizenDelete,
+    citizenUpdate,
+    citizenAppend,
     citizensLoadStart,
     citizensLoadSuccess,
     citizensLoadError,

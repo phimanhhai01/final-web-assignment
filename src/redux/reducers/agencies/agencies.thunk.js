@@ -40,6 +40,7 @@ export const resetAgency = () => {
         dispatch(actions.agencyReset());
     }
 }
+
 export const loadSubAgenciesAsync = () => {
     return dispatch => {
         dispatch(actions.subAgenciesLoadStart());

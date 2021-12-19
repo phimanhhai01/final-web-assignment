@@ -40,4 +40,3 @@ export const getSubAgencies = () => {
 export const toggleCompletedDeclareApi = () => {
     return axiosClient.get(`agency/completed_declared_toggle`);
 }
-

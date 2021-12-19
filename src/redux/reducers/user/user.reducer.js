@@ -41,6 +41,20 @@ const userReducer = (state = userInitialStates, {type, payload}) => {
             } else {
                 return state
             }
+        case userActionTypes.USER_TOGGLE_COMPLETED_DECLARE:
+            if (state.currentUser && state.currentUser.agency) {
+                let agency = {...state.currentUser.agency, completed_declare: payload}
+
+                return {
+                    ...state,
+                    currentUser: {
+                        ...state.currentUser,
+                        agency: agency
+                    }
+                }
+            } else {
+                return state
+            }
         default:
             return state;
     }
