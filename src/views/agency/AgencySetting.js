@@ -70,7 +70,6 @@ const AddAgency = () => {
   const [scheduleTime, setSchedule] = useState({
       operate_from: null,
       operate_to: null
-     
   });
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch()
@@ -122,7 +121,7 @@ const AddAgency = () => {
         console.log(error);
       }
     })();
-  }, []);
+  }, [])
 
   const togglePermission = () => {
     (

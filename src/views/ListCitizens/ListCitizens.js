@@ -26,8 +26,10 @@ const styles = {
 
 const ListCitizens = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const {currentUser} = useSelector(state => state.user);
     const { filterList, citizens } = useSelector(state => state.citizens);
-    const current_user_level = useSelector(state => state.user.currentUser.level)
+    
     const filteredListCitizens = (citizens, filterList) => {
         let filteredCitizens = [];
         let filterListId = filterList.map(e => e.id);
@@ -46,16 +48,14 @@ const ListCitizens = () => {
         return filteredListNames.join(", ");
     }
     useEffect(() => {
-        dispatch(loadCitizensAsync());
+        if (citizens.length === 0) {
+            dispatch(loadCitizensAsync());
+        }
         //dispatch(userPersist());
     }, []);
-    const navigate = useNavigate();
     const renderData = (item, index) => {
-        const handleClick = () => {
-            navigate(`/list-citizens/${item.id}`)
-        }
         return (
-            <TableRow onClick={handleClick} key={index} hover role="checkbox" tabIndex={-1} >
+            <TableRow onClick={() => navigate(`${item.id}`)} key={index} hover role="checkbox" tabIndex={-1} >
                 <TableCell>{item.id_number? item.id_number: "-"}</TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{new Date(item.dob).toLocaleDateString('en-GB')}</TableCell>
@@ -71,21 +71,15 @@ const ListCitizens = () => {
         )
     }
 
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => {
-        setOpen(true);
-    }
-    const handleClose = () => {
-        setOpen(false);
-    }
-
     return (
         <div className="page-limit" style={{}}>
             <div style={styles.header}>
                 <div></div>
-                {current_user_level >= "3" && <Button variant="contained" onClick={handleOpen}>
-                    Khai báo công dân mới 
-                </Button>}
+                {
+                    currentUser && (currentUser.level === "4" || currentUser.level === "3")? (
+                        <AddCitizen/>
+                    ):null
+                }
             </div>
             <TableExtra
                 searchBy = {searchByCitizen}
@@ -95,13 +89,6 @@ const ListCitizens = () => {
                 data = {filterList.length > 0 ? filteredListCitizens(citizens, filterList) : citizens}
                 renderData = {renderData}
             />
-            <Dialog
-                open={open}
-                maxWidth={'xl'}
-                onClose={handleClose}
-            >
-                <AddCitizen/>
-            </Dialog>
         </div>
     )
 }

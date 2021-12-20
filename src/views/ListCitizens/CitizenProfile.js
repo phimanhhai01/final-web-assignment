@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadCitizenByIdAsync } from '../../redux/reducers/citizens/citizens.thunk';
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import TextField from "@mui/material/TextField";
 import {createTheme} from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
@@ -17,31 +16,70 @@ import { Ethnics } from "../../constants/citizen/citizens";
 import { Religions } from "../../constants/citizen/citizens";
 import { LearningLevels } from "../../constants/citizen/citizens";
 import { Occupations } from "../../constants/citizen/citizens";
-import { HomeTowns } from "../../constants/citizen/citizens";
 import MenuItem from '@mui/material/MenuItem';
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from '@date-io/date-fns';
-
-import { updateCitizen, deleteCitizen } from "../../api/apiCitizens";
+import {addToast} from "../../utils"
+import { getCitizenById, updateCitizen, deleteCitizen } from "../../api/apiCitizens";
+import { updateCitizenInTable, deleteCitizenInTable } from '../../redux/reducers/citizens/citizens.thunk'
+import Loader from "../../core/Loader";
+import { loadAgenciesAsync } from '../../redux/reducers/agencies/agencies.thunk';
 
 const CitizenProfile = (props) => {
   const {currentUser} = useSelector(state => state.user);
-  const village_id = currentUser.agency.id;
-
+  let editable = (currentUser && (currentUser.level === "3" || currentUser.level === "4"))  ? true:false;
+  const { agencies } = useSelector(state => {
+    return state.agencies
+  });
+  useEffect(() => {
+    if (agencies.length === 0) {
+      dispatch(loadAgenciesAsync());
+    }
+}, []);
+  const subAgencies = [];
+  const citizenById = {
+    id: "",
+    id_number: "",
+    name: "",
+    dob: "",
+    gender: "",
+    ethnic: "",
+    religion: "",
+    educational: "",
+    declarer: "",
+    occupations: "",
+    village_id: "",
+    home_town: "",
+    address_line1: "",
+    address_line2: "",
+  };
+  const error = {
+    id_number: "",
+    name: "",
+    home_town: "",
+    address_line1: "",
+    address_line2: "",
+  }
   const {id} = props;
   const dispatch = useDispatch();
-  const { citizenById } = useSelector(state => state.citizens);
-  useEffect(() => {
-      dispatch(loadCitizenByIdAsync(id));
-  }, []);
 
-  const educational = {
-    primary: "Tiểu học",
-    secondary: "Trung học cơ sở",
-    high: "Trung học phổ thông",
-    university: "Cao đẳng / Đại học",
-    master: "Sau đại học"
-  }
+  const [citizen, setData] = useState(citizenById);
+  const [er, setError] = useState(error);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        let res = await getCitizenById(id);
+        if (res.status === 200) {
+          setData(res.data);
+        } else if (res.status === 404) {
+          alert("Not found");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   const theme = createTheme({
       palette: {
@@ -75,42 +113,103 @@ const CitizenProfile = (props) => {
       return "high";
     } else if (learningLevel === "Cao đẳng / Đại học") {
       return "university";
-    } else {
+    } else if (learningLevel === "Sau đại học") {
       return "master";
-    }
+    } else if (learningLevel === "primary") {
+      return "Tiểu học";
+    } else if (learningLevel === "secondary") {
+      return "Trung học cơ sở";
+    } else if (learningLevel === "high") {
+      return "Trung học phổ thông";
+    } else if (learningLevel === "university") {
+      return "Cao đẳng / Đại học";
+    } else if (learningLevel === "master") {
+      return "Sau đại học";
+    } 
   }
 
   const navigate = useNavigate();
 
-  const handleUpdate = (event) => {
-    event.preventDefault();
-    if (nameX.value === "") {
-      console.log("Enter nameX");
-      handleNameChange(event);
+  const handleChangeError = (name, value) => {
+    setError({
+      ...er,
+      [name]: value
+    });
+  }
+  
+  const handleChangeValue = (e) => {
+    if (!isNaN(Date.parse(e))) {
+      setData({
+        ...citizen,
+        dob: new Date(e).toLocaleDateString('en-CA')
+      });
+    } else if (e.target.name === "educational") {
+      setData({
+        ...citizen,
+        educational: formatEducational(e.target.value)
+      });
+    } else if (e.target.value === "male" || e.target.value === "female") {
+      setData({
+        ...citizen,
+        gender: e.target.value
+      })
+    } else if (e.target.name === "village_id") {
+      setData({
+        ...citizen,
+        village_id: mapSubAgenciesId(e.target.value)
+      })
+    } else {
+      const name = (e.target.name || e.target.id);
+      setData({
+        ...citizen,
+        [name]: e.target.value,
+      });
     }
-    if (address_line1X.value === "") {
-      console.log("Enter add1");
-      handleAddress_line1Change(event);
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    if (citizen.name === "") {
+      validateNameInput(e);
     }
-    if (address_line2X.value === "") {
-      console.log("Enter add2");
-      handleAddress_line2Change(event);
+    if (citizen.home_town === "") {
+      validateHomeTownInput(e);
     }
-    if (nameX.error === "" && address_line1X.error === "" && address_line2X.error === "") {
-      const dob = dobX.toLocaleDateString('en-CA');
-      const educational = formatEducational(learningLevel);
-      const name = nameX.value;
-      const id_number = id_numberX.value;
-      const address_line1 = address_line1X.value;
-      const address_line2 = address_line2X.value;
-      updateCitizen({id,id_number,name,dob,gender,ethnic,religion,educational,occupations,village_id,home_town,address_line1,address_line2});
-      navigate(`/list-citizens/`);
+    if (citizen.address_line1 === "") {
+      validateAddress_line1Input(e);
+    }
+    if (citizen.address_line2 === "") {
+      validateAddress_line2Input(e);
+    }
+    if (citizen.name !== "" && citizen.home_town !== "" && citizen.address_line1 !== "" && citizen.address_line2 !== "") {
+      (async () => {
+        try {
+          let res = await updateCitizen(citizen);
+          if (res.status === 200) {
+            dispatch(updateCitizenInTable(citizen));
+            addToast({type:'success', title:'Xong!', message:`Cập nhật thông tin công dân thành công.`, duration: 5000});
+            navigate('/list-citizens');
+          } else {
+            addToast({type:'error', title:'Hỏng!', message:`Đã xảy ra lỗi khi cập nhật thông tin công dân.`, duration: 5000})
+          }
+        } catch (error) {}
+      })();
     }
   }
 
   const handleDelete = () => {
-    deleteCitizen(id);
-    navigate(`/list-citizens`);
+    (async () => {
+      try {
+        let res = await deleteCitizen(citizen.id);
+        if (res.status === 200 || res.status === 204) {
+          dispatch(deleteCitizenInTable(citizen.id));
+          addToast({type:'success', title:'Xong!', message:`Xóa thông tin công dân thành công.`, duration: 5000});
+          navigate('/list-citizens');
+        } else {
+          addToast({type:'error', title:'Hỏng!', message:`Đã xảy ra lỗi khi cập nhật thông tin công dân.`, duration: 5000})
+        }
+      } catch (error) {}
+    })();
   }
     
   const containUpperCase = (word) => {
@@ -144,328 +243,309 @@ const CitizenProfile = (props) => {
     }
     return true;
   }
-  const handleNameChange = (event) => {
+
+  const validateNameInput = (event) => {
     const content = event.target.value;
     const words = content.split(/\s/);
     if (content === "") {
-      setName({
-        value: content,
-        error: "Không được để trống!"
-      });
+      handleChangeError("name", "Không được để trống!");
     } else if (content[0] === " ") {
-      setName({
-        value: content,
-        error: "Không được bắt đầu bằng khoảng trắng!"
-      });
+      handleChangeError("name", "Không được bắt đầu bằng khoảng trắng!");
     } else if (content[content.length - 1] === " ") {
-      setName({
-        value: content,
-        error: "Không được kết thúc bằng khoảng trắng!"
-      });
+      handleChangeError("name", "Không được kết thúc bằng khoảng trắng!");
     } else if (/\d/.test(content)) {
-      setName({
-        value: content,
-        error: "Không được chứa chữ số!"
-      });
+      handleChangeError("name", "Không được chứa chữ số!");
     } else if (containLowerCase(content[0]) || containLowerCase(words[words.length - 1][0])) {
-      setName({
-        value: content,
-        error: "Viết hoa ký tự đầu tiên của mỗi từ!"
-      });
+      handleChangeError("name", "Viết hoa ký tự đầu tiên của mỗi từ!");
     } else if ((content.length > 1 && containUpperCase(content.substr(1)) && words.length < 2) || (words[words.length - 1].length > 1 && containUpperCase(words[words.length - 1].substr(1)))) {
-      setName({
-        value: content,
-        error: "Chỉ viết hoa chữ cái đầu tiên của từ!"
-      });
+      handleChangeError("name", "Chỉ viết hoa chữ cái đầu tiên của từ!");
     } else if (containSpecialCharacter(content)) {
-      setName({
-        value: content,
-        error: "Không được chứa ký tự đặc biệt!"
-      });
+      handleChangeError("name", "Không được chứa ký tự đặc biệt!");
     } else if (content.split(/\s/).length - 1 < 1) {
-      setName({
-        value: content,
-        error: "Ít nhất 2 từ đơn!"
-      });
+      handleChangeError("name", "Ít nhất 2 từ đơn!");
     } else {
-      setName({
-        value: content,
-        error: ""
-      });
+      handleChangeError("name", "");
     }
   }
 
-  const [nameX, setName] = useState({
-    value: citizenById.name,
-    error: "",
-  });
-
-  const [id_numberX, setId_number] = useState({
-    value: citizenById.id_number,
-    error: ""
-  });
-
-  const handleId_numberChange = (event) => {
+  const validateId_numberInput = (event) => {
     const content = event.target.value;
     if (allIsNumber(content) === false) {
-      setId_number({
-        value: content,
-        error: "Chỉ được chứa chữ số!"
-      });
+      handleChangeError("id_number", "Chỉ được chứa chữ số!");
     } else if (0 < content.length && content.length < 9) {
-      setId_number({
-        value: content,
-        error: "Số CMND/CCCD phải đủ 9/12 chữ số hoặc để trống khi chưa được cấp!"
-      });
+      handleChangeError("id_number", "Số CMND/CCCD phải đủ 9/12 chữ số hoặc để trống khi chưa được cấp!");
     } else if (9 < content.length && content.length < 12) {
-      setId_number({
-        value: content,
-        error: "Số CCCD phải đủ 12 chữ số!"
-      });
+      handleChangeError("id_number", "Số CCCD phải đủ 12 chữ số!");
     } else if (content.length > 12) {
-      setId_number({
-        value: content,
-        error: "Không hợp lệ!"
-      });
+      handleChangeError("id_number", "Không hợp lệ!");
     } else {
-      setId_number({
-        value: content,
-        error: ""
-      });
+      handleChangeError("id_number", "");
     }
   }
 
-  const [gender, setGender] = useState(citizenById.gender);
+  const validateHomeTownInput = (event) => {
+    const content = event.target.value;
+    if (content.length === 0) {
+      handleChangeError("home_town", "Không được để trống!")
+    } else {
+      handleChangeError("home_town", "")
+    }
+  };
 
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
+  const validateAddress_line1Input = (event) => {
+    const content = event.target.value;
+    if (content.length === 0) {
+      handleChangeError("address_line1", "Không được để trống!")
+    } else {
+      handleChangeError("address_line1", "")
+    }
+  };
+
+  const validateAddress_line2Input = (event) => {
+    const content = event.target.value;
+    if (content.length === 0) {
+      handleChangeError("address_line2", "Không được để trống!")
+    } else {
+      handleChangeError("address_line2", "")
+    }
+  };
+
+  const mapSubAgenciesId = (agency) => {
+    if (allIsNumber(agency)) {
+      for (var i = 0; i < agencies.length; i++) {
+        if (agencies[i].id === agency) {
+          return agencies[i].name;
+        }
+      }
+    } else {
+      for (var j = 0; j < agencies.length; j++) {
+        if (agencies[j].name === agency) {
+          return agencies[j].id;
+        }
+      }
+    }
   }
 
-  const [dobX, handleDoBChange] = useState(new Date(citizenById.dob));
-
-  const [ethnic, setEthnic] = React.useState(citizenById.ethnic);
-
-  const handleEthnicChange = (event) => {
-    setEthnic(event.target.value);
-  };
-
-  const [religion, setReligion] = React.useState(citizenById.religion);
-
-  const handleReligionChange = (event) => {
-    setReligion(event.target.value);
-  };
-
-  const [learningLevel, setLearningLevel] = React.useState(educational[citizenById.educational]);
-
-  const handleLearningLevelChange = (event) => {
-    setLearningLevel(event.target.value);
-  };
-
-  const [occupations, setOccupation] = React.useState(citizenById.occupations);
-
-  const handleOccupationChange = (event) => {
-    setOccupation(event.target.value);
-  };
-
-  const [home_town, setHomeTown] = React.useState(citizenById.home_town);
-
-  const handleHomeTownChange = (event) => {
-    setHomeTown(event.target.value);
-  };
-
-  const [address_line1X, setAddress_line1] = React.useState({
-    value: citizenById.address_line1,
-    error: ""
-  });
-
-  const handleAddress_line1Change = (event) => {
-    const content = event.target.value;
-    if (content.length === 0) {
-      setAddress_line1({
-        value: content,
-        error: "Không được để trống!"
-      });
-    } else {
-      setAddress_line1({
-        value: content,
-        error: ""
-      });
+  const updateAgencyList = () => {
+    for(var i = 0; i < agencies.length; i++) {
+      subAgencies.push(agencies[i].name);
     }
-  };
+  }
 
-  const [address_line2X, setAddress_line2] = React.useState({
-    value: citizenById.address_line2,
-    error: ""
-  });
-
-  const handleAddress_line2Change = (event) => {
-    const content = event.target.value;
-    if (content.length === 0) {
-      setAddress_line2({
-        value: content,
-        error: "Không được để trống!"
-      });
-    } else {
-      setAddress_line2({
-        value: content,
-        error: ""
-      });
-    }
-  };
-
-    return (
+  if (citizen.id === "") {
+    return <Loader/>
+  }
+  return (
         <div style={styles.root}>
         <ThemeProvider theme={theme}>
           <p style={styles.title}>Thông tin chi tiết</p>
           <form>
               <TextField
-                error= {nameX.error !== ""}
-                helperText = {nameX.error? nameX.error:''}
-                defaultValue={citizenById.name}
+                error= {er.name !== ""}
+                helperText = {er.name !== ""? er.name:""}
+                value={citizen.name}
+                id="name" 
                 margin="dense"
                 label="Họ và tên"
                 variant="standard"
-                onChange={handleNameChange}
-                style={{width: "100%", marginRight: "1vw"}}
+                onChange={handleChangeValue}
+                onBlur={validateNameInput}
+                style={{width: "100%"}}
                 inputProps={{
                   style: {
-                    fontSize: "14px",
-                    height: "30px",
+                    fontSize: "17px",
                   }
                 }}
-                required
+                InputProps={{
+                  readOnly: !editable,
+                }}
               />
+              <div style={{display: "flex", justifyContent: "space-between", width: "100%", marginTop: "1.5vh"}}>
+              <FormControl style={{width: "30%"}} component="fieldset">
+                <FormLabel component="legend" style={{fontSize: "13px"}}>Giới tính *</FormLabel>
+                <RadioGroup row aria-label="gender" id="gender" value={citizen.gender} onChange={handleChangeValue}>
+                  <FormControlLabel value="male" control={<Radio />} label="Nam" disabled={!editable} />
+                  <FormControlLabel value="female" control={<Radio />} label="Nữ" disabled={!editable} />
+                </RadioGroup>
+              </FormControl>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <DatePicker
-                name="dob" 
-                style={{marginTop: "8px", marginRight: "1vw"}}
+                id="dob" 
+                style={{width: "30%"}}
                 disableFuture
-                defaultValue={new Date(citizenById.dob).toLocaleDateString('en-GB')}
+                value={citizen.dob}
                 autoOk
                 openTo="year"
                 format="dd/MM/yyyy"
                 label="Ngày sinh"
                 views={["year", "month", "date"]}
-                /* value={dobX.value} */
-                onChange={handleDoBChange}
+                onChange={handleChangeValue}
+                readOnly={!editable}
               />
               </MuiPickersUtilsProvider>
               <TextField
-                error= {id_numberX.error !== ""}
-                helperText = {id_numberX.error? id_numberX.error:''}
-                defaultValue={citizenById.id_number}
-                margin="dense"
+                error= {er.id_number !== ""}
+                helperText = {er.id_number ? er.id_number:""}
+                value={citizen.id_number}
+                style={{width: "30%"}}
+                id="id_number" 
                 label="Số CCCD/CMND"
                 variant="standard"
-                onChange={handleId_numberChange}
+                onChange={handleChangeValue}
+                onBlur={validateId_numberInput}
+                InputProps={{
+                  readOnly: !editable,
+                }}
               />
-              <FormControl style={{margin: "2vh 0 0 0", width: "100%"}} component="fieldset">
-                <FormLabel component="legend" style={{fontSize: "13px"}}>Giới tính</FormLabel>
-                <RadioGroup row aria-label="gender" name="gender" defaultValue={citizenById.gender} onChange={handleGenderChange}>
-                  <FormControlLabel value="male" control={<Radio />} label="Nam" />
-                  <FormControlLabel value="female" control={<Radio />} label="Nữ" />
-                </RadioGroup>
-              </FormControl>
-              <FormControl variant="standard" sx={{ m: 1 }} style={{minWidth: 120, margin: "1.5vh 1vw 0 0"}}>
-                <InputLabel >Dân tộc</InputLabel>
+              </div>
+              <div style={{display: "flex", justifyContent: "space-between", width: "100%", marginTop: "1.5vh"}}>
+              <FormControl variant="standard" sx={{ m: 1 }} style={{width: "30%"}}>
+                <InputLabel >Dân tộc *</InputLabel>
                 <Select
                   name="ethnic"
-                  defaultValue={citizenById.ethnic}
+                  value={citizen.ethnic}
                   label="Dân tộc"
-                  onChange={handleEthnicChange}
-                  required
+                  onChange={handleChangeValue}
+                  inputProps={{ readOnly: !editable }}
                 >
                 {
                   Ethnics.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
                 }
                 </Select>
               </FormControl>
-              <FormControl variant="standard" sx={{ m: 1}} style={{minWidth: 120, margin: "1.5vh 1vw 0 0"}}>
-                <InputLabel >Tôn giáo</InputLabel>
+              <FormControl variant="standard" sx={{ m: 1}} style={{width: "30%"}}>
+                <InputLabel >Tôn giáo *</InputLabel>
                 <Select
                   name="religion"
-                  defaultValue={citizenById.religion}
+                  value={citizen.religion}
                   label="Tôn giáo"
-                  onChange={handleReligionChange}
-                  required
+                  onChange={handleChangeValue}
+                  inputProps={{ readOnly: !editable }}
                 >
                 {
                   Religions.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
                 }
                 </Select>
               </FormControl>
-              <FormControl variant="standard" sx={{ m: 1 }} style={{minWidth: 180, margin: "1.5vh 1vw 0 0"}}>
-                <InputLabel >Trình độ học vấn</InputLabel>
+              <FormControl variant="standard" sx={{ m: 1 }} style={{width: "30%"}}>
+                <InputLabel >Trình độ học vấn *</InputLabel>
                 <Select
                   name="educational"
-                  defaultValue={educational[citizenById.educational]}
+                  value={formatEducational(citizen.educational)}
                   label="Trình độ học vấn"
-                  onChange={handleLearningLevelChange}
-                  required
+                  onChange={handleChangeValue}
+                  inputProps={{ readOnly: !editable }}
                 >
                 {
                   LearningLevels.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
                 }
                 </Select>
               </FormControl>
-              <FormControl variant="standard" sx={{ m: 1 }} style={{minWidth: 150, margin: "1.5vh 1vw 0 0"}}>
-                <InputLabel >Nghề nghiệp</InputLabel>
+              </div>
+              <div style={{display: "flex", justifyContent: "space-between", width: "100%", marginTop: "3vh"}}>
+              <FormControl variant="standard" sx={{ m: 1 }} style={{width: "47%"}}>
+                <InputLabel >Nghề nghiệp *</InputLabel>
                 <Select
                   name="occupations"
-                  defaultValue={citizenById.occupations}
+                  value={citizen.occupations}
                   label="Nghề nghiệp"
-                  onChange={handleOccupationChange}
-                  required
+                  onChange={handleChangeValue}
+                  inputProps={{ readOnly: !editable }}
                 >
                 {
                   Occupations.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
                 }
                 </Select>
               </FormControl>
-              <FormControl variant="standard" sx={{ m: 1 }} style={{minWidth: 150, margin: "1.5vh 1vw 0 0"}}>
-                <InputLabel >Quê quán</InputLabel>
+              <FormControl variant="standard" sx={{ m: 1 }} style={{width: "47%"}}>
+                <InputLabel >Xã/Phường *</InputLabel>
                 <Select
-                  name="home_town"
-                  defaultValue={citizenById.home_town}
-                  label="Quê quán"
-                  onChange={handleHomeTownChange}
-                  required
+                  name="village_id"
+                  value={mapSubAgenciesId(citizen.village_id)}
+                  label="Xã/Phường"
+                  onChange={handleChangeValue}
+                  inputProps={{ 
+                    readOnly: !editable,
+                    disabled: currentUser.level === "4"
+                  }}
                 >
+                  {updateAgencyList()}
                 {
-                  HomeTowns.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
+                  subAgencies.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
                 }
                 </Select>
               </FormControl>
+              </div>
               <TextField
-                error= {address_line1X.error !== ""}
-                helperText = {address_line1X.error? address_line1X.error:''}
+                error= {er.home_town !== ""}
+                helperText = {er.home_town ? er.home_town:""}
                 style={{ marginTop: "3vh" }}
-                defaultValue={citizenById.address_line1}
-                margin="dense"
-                id="name"
+                id="home_town"
+                value={citizen.home_town}
+                onChange={handleChangeValue}
+                onBlur={validateHomeTownInput}
+                label="Quê quán"
+                inputProps={{
+                  style: {
+                    fontSize: "17px",
+                  }
+                }}
+                fullWidth
+                variant="standard"
+                InputProps={{
+                  readOnly: !editable,
+                }}
+              />
+              <TextField
+                error= {er.address_line1 !== ""}
+                helperText = {er.address_line1 ? er.address_line1:""}
+                style={{ marginTop: "3vh" }}
+                value={citizen.address_line1}
+                id="address_line1"
                 label="Địa chỉ thường trú"
                 fullWidth
-                multiline
                 variant="standard"
-                onChange={handleAddress_line1Change}
+                onChange={handleChangeValue}
+                onBlur={validateAddress_line1Input}
+                inputProps={{
+                  style: {
+                    fontSize: "18px",
+                  }
+                }}
+                InputProps={{
+                  readOnly: !editable,
+                }}
               />
               <TextField
-                error= {address_line2X.error !== ""}
-                helperText = {address_line2X.error? address_line2X.error:''}
+                error= {er.address_line2 !== ""}
+                helperText = {er.address_line2 ? er.address_line2:""}
                 style={{ marginTop: "3vh" }}
-                defaultValue={citizenById.address_line2}
-                margin="dense"
-                id="name"
+                id="address_line2"
+                value={citizen.address_line2}
                 label="Địa chỉ tạm trú"
                 fullWidth
-                multiline
                 variant="standard"
-                onChange={handleAddress_line2Change}
+                onChange={handleChangeValue}
+                onBlur={validateAddress_line2Input}
+                inputProps={{
+                  style: {
+                    fontSize: "18px",
+                  }
+                }}
+                InputProps={{
+                  readOnly: !editable,
+                }}
               />
-              <div style={{display: "flex", justifyContent: "flex-end", marginTop: "3vh"}}>
-                <Button style={{marginRight: "10px", background: "lightgrey"}} onClick={handleDelete} type="button">Xóa</Button>
-                <Button style={{background: "#2E3192", color: "white"}} onClick={handleUpdate} type="button">Cập nhật</Button>
-              </div>
+              {
+                editable ? (
+                  <>
+                  <div style={{display: "flex", justifyContent: "flex-end", marginTop: "3vh"}}>
+                    <Button style={{marginRight: "10px", background: "lightgrey"}} onClick={handleDelete} type="button">Xóa</Button>
+                    <Button style={{background: "#2E3192", color: "white"}} onClick={handleUpdate} type="button">Cập nhật</Button>
+                  </div>
+                  </>
+                ) : null
+              }
           </form>
         </ThemeProvider>
     </div>

@@ -7,8 +7,7 @@ const Profile = () => {
     const id = location.pathname.slice(15, location.pathname.length);
     console.log(id);
     return (
-        <div>
-            <Title name="Thông tin chi tiết" />
+        <div style={{display: "flex", justifyContent: "center"}}>
             <CitizenProfile id={id} />
         </div>
     );
