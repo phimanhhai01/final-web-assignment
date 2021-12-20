@@ -6,27 +6,28 @@ import Radium from 'radium';
 //import { filterBy } from '../constants/filter';
 import Button from '@mui/material/Button';
 import { Dialog } from '@mui/material';
-import A1Filter from './Filter/A1Filter';
+import FilterBox from './Filter/FilterBox';
 import { useState } from 'react';
 // import FilterListIcon from '@mui/icons-material/FilterList';
 import { useDispatch } from 'react-redux';
 import { loadSubAgenciesAsync } from '../redux/reducers/agencies/agencies.thunk';
+import { Popper } from '@material-ui/core';
 
 const Filter = () => {
-    const [openDialog, setOpenDialog] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+
     const dispatch = useDispatch();
     useEffect(() => {
       dispatch(loadSubAgenciesAsync());
     }, []);
     
-    const handleOpen = () => {
-        setOpenDialog(true);
+    const handleOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+        setOpen(!open);
     }
     const handleClose = () => {
-        setOpenDialog(false);
-    }
-    const handleConfirmation = () => {
-        setOpenDialog(false);
+        setOpen(false);
     }
     const styles = {
         root: {
@@ -73,15 +74,15 @@ const Filter = () => {
     return (
         <div key={1} style={styles.root}>
             <Button 
-                variant="outlined"
+                variant="contained"
                 size="large"
                 onClick={handleOpen}
             >
                Lọc
             </Button>
-            <Dialog onClose={handleClose} open={openDialog}>
-                <A1Filter setOpenDialog={setOpenDialog} />
-            </Dialog>
+            <Popper style={{zIndex: 99, boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }} anchorEl={anchorEl} placement="bottom-start" onClose={handleClose} open={open}>
+                <FilterBox setOpen={setOpen} />
+            </Popper>
         </div>
     );
 }

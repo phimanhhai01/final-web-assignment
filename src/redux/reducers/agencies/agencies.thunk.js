@@ -35,7 +35,11 @@ export const deleteAgency = (id) => {
         dispatch(actions.agencyDelete(id));
     }
 }
-
+export const resetAgency = () => {
+    return dispatch => {
+        dispatch(actions.agencyReset());
+    }
+}
 export const loadSubAgenciesAsync = () => {
     return dispatch => {
         dispatch(actions.subAgenciesLoadStart());

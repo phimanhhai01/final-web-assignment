@@ -60,7 +60,20 @@ const renderCustomizedLabel = ({
   );
 };
 const PieChartComponent = (props) => {
+  const styles={
+    root: {
+      width:"33.33%", 
+      height: 300,
+      background: "white",
+      marginLeft: "12px",
+      width: "40%",
+      height: "32rem",
+      display: "flex",
+      flexDirection: "column"
+    }
+  }
   const {citizens} = useSelector(state => state.citizens);
+  const dataRaw = categorizeCitizensByOccupation(extractCitizens(citizens, props.startYear, props.endYear));
   const [data, setData] = useState([]);
   const [years, setYears] = useState({startYear: null, endYear: null});
   const handleChangeStartYear = (e) => {
@@ -80,13 +93,14 @@ const PieChartComponent = (props) => {
   }
   useEffect(() => {
     setData(categorizeCitizensByOccupation(extractCitizens(citizens, props.startYear, props.endYear)));
-  }, [citizens])
+    console.log(data);
+  }, [])
   return (
-    <div style={{width:"33.33%", height: 300}}>
+    <div style={styles.root}>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
-            data={data}
+            data={dataRaw}
             cx="50%"
             cy="50%"
             labelLine={true}

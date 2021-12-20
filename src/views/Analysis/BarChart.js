@@ -73,7 +73,7 @@ const BarChartComponent = (props) => {
     }
     useEffect(() => {
         setData(caculateData(citizens, props.year))
-    }, [citizens])
+    }, [])
     return (
         <div>
             <BarChart
