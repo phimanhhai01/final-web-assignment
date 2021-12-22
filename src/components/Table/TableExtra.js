@@ -11,25 +11,6 @@ import TableRow from '@mui/material/TableRow';
 import Filter from '../../components/Filter';
 import SearchBar from '../../components/SearchBar';
 
-
-const styles = {
-   
-  searchEngine: {
-      display: "flex",
-      alignItems: "center",
-      borderBottom: "1px solid var(--border-color)",
-      padding: "0.5rem"
-      // margin: "0.5rem"
-  }, 
-  searchBarWapper: {
-      flexGrow: 1
-  },
-  title: {
-    padding: "1rem",
-    borderBottom: "1px solid var(--border-color)"
-  }
-}
-
 const filterData = (data, search) => {
   if(search.query === "" || !search.searchBy) {
     return data
@@ -42,7 +23,23 @@ const filterData = (data, search) => {
 export default function TableExtra(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const {data, renderData, columns, searchBy, name, title} = props;
+  const {data, renderData, columns, searchBy, name, title, searchEngine} = props;
+  const styles = {
+    searchEngine: {
+        display: searchEngine? "flex":"none",
+        alignItems: "center",
+        borderBottom: "1px solid var(--border-color)",
+        padding: "0.5rem"
+        // margin: "0.5rem"
+    }, 
+    searchBarWrapper: {
+        flexGrow: 1
+    },
+    title: {
+      padding: "1rem",
+      borderBottom: "1px solid var(--border-color)"
+    }
+  }
   const [search, setSearch] = useState({
     query: "",
     searchBy: searchBy?  searchBy[0].value: null     
@@ -83,7 +80,7 @@ export default function TableExtra(props) {
             <div>
                 <Filter/>
             </div>
-            <div style={styles.searchBarWapper}>
+            <div style={styles.searchBarWrapper}>
                 <SearchBar name={name} input ={search} handleChange={handleSearch} searchBy={searchBy}/>
             </div>
         </div>

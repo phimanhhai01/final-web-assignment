@@ -4,10 +4,11 @@ import { TableRow, TableCell, Dialog } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { citizen_columns, educational, gender, searchByCitizen } from '../../constants/citizen/citizens';
 import { loadCitizensAsync } from '../../redux/reducers/citizens/citizens.thunk';
+import { toggleDeclarePermission } from "../../api/apiAgencies";
 import { useNavigate } from 'react-router';
-import Button from '@mui/material/Button'
+import Button from '@mui/material/Button';
 import AddCitizen from "./AddCitizen";
-
+import AddCitizenByCSV from "./AddCitizenByCSV";
 
 const styles = {
     root: {
@@ -28,6 +29,7 @@ const ListCitizens = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {currentUser} = useSelector(state => state.user);
+    /* const declarePermission = toggleDeclarePermission(currentUser.id); */
     const { filterList, citizens } = useSelector(state => state.citizens);
     
     const filteredListCitizens = (citizens, filterList) => {
@@ -77,7 +79,10 @@ const ListCitizens = () => {
                 <div></div>
                 {
                     currentUser && (currentUser.level === "4" || currentUser.level === "3")? (
-                        <AddCitizen/>
+                        <div style={{display:"flex"}}>
+                            <AddCitizen/>
+                            <AddCitizenByCSV/>
+                        </div>
                     ):null
                 }
             </div>
@@ -88,6 +93,7 @@ const ListCitizens = () => {
                 columns = {citizen_columns}
                 data = {filterList.length > 0 ? filteredListCitizens(citizens, filterList) : citizens}
                 renderData = {renderData}
+                searchEngine = {true}
             />
         </div>
     )

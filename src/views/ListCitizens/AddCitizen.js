@@ -28,6 +28,8 @@ import { appendCitizen } from '../../redux/reducers/citizens/citizens.thunk';
 import {addToast} from "../../utils"
 import { loadAgenciesAsync } from '../../redux/reducers/agencies/agencies.thunk';
 
+let clicked = false
+
 const AddCitizen = () => {
   const {currentUser} = useSelector(state => state.user);
   const village_id = currentUser.agency.id;
@@ -89,7 +91,7 @@ const AddCitizen = () => {
     name: "",
     dob: new Date().toLocaleDateString('en-CA'),
     gender: "male",
-    ethnic: "Kinh (Việt)",
+    ethnic: "Kinh",
     religion: "Không",
     educational: "university",
     declarer: "",
@@ -183,7 +185,13 @@ const AddCitizen = () => {
     }
   };
 
+  
   const handleSubmit = (event) => {
+    if (clicked) {
+      console.log("return")
+      return 
+    }
+    clicked = true
     let err = validateBeforeSubmit();
     if (err.name === "" && err.id_number === "" && err.home_town === "" && err.address_line1 === "" && err.address_line2 === "") {
       (async () => {
@@ -196,7 +204,9 @@ const AddCitizen = () => {
           } else {
             addToast({type:'error', title:'Hỏng!', message:`Đã xảy ra lỗi khi thêm công dân.`, duration: 5000})
           }
+          clicked = false
         } catch (e) {
+          clicked = false
           if (e.response && e.response.data && e.response.data.id_number) {
             if(e.response.data.id_number[0] === "{'citizen width this id_number has exist'}") {
               setError({
@@ -208,6 +218,7 @@ const AddCitizen = () => {
         }
       })();
     } else {
+      clicked = false
       setError(err);
     }
   }
@@ -535,11 +546,11 @@ const AddCitizen = () => {
                 </Select>
               </FormControl>
               <FormControl variant="standard" sx={{ m: 1 }} style={{width: "47%"}}>
-                <InputLabel >Xã/Phường *</InputLabel>
+                <InputLabel >Thôn/Bản/Tổ *</InputLabel>
                 <Select
                   name="village_id"
                   value={mapSubAgenciesId(citizen.village_id)}
-                  label="Xã/Phường"
+                  label="Thôn/Bản/Tổ"
                   onChange={handleChangeValue}
                   inputProps={{ 
                     disabled: currentUser.level === "4"

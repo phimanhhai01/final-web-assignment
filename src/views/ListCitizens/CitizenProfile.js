@@ -192,7 +192,16 @@ const CitizenProfile = (props) => {
           } else {
             addToast({type:'error', title:'Hỏng!', message:`Đã xảy ra lỗi khi cập nhật thông tin công dân.`, duration: 5000})
           }
-        } catch (error) {}
+        } catch (e) {
+          if (e.response && e.response.data && e.response.data.id_number) {
+            if(e.response.data.id_number === "citizen width this id_number has exist") {
+              setError({
+                ...error,
+                id_number: "Số CMND/CCCD đã tồn tại!",
+              });
+            }
+          }
+        }
       })();
     }
   }
@@ -417,7 +426,7 @@ const CitizenProfile = (props) => {
                 <InputLabel >Tôn giáo *</InputLabel>
                 <Select
                   name="religion"
-                  value={citizen.religion}
+                  value={citizen.religion === ""?"Không":citizen.religion}
                   label="Tôn giáo"
                   onChange={handleChangeValue}
                   inputProps={{ readOnly: !editable }}
@@ -458,11 +467,11 @@ const CitizenProfile = (props) => {
                 </Select>
               </FormControl>
               <FormControl variant="standard" sx={{ m: 1 }} style={{width: "47%"}}>
-                <InputLabel >Xã/Phường *</InputLabel>
+                <InputLabel >Thôn/Bản/Tổ *</InputLabel>
                 <Select
                   name="village_id"
                   value={mapSubAgenciesId(citizen.village_id)}
-                  label="Xã/Phường"
+                  label="Thôn/Bản/Tổ"
                   onChange={handleChangeValue}
                   inputProps={{ 
                     readOnly: !editable,

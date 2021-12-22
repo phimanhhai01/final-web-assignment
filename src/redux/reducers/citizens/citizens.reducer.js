@@ -58,7 +58,8 @@ const citizensReducer = (state = initialStates, {type, payload}) => {
                 ...state,
                 citizens: new_citizens
             }
-            
+        case actionTypes.AGENCY_RESET: 
+            return initialStates
         case actionTypes.CITIZEN_ADD_FILTER_LIST: 
             return {
                 ...state,

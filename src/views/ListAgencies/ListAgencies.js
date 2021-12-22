@@ -120,6 +120,7 @@ const ListAgencies = () => {
                 columns = {column_titles}
                 searchBy = {searchByAgency}
                 renderData = {renderData}
+                searchEngine = {true}
            />
         </div>
         

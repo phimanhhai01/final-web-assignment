@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { getAgency, agencyRename, changePassword, toggleDeclarePermision, scheduleDeclarePermission, deleteAgencyApi} from "../../api/apiAgencies";
+import { getAgency, agencyRename, changePassword, toggleDeclarePermission, scheduleDeclarePermission, deleteAgencyApi} from "../../api/apiAgencies";
 import Loader from "../../core/Loader";
 import { TextField, Button, Switch, InputLabel, CircularProgress } from "@mui/material";
 import DateTimePicker from "@mui/lab/DateTimePicker";
@@ -131,7 +131,7 @@ const AddAgency = () => {
             ...loading,
               istoggle: true,
           })
-          let res = await toggleDeclarePermision(data.staff.id)
+          let res = await toggleDeclarePermission(data.staff.id)
           if (res.status === 200) {
             let staff = {
               ...data.staff,

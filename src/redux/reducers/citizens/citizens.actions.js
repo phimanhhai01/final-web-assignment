@@ -58,6 +58,13 @@ const citizenDelete = (id) => {
         payload: id
     }
 }
+
+const citizenReset = () => {
+    return {
+        type: actionTypes.CITIZEN_RESET
+    }
+}
+
 const citizenAddFilterList = (filterList) => {
     return {
         type: actionTypes.CITIZEN_ADD_FILTER_LIST,
@@ -66,6 +73,7 @@ const citizenAddFilterList = (filterList) => {
 }
 
 const actions =  {
+    citizenReset,
     citizenDelete,
     citizenUpdate,
     citizenAppend,

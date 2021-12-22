@@ -12,6 +12,10 @@ export const addCitizen = (citizen) => {
     return apiAuthedClient().post("/api/citizen/",citizen);
 }
 
+export const addMultiCitizens = (citizens) => {
+    return apiAuthedClient().post("/api/citizen/batch_create/",citizens);
+}
+
 export const updateCitizen = (citizen) => {
     return apiAuthedClient().put(`/api/citizen/${citizen.id}/`,citizen);
 }
