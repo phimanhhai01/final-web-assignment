@@ -220,6 +220,9 @@ const AddCitizenByCSV = () => {
           updateErrorState[i] = isDup;
         }
       }
+      if (isDup) {
+        addToast({type:'error', title:'Hỏng!', message:`Số CMND/CCCD ${current_id_number} bị trùng lặp`, duration: 5000})
+      }
     }
     setErrorState(updateErrorState);
   }
@@ -456,6 +459,7 @@ const AddCitizenByCSV = () => {
                   ...er,
                   id_number: "Số CMND/CCCD đã tồn tại!",
                 }); */
+                //addToast({type:'error', title:'Hỏng!', message:`Số CMND/CCCD đã tồn tại!`, duration: 5000})
                 errorState[i] = true;
               } else {
                 errorState[i] = false;
@@ -513,7 +517,7 @@ const AddCitizenByCSV = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button style={{background: "#2E3192", color: "white", marginLeft: "10px"}} variant="contained" component="span" onClick={handleClick}>
+          <Button style={{background: "#2E3192", color: "white", marginLeft: "10px"}} variant="contained" component="span" onClick={handleClick} disabled>
             Upload
           </Button>
         </DialogActions>

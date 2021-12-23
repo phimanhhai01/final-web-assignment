@@ -64,6 +64,7 @@ export const LearningLevels = [
 ];
 
 export const educational = {
+    //none: "Không",
     primary: "Tiểu học",
     secondary: "Trung học cơ sở",
     high: "Trung học phổ thông",

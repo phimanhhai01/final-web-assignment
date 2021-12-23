@@ -93,7 +93,7 @@ const AddCitizen = () => {
     gender: "male",
     ethnic: "Kinh",
     religion: "Không",
-    educational: "university",
+    educational: "primary",
     declarer: "",
     occupations: "Nhà chuyên môn bậc cao (đại học trở lên)",
     village_id: mapSubAgenciesId(subAgencies[0]),
@@ -137,6 +137,8 @@ const AddCitizen = () => {
       return "high";
     } else if (learningLevel === "Cao đẳng / Đại học") {
       return "university";
+    } else if (learningLevel === "Sau đại học") {
+      return "master";
     } else if (learningLevel === "Sau đại học") {
       return "master";
     } else if (learningLevel === "primary") {
