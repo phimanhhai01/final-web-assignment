@@ -56,12 +56,17 @@ export const searchByCitizen = [
 ];
 
 export const LearningLevels = [
-    "Không",
-    "Tiểu học",
-    "Trung học cơ sở",
-    "Trung học phổ thông",
-    "Cao đẳng / Đại học",
-    "Sau đại học",
+    {value: 'none', name:"Không"},
+    {value: 'primary', name:"Tiểu học"},
+    {value: 'secondary', name:"Trung học cơ sở"},
+    {value: 'high', name:"Trung học phổ thông"},
+    {value: 'university', name:"Cao đẳng / Đại học"},
+    {value: 'master', name:"Sau đại học"}
+    // "Tiểu học",
+    // "Trung học cơ sở",
+    // "Trung học phổ thông",
+    // "Cao đẳng / Đại học",
+    // "Sau đại học",
 ];
 
 export const educational = {
@@ -79,6 +84,7 @@ export const gender = {
 } 
 
 export const Ethnics = [
+    "Kinh",
     "Ba-na",
     "Bố Y",
     "Brâu",
@@ -101,7 +107,6 @@ export const Ethnics = [
     "Hoa",
     "Hrê",
     "Hmông",
-    "Kinh",
     "Kháng",
     "Khơ-me",
     "Khơ-mú",
@@ -136,6 +141,7 @@ export const Ethnics = [
 ];
 
 export const Religions = [
+    "Không",
     "Bà-la-môn giáo", 
     "Baha’I", 
     "Bửu Sơn Kỳ Hương",
@@ -143,7 +149,7 @@ export const Religions = [
     "Công giáo", 
     "Cơ đốc Phục lâm", 
     "Hồi giáo", 
-    "Không",
+    
     "Mặc môn", 
     "Minh lý đạo - Tam Tông Miếu", 
     "Minh Sư đạo", 
