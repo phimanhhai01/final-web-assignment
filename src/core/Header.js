@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { userLogout } from "../redux/reducers/user/user.thunk";
 import { resetAgency } from "../redux/reducers/agencies/agencies.thunk";
+import { resetCitizen } from "../redux/reducers/citizens/citizens.thunk";
 import { useNavigate } from 'react-router';
 import {ReactComponent as Avatar} from '../images/default-avatar.svg';
 import Button from '@mui/material/Button';
@@ -44,6 +45,7 @@ const Header = () => {
     const handleLogOut = () => {
         dispatch(userLogout())
         dispatch(resetAgency())
+        dispatch(resetCitizen())
         navigate("/signin")
         
         handleClose()

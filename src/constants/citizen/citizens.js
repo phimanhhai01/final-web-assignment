@@ -26,6 +26,21 @@ export const citizen_columns = [
     // {id: "address_line2",  label:"Địa chỉ tạm trú"},
 ];
 
+export const citizen_columns_full = [
+    {id: "id_number",  label:"Số CMND/CCCD"},
+    {id: "name",  label:"Họ và tên"},
+    {id: "dob",  label:"Ngày sinh"},
+    {id: "gender",  label:"Giới tính"},
+    {id: "ethnic",  label:"Dân tộc"},
+    {id: "religion",  label:"Tôn giáo"},
+    {id: "educational",  label:"Trình độ học vấn"},
+    {id: "occupations",  label:"Nghề nghiệp"},
+    {id: "village_id",  label:"Thôn/Bản/Tổ"},
+    {id: "home_town",  label:"Quê quán"},
+    {id: "address_line1",  label:"Địa chỉ thường trú"},
+    {id: "address_line2",  label:"Địa chỉ tạm trú"},
+];
+
 export const searchByCitizen = [
     {value: "id_number",  label:"Số CMND/CCCD"},
     {value: "name",  label:"Họ và tên"},
@@ -41,6 +56,7 @@ export const searchByCitizen = [
 ];
 
 export const LearningLevels = [
+    "Không",
     "Tiểu học",
     "Trung học cơ sở",
     "Trung học phổ thông",
@@ -49,6 +65,7 @@ export const LearningLevels = [
 ];
 
 export const educational = {
+    none: "Không",
     primary: "Tiểu học",
     secondary: "Trung học cơ sở",
     high: "Trung học phổ thông",
@@ -66,7 +83,7 @@ export const Ethnics = [
     "Bố Y",
     "Brâu",
     "Bru-Vân Kiều",
-    "Chăm (Chàm)",
+    "Chăm",
     "Chơ-ro",
     "Chu-ru",
     "Chứt",
@@ -81,10 +98,10 @@ export const Ethnics = [
     "Gia-rai",
     "Gié-Triêng",
     "Hà nhì",
-    "Hoa (Hán)",
+    "Hoa",
     "Hrê",
-    "Hmông (Mèo)",
-    "Kinh (Việt)",
+    "Hmông",
+    "Kinh",
     "Kháng",
     "Khơ-me",
     "Khơ-mú",

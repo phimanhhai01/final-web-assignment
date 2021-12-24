@@ -23,7 +23,7 @@ export const changePassword = (id, data) => {
     return axiosClient.post(`user/${id}/change_password/`, data);
 }
 
-export const toggleDeclarePermision = (id) => {
+export const toggleDeclarePermission = (id) => {
     return axiosClient.get(`user/${id}/toggle_declare_permission`);
 }//http://127.0.0.1:8000/api/user/6/toggle_declare_permission
 
@@ -40,4 +40,3 @@ export const getSubAgencies = () => {
 export const toggleCompletedDeclareApi = () => {
     return axiosClient.get(`agency/completed_declared_toggle`);
 }
-

@@ -39,6 +39,32 @@ const citizenIdLoadError = (errorMessage) => {
     }
 }
 
+const citizenAppend = (citizen) => {
+    return {
+        type: actionTypes.CITIZEN_APPEND,
+        payload: citizen
+    }
+}
+const citizenUpdate = (citizen) => {
+    return {
+        type: actionTypes.CITIZEN_UPDATE,
+        payload: citizen
+    }
+}
+
+const citizenDelete = (id) => {
+    return {
+        type: actionTypes.CITIZEN_DELETE,
+        payload: id
+    }
+}
+
+const citizenReset = () => {
+    return {
+        type: actionTypes.CITIZEN_RESET
+    }
+}
+
 const citizenAddFilterList = (filterList) => {
     return {
         type: actionTypes.CITIZEN_ADD_FILTER_LIST,
@@ -47,6 +73,10 @@ const citizenAddFilterList = (filterList) => {
 }
 
 const actions =  {
+    citizenReset,
+    citizenDelete,
+    citizenUpdate,
+    citizenAppend,
     citizensLoadStart,
     citizensLoadSuccess,
     citizensLoadError,
