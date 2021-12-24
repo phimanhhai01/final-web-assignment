@@ -82,7 +82,7 @@ const Header = () => {
                     }}
                 >
                     {/* <MenuItem onClick={handleClose}>Profile</MenuItem> */}
-                    <MenuItem onClick={handleClose}>Đổi mật khẩu</MenuItem>
+                    {/* <MenuItem onClick={handleClose}>Đổi mật khẩu</MenuItem> */}
                     <MenuItem onClick={handleLogOut}>Đăng xuất</MenuItem>
                 </Menu>
             </div>

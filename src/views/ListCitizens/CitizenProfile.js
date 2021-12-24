@@ -25,6 +25,13 @@ import { updateCitizenInTable, deleteCitizenInTable } from '../../redux/reducers
 import Loader from "../../core/Loader";
 import { loadAgenciesAsync } from '../../redux/reducers/agencies/agencies.thunk';
 import '../../style/citizen.css';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const CitizenProfile = (props) => {
   const {currentUser} = useSelector(state => state.user);
@@ -63,9 +70,20 @@ const CitizenProfile = (props) => {
   }
   const {id} = props;
   const dispatch = useDispatch();
-
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
   const [citizen, setData] = useState(citizenById);
   const [er, setError] = useState(error);
+  const [inputAddress_line1, setInputAddress_line1] = React.useState('');
+  const [inputAddress_line2, setInputAddress_line2] = React.useState('');
 
   useEffect(() => {
     (async () => {
@@ -73,6 +91,8 @@ const CitizenProfile = (props) => {
         let res = await getCitizenById(id);
         if (res.status === 200) {
           setData(res.data);
+          setInputAddress_line1(res.data.address_line1);
+          setInputAddress_line2(res.data.address_line2);
         } else if (res.status === 404) {
           alert("Not found");
         }
@@ -95,33 +115,7 @@ const CitizenProfile = (props) => {
       fontWeight: "bold",
       fontSize: "25px",
       paddingBottom: "1vh"
-    }
-  }
-
-  const formatEducational = (learningLevel) => {
-    if (learningLevel === "Không") {
-      return "none";
-    } else if (learningLevel === "Tiểu học") {
-      return "primary";
-    } else if (learningLevel === "Trung học cơ sở") {
-      return "secondary";
-    } else if (learningLevel === "Trung học phổ thông") {
-      return "high";
-    } else if (learningLevel === "Cao đẳng / Đại học") {
-      return "university";
-    } else if (learningLevel === "Sau đại học") {
-      return "master";
-    } else if (learningLevel === "none") {
-      return "Không";
-    } else if (learningLevel === "secondary") {
-      return "Trung học cơ sở";
-    } else if (learningLevel === "high") {
-      return "Trung học phổ thông";
-    } else if (learningLevel === "university") {
-      return "Cao đẳng / Đại học";
-    } else if (learningLevel === "master") {
-      return "Sau đại học";
-    } 
+    },
   }
 
   const navigate = useNavigate();
@@ -178,11 +172,14 @@ const CitizenProfile = (props) => {
       validateAddress_line2Input(e);
     }
     if (citizen.name !== "" && citizen.home_town !== "" && citizen.address_line1 !== "" && citizen.address_line2 !== "") {
+      let temp = citizen;
+      temp.address_line1 = inputAddress_line1;
+      temp.address_line2 = inputAddress_line2;
       (async () => {
         try {
-          let res = await updateCitizen(citizen);
+          let res = await updateCitizen(temp);
           if (res.status === 200) {
-            dispatch(updateCitizenInTable(citizen));
+            dispatch(updateCitizenInTable(temp));
             addToast({type:'success', title:'Xong!', message:`Cập nhật thông tin công dân thành công.`, duration: 5000});
             navigate('/list-citizens');
           } else {
@@ -459,7 +456,6 @@ const CitizenProfile = (props) => {
               disabled: currentUser.level === "4"
             }}
           >
-            {console.log(citizen.village_id)}
             {updateAgencyList()}
           {
             agencies.map((item, index) => <MenuItem key={index} value={item.id}>{item.name}</MenuItem>)
@@ -489,7 +485,68 @@ const CitizenProfile = (props) => {
                   readOnly: !editable,
                 }}
               />
-              <TextField
+              <Autocomplete
+                id="free-solo-demo1"
+                sx={{
+                  '& input': {
+                    height: 22,
+                    fontSize: "17px",
+                  },
+                }}
+                freeSolo
+                options={currentUser.agency.stringName? [currentUser.agency.stringName]:[]}
+                inputValue={inputAddress_line1}
+                onInputChange={(event, newInputValue) => {
+                  setInputAddress_line1(newInputValue);
+                }}
+                renderInput={(params) => 
+                <TextField 
+                  error= {er.address_line1 !== ""}
+                  helperText = {er.address_line1 ? er.address_line1:""}
+                  id="address_line1"
+                  style={{ marginTop: "3vh" }} 
+                  fullWidth
+                  onBlur={validateAddress_line1Input}
+                  variant="standard" {...params} 
+                  label="Địa chỉ tạm trú"
+                  InputProps={{
+                    readOnly: !editable,
+                  }}
+                  required 
+                  />}
+              />
+              <Autocomplete
+                id="free-solo-demo2"
+                sx={{
+                  '& input': {
+                    height: 22,
+                    fontSize: "17px",
+                  },
+                }}
+                freeSolo
+                options={currentUser.agency.stringName? [currentUser.agency.stringName]:[]}
+                inputValue={inputAddress_line2}
+                onInputChange={(event, newInputValue) => {
+                  setInputAddress_line2(newInputValue);
+                  console.log(newInputValue);
+                }}
+                renderInput={(params) => 
+                <TextField 
+                  error= {er.address_line2 !== ""}
+                  helperText = {er.address_line2 ? er.address_line2:""}
+                  id="address_line2"
+                  style={{ marginTop: "3vh" }} 
+                  fullWidth
+                  onBlur={validateAddress_line2Input}
+                  variant="standard" {...params} 
+                  label="Địa chỉ tạm trú"
+                  InputProps={{
+                    readOnly: !editable,
+                  }}
+                  required 
+                  />}
+              />
+              {/* <TextField
                 error= {er.address_line1 !== ""}
                 helperText = {er.address_line1 ? er.address_line1:""}
                 style={{ marginTop: "3vh" }}
@@ -528,18 +585,40 @@ const CitizenProfile = (props) => {
                 InputProps={{
                   readOnly: !editable,
                 }}
-              />
+              /> */}
               {
                 editable ? (
-                  <>
+                  <div>
                   <div style={{display: "flex", justifyContent: "flex-end", marginTop: "3vh"}}>
-                    <Button style={{marginRight: "10px", background: "lightgrey"}} onClick={handleDelete} type="button">Xóa</Button>
-                    <Button style={{background: "#2E3192", color: "white"}} onClick={handleUpdate} type="button">Cập nhật</Button>
+                    <Button style={{marginRight: "10px", background: "lightgrey"}} onClick={handleClickOpenDialog}>Xóa</Button>
+                    <Button style={{background: "#2E3192", color: "white"}} onClick={handleUpdate}>Cập nhật</Button>
                   </div>
-                  </>
+                  </div>
                 ) : null
               }
           </form>
+          {
+            openDialog? (
+          <Dialog
+        open={true}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleCloseDialog}
+        aria-describedby="alert-delete-citizen"
+      >
+        <DialogTitle>Bạn muốn xóa hồ sơ này?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-delete-citizen">
+            Hành động này không thể hoàn tác. Tiếp tục?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Hủy</Button>
+          <Button onClick={() => handleDelete()}>Xóa</Button>
+        </DialogActions>
+      </Dialog>
+            ):null
+      }
         </ThemeProvider>
     </div>
     );
