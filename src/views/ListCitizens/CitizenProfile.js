@@ -24,6 +24,7 @@ import { getCitizenById, updateCitizen, deleteCitizen } from "../../api/apiCitiz
 import { updateCitizenInTable, deleteCitizenInTable } from '../../redux/reducers/citizens/citizens.thunk'
 import Loader from "../../core/Loader";
 import { loadAgenciesAsync } from '../../redux/reducers/agencies/agencies.thunk';
+import '../../style/citizen.css';
 
 const CitizenProfile = (props) => {
   const {currentUser} = useSelector(state => state.user);
@@ -90,13 +91,6 @@ const CitizenProfile = (props) => {
   });
 
   const styles = {
-    root: {
-      width: "45vw",
-      marginTop: "8vh",
-      background: "white",
-      borderRadius: "10px",
-      padding: "40px"
-    },
     title: {
       fontWeight: "bold",
       fontSize: "25px",
@@ -105,7 +99,9 @@ const CitizenProfile = (props) => {
   }
 
   const formatEducational = (learningLevel) => {
-    if (learningLevel === "Tiểu học") {
+    if (learningLevel === "Không") {
+      return "none";
+    } else if (learningLevel === "Tiểu học") {
       return "primary";
     } else if (learningLevel === "Trung học cơ sở") {
       return "secondary";
@@ -115,8 +111,8 @@ const CitizenProfile = (props) => {
       return "university";
     } else if (learningLevel === "Sau đại học") {
       return "master";
-    } else if (learningLevel === "primary") {
-      return "Tiểu học";
+    } else if (learningLevel === "none") {
+      return "Không";
     } else if (learningLevel === "secondary") {
       return "Trung học cơ sở";
     } else if (learningLevel === "high") {
@@ -156,7 +152,7 @@ const CitizenProfile = (props) => {
     } else if (e.target.name === "village_id") {
       setData({
         ...citizen,
-        village_id: mapSubAgenciesId(e.target.value)
+        village_id: e.target.value
       })
     } else {
       const name = (e.target.name || e.target.id);
@@ -319,22 +315,6 @@ const CitizenProfile = (props) => {
     }
   };
 
-  const mapSubAgenciesId = (agency) => {
-    if (allIsNumber(agency)) {
-      for (var i = 0; i < agencies.length; i++) {
-        if (agencies[i].id === agency) {
-          return agencies[i].name;
-        }
-      }
-    } else {
-      for (var j = 0; j < agencies.length; j++) {
-        if (agencies[j].name === agency) {
-          return agencies[j].id;
-        }
-      }
-    }
-  }
-
   const updateAgencyList = () => {
     for(var i = 0; i < agencies.length; i++) {
       subAgencies.push(agencies[i].name);
@@ -345,7 +325,7 @@ const CitizenProfile = (props) => {
     return <Loader/>
   }
   return (
-        <div style={styles.root}>
+        <div id="profile">
         <ThemeProvider theme={theme}>
           <p style={styles.title}>Thông tin chi tiết</p>
           <form>
@@ -466,24 +446,28 @@ const CitizenProfile = (props) => {
                 }
                 </Select>
               </FormControl>
-              <FormControl variant="standard" sx={{ m: 1 }} style={{width: "47%"}}>
-                <InputLabel >Thôn/Bản/Tổ *</InputLabel>
-                <Select
-                  name="village_id"
-                  value={mapSubAgenciesId(citizen.village_id)}
-                  label="Thôn/Bản/Tổ"
-                  onChange={handleChangeValue}
-                  inputProps={{ 
-                    readOnly: !editable,
-                    disabled: currentUser.level === "4"
-                  }}
-                >
-                  {updateAgencyList()}
-                {
-                  subAgencies.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
-                }
-                </Select>
-              </FormControl>
+              {currentUser.level === "3"? (
+          <FormControl variant="standard" sx={{ m: 1 }} style={{width: "47%"}}>
+          <InputLabel >Thôn/Bản/Tổ *</InputLabel>
+          <Select
+            name="village_id"
+            value={citizen.village_id}
+            label="Thôn/Bản/Tổ"
+            onChange={handleChangeValue}
+            inputProps={{ 
+              readOnly: !editable,
+              disabled: currentUser.level === "4"
+            }}
+          >
+            {console.log(citizen.village_id)}
+            {updateAgencyList()}
+          {
+            agencies.map((item, index) => <MenuItem key={index} value={item.id}>{item.name}</MenuItem>)
+          }
+          </Select>
+        </FormControl>
+        ):null
+        }
               </div>
               <TextField
                 error= {er.home_town !== ""}

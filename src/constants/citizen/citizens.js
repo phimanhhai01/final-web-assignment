@@ -56,6 +56,7 @@ export const searchByCitizen = [
 ];
 
 export const LearningLevels = [
+    "Không",
     "Tiểu học",
     "Trung học cơ sở",
     "Trung học phổ thông",
@@ -64,7 +65,7 @@ export const LearningLevels = [
 ];
 
 export const educational = {
-    //none: "Không",
+    none: "Không",
     primary: "Tiểu học",
     secondary: "Trung học cơ sở",
     high: "Trung học phổ thông",

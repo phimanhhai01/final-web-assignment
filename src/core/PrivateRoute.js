@@ -13,7 +13,7 @@ const style = {
         marginLeft: "var(--sidebar-width)",
         padding: "0 0.5rem",
         backgroundColor: "var(--second-bg)",
-        minHeight: "100vh"
+        minHeight: "100vh",
     }
 }
 const PrivateRoute = (props) => {

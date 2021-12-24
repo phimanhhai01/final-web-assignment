@@ -40,12 +40,21 @@ const AddCitizen = () => {
   for(var i = 0; i < agencies.length; i++) {
     subAgencies.push(agencies[i].name);
   }
-
+  const [declarePermission, setDeclarePermission] = useState(currentUser.declared_permission);
   useEffect(() => {
     if (agencies.length === 0) {
       dispatch(loadAgenciesAsync());
     }
   }, []);
+
+  useEffect(() => {
+    console.log(declarePermission)
+    if (currentUser.declared_permission !== declarePermission) {
+      setDeclarePermission(!declarePermission);
+    }
+    console.log(declarePermission)
+  }, [currentUser, declarePermission]);
+
   const theme = createTheme({
         palette: {
             primary: {
@@ -93,7 +102,7 @@ const AddCitizen = () => {
     gender: "male",
     ethnic: "Kinh",
     religion: "Không",
-    educational: "primary",
+    educational: "none",
     declarer: "",
     occupations: "Nhà chuyên môn bậc cao (đại học trở lên)",
     village_id: mapSubAgenciesId(subAgencies[0]),
@@ -129,7 +138,9 @@ const AddCitizen = () => {
   }
 
   const formatEducational = (learningLevel) => {
-    if (learningLevel === "Tiểu học") {
+    if (learningLevel === "Không") {
+      return "none";
+    } else if (learningLevel === "Tiểu học") {
       return "primary";
     } else if (learningLevel === "Trung học cơ sở") {
       return "secondary";
@@ -139,10 +150,8 @@ const AddCitizen = () => {
       return "university";
     } else if (learningLevel === "Sau đại học") {
       return "master";
-    } else if (learningLevel === "Sau đại học") {
-      return "master";
-    } else if (learningLevel === "primary") {
-      return "Tiểu học";
+    } else if (learningLevel === "none") {
+      return "Không";
     } else if (learningLevel === "secondary") {
       return "Trung học cơ sở";
     } else if (learningLevel === "high") {
@@ -428,6 +437,10 @@ const AddCitizen = () => {
     setOpen(false);
     handleResetInput();
   };
+
+  if (!declarePermission) {
+    return null
+  }
     return (
       <div>
         <Button variant="contained" onClick={handleClickOpen}>

@@ -18,7 +18,6 @@ import { citizen_columns_full, educational } from '../../constants/citizen/citiz
 import TableExtra from '../../components/Table/TableExtra';
 import { TableRow, TableCell } from '@mui/material';
 import { addMultiCitizens } from "../../api/apiCitizens";
-import Loader from "../../core/Loader";
 
 let clicked = false;
 
@@ -32,12 +31,18 @@ const AddCitizenByCSV = () => {
   for(var i = 0; i < agencies.length; i++) {
     subAgencies.push(agencies[i].name);
   }
+  const [declarePermission, setDeclarePermission] = useState(currentUser.declared_permission);
 
   useEffect(() => {
     if (agencies.length === 0) {
       dispatch(loadAgenciesAsync());
     }
   }, []);
+  useEffect(() => {
+    if (currentUser.declared_permission !== declarePermission) {
+      setDeclarePermission(!declarePermission);
+    }
+  }, [currentUser, declarePermission]);
 
   const Input = styled('input')({
     display: 'none',
@@ -330,7 +335,7 @@ const AddCitizenByCSV = () => {
         return "";
       }
     }
-    return "Không có quyền khai báo công dân ở Thôn/Bản/Tổ này";
+    return "Đã có lỗi xảy ra";
   }
 
   const validateBeforeSubmit = (citizen) => {
@@ -459,7 +464,7 @@ const AddCitizenByCSV = () => {
                   ...er,
                   id_number: "Số CMND/CCCD đã tồn tại!",
                 }); */
-                //addToast({type:'error', title:'Hỏng!', message:`Số CMND/CCCD đã tồn tại!`, duration: 5000})
+                addToast({type:'error', title:'Hỏng!', message:`Số CMND/CCCD đã tồn tại!`, duration: 5000})
                 errorState[i] = true;
               } else {
                 errorState[i] = false;
@@ -497,6 +502,9 @@ const AddCitizenByCSV = () => {
 
 
 
+  if (!declarePermission) {
+    return null
+  }
     return (
       <div>
           <label htmlFor="contained-button-file">
@@ -505,7 +513,7 @@ const AddCitizenByCSV = () => {
                 Khai báo công dân bằng file CSV
             </Button>
           </label>
-      <Dialog open={open} onClose={handleClose} maxWidth={true}>
+      <Dialog open={open} onClose={handleClose} maxWidth='xl'>
         <DialogTitle style={styles.title}>Khai báo công dân bằng file CSV</DialogTitle>
         <DialogContent>
           <TableExtra
