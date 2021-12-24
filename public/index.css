@@ -9,6 +9,7 @@
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
+    height: 8px;  
 }
   
 /* Track */
@@ -242,4 +243,9 @@ body{
 }
 .toast--error {
   --color: #dc3545;
+}
+@media screen and (max-width: 767.98px) {
+  html {
+    font-size: 14px;
+  }
 }

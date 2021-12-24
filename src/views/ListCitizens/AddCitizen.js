@@ -175,7 +175,7 @@ const AddCitizen = () => {
     } else if (e.target.name === "educational") {
       setData({
         ...citizen,
-        educational: formatEducational(e.target.value)
+        educational: e.target.value
       });
     } else if (e.target.value === "male" || e.target.value === "female") {
       setData({
@@ -536,12 +536,12 @@ const AddCitizen = () => {
                 <InputLabel >Trình độ học vấn *</InputLabel>
                 <Select
                   name="educational"
-                  value={formatEducational(citizen.educational)}
+                  value={citizen.educational}
                   label="Trình độ học vấn"
                   onChange={handleChangeValue}
                 >
                 {
-                  LearningLevels.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>)
+                  LearningLevels.map((item, index) => <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>)
                 }
                 </Select>
               </FormControl>
