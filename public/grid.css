@@ -3,6 +3,7 @@
     flex-wrap: wrap;
     margin: 0;
     width: 100%;
+    
 }
 .row-md-reverse {
     display: flex;

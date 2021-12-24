@@ -1,9 +1,9 @@
 #profile {
     background-color: white;
-    border-radius: 10px;
-    padding: 40px;
-    max-width: 648px;
-    min-width: 648px;
+    border-radius: 16px;
+    padding: 2rem;
+    width: 648px;
+    max-width: 100%;
 }
 
 #mainPanel {
