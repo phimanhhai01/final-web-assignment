@@ -10,6 +10,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import { IconButton } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
 import "../style/header.css"
 
 //import {ReactComponent as Notice} from '../images/noNotice.svg';
@@ -32,6 +33,11 @@ const styles = {
         fontSize: "1.2rem",
         // paddingTop: "33px",
         // paddingRight: "37px"
+    },
+    right: {
+        display: "flex",
+        alignItems: "center"
+
     }
 }
 
@@ -39,6 +45,7 @@ const Header = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const agency = useSelector(state => state.user.currentUser.agency);
+    const declare = useSelector(state => state.user.currentUser.actually_declared_permission);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -60,32 +67,38 @@ const Header = () => {
     return (
         <div className="header" style={styles.root}>
             <p className="header__name">{agency && agency.name}</p>
-            <div>
-               
-                {/* <Button onClick={handleLogOut} variant="contained">Đăng xuất</Button> */}
-                <IconButton
-                    id="basic-button"
-                    aria-controls="basic-menu"
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick} 
-                >
-                    <AccountCircleRoundedIcon />
-                </IconButton>
-                <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                    }}
-                >
-                    {/* <MenuItem onClick={handleClose}>Profile</MenuItem> */}
-                    {/* <MenuItem onClick={handleClose}>Đổi mật khẩu</MenuItem> */}
-                    <MenuItem onClick={handleLogOut}>Đăng xuất</MenuItem>
-                </Menu>
+            <div style={styles.right}>
+                <Tooltip title={`${declare? "Bạn có thể khai kháo":"Hiện tại bạn không thể khai báo"}`}>
+                    <div className={`circle ${declare? "circle-active":""}`}></div>
+                </Tooltip>
+                <div style={{marginLeft: "2rem"}}>
+            
+                    {/* <Button onClick={handleLogOut} variant="contained">Đăng xuất</Button> */}
+                    <IconButton
+                        id="basic-button"
+                        aria-controls="basic-menu"
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick} 
+                    >
+                        <AccountCircleRoundedIcon />
+                    </IconButton>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                        }}
+                    >
+                        {/* <MenuItem onClick={handleClose}>Profile</MenuItem> */}
+                        {/* <MenuItem onClick={handleClose}>Đổi mật khẩu</MenuItem> */}
+                        <MenuItem onClick={handleLogOut}>Đăng xuất</MenuItem>
+                    </Menu>
+                </div>
             </div>
+            
         </div>
     );
 }
