@@ -58,9 +58,10 @@ const PopulationLineChart = () => {
         root:{
           width: "100%",
           height: 500,
+          minHeight: "100%",
           background: "white",
           borderRadius: "10px",
-          marginBottom: "1rem"
+          // marginBottom: "1rem"
         },
         title: {
           padding: "1rem"

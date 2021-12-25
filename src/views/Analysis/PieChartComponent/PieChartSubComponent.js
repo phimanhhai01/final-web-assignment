@@ -30,8 +30,8 @@ const renderCustomizedLabel = ({
 
 const PieChartSubComponent = (props) => {
     return (
-    <div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center"}}>
-        <ResponsiveContainer width="80%" height="100%">
+    <div style={{width: "100%", height: "500px", maxHeight: "100%", display: "flex", justifyContent: "center"}}>
+        <ResponsiveContainer>
             <PieChart>
                 <Pie
                     data={props.data}
@@ -39,7 +39,7 @@ const PieChartSubComponent = (props) => {
                     cy="50%"
                     labelLine={false}
                     label={renderCustomizedLabel}
-                    outerRadius={"80%"}
+                    outerRadius={'80%'}
                     fill="#8884d8"
                     dataKey="value"
                     >
@@ -52,7 +52,7 @@ const PieChartSubComponent = (props) => {
                 <Legend />
             </PieChart>
         </ResponsiveContainer>
-    </div>
+      </div>
     )
 }
 export default PieChartSubComponent;
