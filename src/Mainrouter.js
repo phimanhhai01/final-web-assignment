@@ -33,7 +33,7 @@ const Mainrouter = () => {
                     </Route>
                     
                     {/* <Route exact path="agency/add" element={<AddAgency />} /> */}
-                    <Route exact path="analys-citizens" element={<Analysis />} />
+                    <Route exact path="" element={<Analysis />} />
                     <Route exact path="update-citizens-data" element={<UpdateCitizensData />} />
                     <Route exact path="family" element={<ManageFamily/>} />
                 </Route>

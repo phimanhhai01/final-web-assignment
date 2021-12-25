@@ -27,6 +27,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { appendCitizen } from '../../redux/reducers/citizens/citizens.thunk';
 import {addToast} from "../../utils"
 import { loadAgenciesAsync } from '../../redux/reducers/agencies/agencies.thunk';
+import Autocomplete from '@mui/material/Autocomplete';
 
 let clicked = false
 
@@ -120,6 +121,8 @@ const AddCitizen = () => {
 
   const [citizen, setData] = useState(citizenById);
   const [er, setError] = useState(error);
+  const [inputAddress_line1, setInputAddress_line1] = React.useState('');
+  const [inputAddress_line2, setInputAddress_line2] = React.useState('');
 
   const styles = {
         root: {
@@ -205,9 +208,12 @@ const AddCitizen = () => {
     clicked = true
     let err = validateBeforeSubmit();
     if (err.name === "" && err.id_number === "" && err.home_town === "" && err.address_line1 === "" && err.address_line2 === "") {
+      let temp = citizen;
+      temp.address_line1 = inputAddress_line1;
+      temp.address_line2 = inputAddress_line2;
       (async () => {
         try {
-          let res = await addCitizen(citizen);
+          let res = await addCitizen(temp);
           if (res.status === 200) {
             dispatch(appendCitizen(res.data));
             addToast({type:'success', title:'Xong!', message:`Khai báo công dân thành công.`, duration: 5000});
@@ -371,7 +377,7 @@ const AddCitizen = () => {
   };
 
   const validateAddress_line1Input = () => {
-    const content = citizen.address_line1;
+    const content = inputAddress_line1;
     if (content === '') {
       setError({
         ...er,
@@ -388,7 +394,7 @@ const AddCitizen = () => {
   };
 
   const validateAddress_line2Input = () => {
-    const content = citizen.address_line2;
+    const content = inputAddress_line2;
     if (content === '') {
       setError({
         ...er,
@@ -419,6 +425,8 @@ const AddCitizen = () => {
   }
 
   const handleResetInput = (event) => {
+    setInputAddress_line1("");
+    setInputAddress_line2("");
     setData(citizenById);
     setError(error);
   }
@@ -474,8 +482,8 @@ const AddCitizen = () => {
               <FormControl component="fieldset" style={{width: "30%"}}>
                 <FormLabel component="legend" style={{fontSize: "13px"}}>Giới tính *</FormLabel>
                 <RadioGroup row aria-label="gender" id="gender" value={citizen.gender} onChange={handleChangeValue}>
-                  <FormControlLabel value="male" control={<Radio />} label="Nam" />
-                  <FormControlLabel value="female" control={<Radio />} label="Nữ" />
+                  <FormControlLabel value="male" control={<Radio />} label="Nam" style={{marginRight: "10px"}} />
+                  <FormControlLabel value="female" control={<Radio />} label="Nữ" style={{marginRight: 0}} />
                 </RadioGroup>
               </FormControl>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -595,41 +603,60 @@ const AddCitizen = () => {
                 variant="standard"
                 required
               />
-              <TextField
-                error= {er.address_line1 !== ""}
-                helperText = {er.address_line1 ? er.address_line1:""}
-                style={{ marginTop: "3vh" }}
-                value={citizen.address_line1}
-                id="address_line1"
-                label="Địa chỉ thường trú"
-                fullWidth
-                variant="standard"
-                onChange={handleChangeValue}
-                onBlur={validateAddress_line1Input}
-                inputProps={{
-                  style: {
-                    fontSize: "18px",
-                  }
+              <Autocomplete
+                id="free-solo-demo1"
+                sx={{
+                  '& input': {
+                    height: 22,
+                    fontSize: "17px",
+                  },
                 }}
-                required
+                freeSolo
+                options={currentUser.agency.stringName? [currentUser.agency.stringName]:[]}
+                inputValue={inputAddress_line1}
+                onInputChange={(event, newInputValue) => {
+                  setInputAddress_line1(newInputValue);
+                }}
+                renderInput={(params) => 
+                <TextField 
+                  error= {er.address_line1 !== ""}
+                  helperText = {er.address_line1 ? er.address_line1:""}
+                  id="address_line1"
+                  style={{ marginTop: "3vh" }} 
+                  fullWidth
+                  onBlur={validateAddress_line1Input}
+                  variant="standard" {...params} 
+                  label="Địa chỉ tạm trú"
+                  required 
+                  />}
               />
-              <TextField
-                error= {er.address_line2 !== ""}
-                helperText = {er.address_line2 ? er.address_line2:""}
-                style={{ marginTop: "3vh" }}
-                id="address_line2"
-                value={citizen.address_line2}
-                label="Địa chỉ tạm trú"
-                fullWidth
-                variant="standard"
-                onChange={handleChangeValue}
-                onBlur={validateAddress_line2Input}
-                inputProps={{
-                  style: {
-                    fontSize: "18px",
-                  }
+              <Autocomplete
+                id="free-solo-demo2"
+                sx={{
+                  '& input': {
+                    height: 22,
+                    fontSize: "17px",
+                  },
                 }}
-                required
+                freeSolo
+                options={currentUser.agency.stringName? [currentUser.agency.stringName]:[]}
+                inputValue={inputAddress_line2}
+                onInputChange={(event, newInputValue) => {
+                  setInputAddress_line2(newInputValue);
+                  console.log(newInputValue);
+                }}
+                renderInput={(params) => 
+                <TextField 
+                  error= {er.address_line2 !== ""}
+                  helperText = {er.address_line2 ? er.address_line2:""}
+                  id="address_line2"
+                  style={{ marginTop: "3vh" }} 
+                  fullWidth
+                  onBlur={validateAddress_line2Input}
+                  variant="standard" {...params} 
+                  label="Địa chỉ tạm trú"
+                  required 
+                  />}
               />
           </form>
         </ThemeProvider>
