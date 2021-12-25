@@ -47,7 +47,7 @@ const ListUser = () => {
     }
 
     return (
-        <div style={styles.root}>
+        <div class="page-limit">
             {/* <div>
                 <h2>Phân tích nhóm tuổi theo nghề  nghiệp</h2>
                 <div style={styles.charts}>
@@ -66,19 +66,19 @@ const ListUser = () => {
                 </div>
                 <Description width={"10%"} descriptions={genderDescription}/>
             </div> */}
-            <Grid style={{marginBottom: "12px"}} container spacing={2}>
+            <Grid style={{marginBottom: "24px"}} container spacing={2}>
                 <Grid item lg={1}>
                     <Filter />
                 </Grid>
             </Grid>
-            <Grid container spacing={2}>
-                <Grid item xs={4}>
+            <Grid container spacing={1.5}  rowSpacing="0">
+                <Grid item lg={4} md={6} xs={12}>
                     <StatisticComponent title={"Dân số"} number={192783} />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item lg={4} md={6} xs={12}>
                     <StatisticComponent title={"Số Lượng Nam"} number={213456} />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item lg={4} md={6} xs={12}>
                     <StatisticComponent title={"Số Lượng Nữ"} number={345672} />
                 </Grid>
             </Grid>
@@ -86,7 +86,7 @@ const ListUser = () => {
                 <PopulationPyramid />
                 <PieChartOccupation />
             </div> */}
-            <Grid container spacing={2}>
+            <Grid container spacing={1.5} style={{marginBottom: "1rem"}}>
                 <Grid item xs={12} lg={7}>
                     <PopulationPyramid />
                 </Grid>
