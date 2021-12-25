@@ -10,6 +10,7 @@ import {
   ResponsiveContainer
 } from "recharts";
 import { useSelector } from "react-redux";
+import {filterCitizensFunc} from './GenderAnalysis/filterCitizensFunc';
 const data = [
   {
     year: "1980",
@@ -67,7 +68,8 @@ const PopulationLineChart = () => {
           padding: "1rem"
         }
     }
-    const {citizens} = useSelector(state => state.citizens);
+    const {citizens, filterListAnalysis} = useSelector(state => state.citizens);
+    const filteredCitizens = filterListAnalysis.length > 0 ? filterCitizensFunc(citizens, filterListAnalysis) : citizens;
     console.log(extractData(citizens));
 
     return (
@@ -79,7 +81,7 @@ const PopulationLineChart = () => {
                 <LineChart
                     width={600}
                     height={400}
-                    data={extractData(citizens)}
+                    data={extractData(filteredCitizens)}
                     margin={{
                         top: 5,
                         right: 30,

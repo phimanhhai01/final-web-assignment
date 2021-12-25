@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Button, TextField } from "@mui/material";
 import PieChartSubComponent from "./PieChartComponent/PieChartSubComponent";
+import {filterCitizensFunc} from './GenderAnalysis/filterCitizensFunc';
 
 const extractCitizens = (citizens, startYear, endYear) => {
   return citizens.filter(element => {
@@ -53,8 +54,9 @@ const PieChartOccupation = (props) => {
       padding: "1rem"
     }
   }
-  const {citizens} = useSelector(state => state.citizens);
-  const rawData = categorizeCitizensByOccupation(extractCitizens(citizens, "1990", "1999"));
+  const {citizens, filterListAnalysis } = useSelector(state => state.citizens);
+  const filteredCitizens = filterListAnalysis.length > 0 ? filterCitizensFunc(citizens, filterListAnalysis) : citizens;
+  const rawData = categorizeCitizensByOccupation(extractCitizens(filteredCitizens, "1990", "1999"));
   const [data, setData] = useState(null);
   const [years, setYears] = useState({startYear: "1990", endYear: "1999"});
   const handleChangeStartYear = (e) => {
@@ -70,7 +72,7 @@ const PieChartOccupation = (props) => {
     })
   }
   const handleClick = () => {
-    setData(categorizeCitizensByOccupation(extractCitizens(citizens, years.startYear, years.endYear)));
+    setData(categorizeCitizensByOccupation(extractCitizens(filteredCitizens, years.startYear, years.endYear)));
   }
   return (
     <div style={styles.root}>

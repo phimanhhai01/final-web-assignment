@@ -61,9 +61,15 @@ const citizensReducer = (state = initialStates, {type, payload}) => {
         case actionTypes.AGENCY_RESET: 
             return initialStates
         case actionTypes.CITIZEN_ADD_FILTER_LIST: 
+            if(payload.type === "analysis"){
+                return {
+                    ...state,
+                    filterListAnalysis: [...payload.selectedOptions]
+                }
+            }
             return {
                 ...state,
-                filterList: [...payload]
+                filterList: [...payload.selectedOptions]
             }
         default:
             return state;

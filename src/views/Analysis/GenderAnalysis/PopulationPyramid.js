@@ -4,7 +4,7 @@ import { groupAge } from '../../../constants/analysis/analysis';
 import Button from '@mui/material/Button';
 //import Button from "../../../components/Button/Button";
 import TextField from '@mui/material/TextField';
-
+import {filterCitizensFunc} from './filterCitizensFunc'
 import {
   Bar,
   XAxis,
@@ -16,8 +16,8 @@ import {
   Legend
 } from "recharts";
 const PopulationPyramid = () => {
-    const { citizens } = useSelector(state => state.citizens);
-    const rawData = caculateData(citizens, "2021");
+    const { citizens, filterListAnalysis } = useSelector(state => state.citizens);
+    const rawData = filterListAnalysis.length > 0 ? caculateData(filterCitizensFunc(citizens, filterListAnalysis), "2021") : caculateData(citizens, "2021");
     const [year, setYear] = useState("2021");
     const [data, setData] = useState(null);
     const styles={
@@ -73,7 +73,7 @@ const PopulationPyramid = () => {
         setYear(e.target.value);
     }
     const handleClick = () =>{
-        setData(caculateData(citizens, year));
+        filterListAnalysis.length > 0 ? caculateData(filterCitizensFunc(citizens, filterListAnalysis), year) : caculateData(citizens, year);
     }
     return (
         <div style={styles.root}>

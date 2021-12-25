@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadCitizensAsync } from '../../redux/reducers/citizens/citizens.thunk';
 import Description from './Description';
 import PieChartOccupation from './PieChartOccupation';
@@ -8,13 +8,13 @@ import BarChartComponent from './BarChart';
 import PopulationPyramid from './GenderAnalysis/PopulationPyramid';
 import { occupationsDescription, genderDescription } from '../../constants/description/description';
 import PopulationLineChart from './LineChart';
-import AreaLineChart from './AreaLineChart';
 import Filter from '../../components/Filter';
 import { Grid } from '@mui/material';
 import StatisticComponent from './StatisticComponent';
 const ListUser = () => {
     const dispatch = useDispatch();
-    console.log(occupationsDescription);
+    const level_current_user = useSelector(state => state.user.currentUser.level);
+    console.log(level_current_user);
     useEffect(() => {
         dispatch(loadCitizensAsync());
     }, []);
@@ -66,10 +66,26 @@ const ListUser = () => {
                 </div>
                 <Description width={"10%"} descriptions={genderDescription}/>
             </div> */}
+<<<<<<< HEAD
+            {level_current_user <= "3" && <Grid style={{marginBottom: "12px"}} container spacing={2}>
+=======
             <Grid style={{marginBottom: "24px"}} container spacing={2}>
+>>>>>>> 0a21877110e1dd1d4a58f8154b625231bc6951dc
                 <Grid item lg={1}>
-                    <Filter />
+                    <Filter type={"analysis"} />
                 </Grid>
+<<<<<<< HEAD
+            </Grid>}
+            <Grid container spacing={2}>
+                <Grid item xs={4}>
+                    <StatisticComponent title={"Dân số"} />
+                </Grid>
+                <Grid item xs={4}>
+                    <StatisticComponent title={"Số Lượng Nam"} />
+                </Grid>
+                <Grid item xs={4}>
+                    <StatisticComponent title={"Số Lượng Nữ"} />
+=======
             </Grid>
             <Grid container spacing={1.5}  rowSpacing="0">
                 <Grid item lg={4} md={6} xs={12}>
@@ -80,6 +96,7 @@ const ListUser = () => {
                 </Grid>
                 <Grid item lg={4} md={6} xs={12}>
                     <StatisticComponent title={"Số Lượng Nữ"} number={345672} />
+>>>>>>> 0a21877110e1dd1d4a58f8154b625231bc6951dc
                 </Grid>
             </Grid>
             {/* <div style={styles.firstChart}>

@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { loadSubAgenciesAsync } from '../redux/reducers/agencies/agencies.thunk';
 import { Popper } from '@material-ui/core';
 
-const Filter = () => {
+const Filter = (props) => {
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -81,7 +81,7 @@ const Filter = () => {
                Lọc
             </Button>
             <Popper style={{zIndex: 99, boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }} anchorEl={anchorEl} placement="bottom-start" onClose={handleClose} open={open}>
-                <FilterBox setOpen={setOpen} />
+                <FilterBox type={props.type} setOpen={setOpen} />
             </Popper>
         </div>
     );
