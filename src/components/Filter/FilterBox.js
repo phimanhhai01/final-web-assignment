@@ -7,11 +7,13 @@ import TabPanel from '@mui/lab/TabPanel';
 import FilterComponent from './Checkboxes';
 import { useSelector } from 'react-redux';
 
-const FilterBox = ({setOpen}) => {
+const FilterBox = ({type, setOpen}) => {
     const { currentUser } = useSelector(state => state.user);
     const [value, setValue] = React.useState('1');
     const { subAgencies } = useSelector(state => state.agencies);
-    const { filterList } = useSelector(state => state.citizens);
+    const  { filterList }  = useSelector(state => state.citizens);
+    const { filterListAnalysis } = useSelector(state => state.citizens);
+    const list = type === "analysis" ? filterListAnalysis : filterList;
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -38,10 +40,10 @@ const FilterBox = ({setOpen}) => {
               </TabList>
             </Box>
             <TabPanel sx={styles.tabPanel} value="1">
-                <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 4) ? filterList : []} setOpen={setOpen} data={subAgencies[0]} />
+                <FilterComponent type={type} filterList={(list.length > 0 && list[0].id.length === 4) ? list : []} setOpen={setOpen} data={subAgencies[0]} />
             </TabPanel>
             <TabPanel sx={styles.tabPanel} value="2">
-                <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 6) ? filterList : []} setOpen={setOpen} data={subAgencies[1]} />
+                <FilterComponent type={type} filterList={(list.length > 0 && list[0].id.length === 6) ? list : []} setOpen={setOpen} data={subAgencies[1]} />
             </TabPanel>
           </TabContext>
         </div>
@@ -57,7 +59,7 @@ const FilterBox = ({setOpen}) => {
               </TabList>
             </Box>
             <TabPanel sx={styles.tabPanel} value="1">
-                <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 6) ? filterList : []} setOpen={setOpen} data={subAgencies[0]} />
+                <FilterComponent type={type} filterList={(list.length > 0 && list[0].id.length === 6) ? list : []} setOpen={setOpen} data={subAgencies[0]} />
             </TabPanel>
           </TabContext>
         </div>
@@ -74,7 +76,7 @@ const FilterBox = ({setOpen}) => {
               </TabList>
             </Box>
             <TabPanel sx={styles.tabPanel} value="1">
-                <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 8) ? filterList : []} setOpen={setOpen} data={subAgencies[0]}/>
+                <FilterComponent type={type} filterList={(list.length > 0 && list[0].id.length === 8) ? list : []} setOpen={setOpen} data={subAgencies[0]}/>
             </TabPanel>
           </TabContext>
         </div>
@@ -91,13 +93,13 @@ const FilterBox = ({setOpen}) => {
           </TabList>
         </Box>
         <TabPanel sx={styles.tabPanel} value="1">
-            <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 2) ? filterList : []} setOpen={setOpen} data={subAgencies[0]}/>
+            <FilterComponent type={type} filterList={(list.length > 0 && list[0].id.length === 2) ? list : []} setOpen={setOpen} data={subAgencies[0]}/>
         </TabPanel>
         <TabPanel sx={styles.tabPanel} value="2">
-            <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 4) ? filterList : []} setOpen={setOpen} data={subAgencies[1]}/>
+            <FilterComponent type={type} filterList={(list.length > 0 && list[0].id.length === 4) ? list : []} setOpen={setOpen} data={subAgencies[1]}/>
         </TabPanel>
         <TabPanel sx={styles.tabPanel} value="3">
-            <FilterComponent filterList={(filterList.length > 0 && filterList[0].id.length === 6) ? filterList : []} setOpen={setOpen} data={subAgencies[2]}/>
+            <FilterComponent type={type} filterList={(list.length > 0 && list[0].id.length === 6) ? list : []} setOpen={setOpen} data={subAgencies[2]}/>
         </TabPanel>
       </TabContext>
     </div>
