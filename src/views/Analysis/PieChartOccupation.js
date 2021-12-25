@@ -34,10 +34,11 @@ const categorizeCitizensByOccupation = (citizens) => {
 const PieChartOccupation = (props) => {
   const styles={
     root: {
-      height: 300,
+      // height: "700px",
       background: "white",
       width: "100%",
-      height: "39.3rem",
+      // minHeight: "100%",
+      maxHeight: "100%",
       display: "flex",
       flexDirection: "column",
       borderRadius: "10px"
@@ -45,6 +46,7 @@ const PieChartOccupation = (props) => {
     inputStyle: {
       display: "flex",
       justifyContent: "center",
+      alignItems: "center",
       gap: "8px",
       padding: "12px"
     },
@@ -75,7 +77,9 @@ const PieChartOccupation = (props) => {
   return (
     <div style={styles.root}>
       <h2 style={styles.title}>Nhóm dân số theo ngành</h2>
-      <PieChartSubComponent data={data ? data : rawData} />
+      <div style={{flexGrow: 1}}>
+        <PieChartSubComponent data={data ? data : rawData} />
+      </div>
       <div style={styles.inputStyle}>
          <TextField style={{width: 100}} size={"small"} onChange={handleChangeStartYear} id="startYear" label="Năm" placeholder="Năm bắt đầu"  variant="outlined" value={years.startYear}/>
          <span>đến</span>

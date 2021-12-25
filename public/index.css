@@ -40,7 +40,9 @@
     --text-main-color: #000;
 
 }
-
+html {
+  background-color: var(--second-bg);
+}
 body{
     margin: 0;
     padding: 0;

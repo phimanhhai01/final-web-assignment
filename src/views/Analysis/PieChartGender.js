@@ -30,19 +30,20 @@ const PieChartGender = (props) => {
   const styles={
     root: { 
     //   height: 300,
+      // height: 500,
       background: "white",
       width: "100%",
-      height: "31.3rem",
+      minHeight: "100%",
       display: "flex",
       flexDirection: "column",
-      borderRadius: "10px",
-      marginBottom: '1rem'
+      borderRadius: "10px"
     },
     inputStyle: {
       display: "flex",
       justifyContent: "center",
       gap: "8px",
-      padding: "16px"
+      padding: "16px",
+      alignItems: "center",
     },
     title: {
       padding: "1rem"
@@ -71,7 +72,10 @@ const PieChartGender = (props) => {
   return (
     <div style={styles.root}>
       <h2 style={styles.title}>Nhóm dân số theo giới tính</h2>
-      <PieChartSubComponent data={data ? data : rawData} />
+      <div style={{flexGrow: 1}}>
+        <PieChartSubComponent data={data ? data : rawData} />
+      </div>
+      
       <div style={styles.inputStyle}>
          <TextField style={{width: 100}} size={"small"} onChange={handleChangeStartYear} id="startYear" label="Năm" placeholder="Năm bắt đầu"  variant="outlined" value={years.startYear}/>
          <span>đến</span>

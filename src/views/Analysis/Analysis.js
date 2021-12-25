@@ -47,7 +47,7 @@ const ListUser = () => {
     }
 
     return (
-        <div style={styles.root}>
+        <div class="page-limit">
             {/* <div>
                 <h2>Phân tích nhóm tuổi theo nghề  nghiệp</h2>
                 <div style={styles.charts}>
@@ -66,10 +66,15 @@ const ListUser = () => {
                 </div>
                 <Description width={"10%"} descriptions={genderDescription}/>
             </div> */}
+<<<<<<< HEAD
             {level_current_user <= "3" && <Grid style={{marginBottom: "12px"}} container spacing={2}>
+=======
+            <Grid style={{marginBottom: "24px"}} container spacing={2}>
+>>>>>>> 0a21877110e1dd1d4a58f8154b625231bc6951dc
                 <Grid item lg={1}>
                     <Filter type={"analysis"} />
                 </Grid>
+<<<<<<< HEAD
             </Grid>}
             <Grid container spacing={2}>
                 <Grid item xs={4}>
@@ -80,13 +85,25 @@ const ListUser = () => {
                 </Grid>
                 <Grid item xs={4}>
                     <StatisticComponent title={"Số Lượng Nữ"} />
+=======
+            </Grid>
+            <Grid container spacing={1.5}  rowSpacing="0">
+                <Grid item lg={4} md={6} xs={12}>
+                    <StatisticComponent title={"Dân số"} number={192783} />
+                </Grid>
+                <Grid item lg={4} md={6} xs={12}>
+                    <StatisticComponent title={"Số Lượng Nam"} number={213456} />
+                </Grid>
+                <Grid item lg={4} md={6} xs={12}>
+                    <StatisticComponent title={"Số Lượng Nữ"} number={345672} />
+>>>>>>> 0a21877110e1dd1d4a58f8154b625231bc6951dc
                 </Grid>
             </Grid>
             {/* <div style={styles.firstChart}>
                 <PopulationPyramid />
                 <PieChartOccupation />
             </div> */}
-            <Grid container spacing={2}>
+            <Grid container spacing={1.5} style={{marginBottom: "1rem"}}>
                 <Grid item xs={12} lg={7}>
                     <PopulationPyramid />
                 </Grid>
