@@ -98,8 +98,8 @@ const ListAgencies = () => {
             <div style={styles.header}>
                 <div>
                     {
-                        currentUser && currentUser.level !== "0"? (
-                            <Button variant='outlined'
+                        (currentUser && currentUser.level !== "0" && currentUser && currentUser.level !== "4")? (
+                            <Button variant='contained'
                             onClick={toggleCompletedDeclare}
                             >
                                 {!currentUser.agency.completed_declare? 'Đánh dấu khai báo xong':'Đánh dấu chưa khai báo xong'}

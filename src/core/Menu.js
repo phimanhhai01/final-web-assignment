@@ -6,12 +6,27 @@ import { sidebar_items } from "../constants/menu/menu";
 import '../style/menu.css'
 
 const Menu = () => {
-    console.log("render Menu")
+    // console.log("render Menu")
     const location = useLocation();
     console.log("🚀 ~ file: Menu.js ~ line 49 ~ Menu ~ location", location)
+    const toggleMenu = () => {
+        let current = document.documentElement.style.getPropertyValue('--sidebar-width')
+        // alert(current)
+        // document.querySelector('.sidebar').classList.toggle("sidebar-hidden");
+        if (current !== '0') {
     
+            document.documentElement.style.setProperty('--sidebar-width', '0');
+
+        } else {
+            document.documentElement.style.setProperty('--sidebar-width', '250px');
+        }
+        
+    }
     return (
         <div className="sidebar">
+            {/* <div className="menu-toggle"  onClick = {toggleMenu}>
+                <i class='bx bx-grid'></i>
+            </div> */}
             <div className="sidebar__logo">
                 <img src={logo_Boyte} alt="logo_Boyte" draggable='false'/>
             </div>

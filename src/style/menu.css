@@ -2,13 +2,21 @@
     width: var(--sidebar-width);
     min-height: 100vh;
     /* overflow-y: auto; */
+    
     position: fixed;
     top: 0;
     left: 0;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    transition: all 0.5s ease;
+
+}
+.sidebar-hidden {
+    /* left: -100%; */
+    width:0;
 }
 .sidebar__logo {
     width: 100%;
+    height: 146px; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,7 +26,8 @@
 
 }
 
-.sidebar__menu {
+.sidebar__menu li {
+    overflow: hidden;
 
 }
 
@@ -32,6 +41,9 @@
     color: #000;
     transition: all 0.5s ease;
     font-size: 1.2rem;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
 
 }
 .menu__item + .menu__item {
@@ -49,12 +61,45 @@
     font-size: 2rem;
     flex-shrink: 0;
     font-weight: 570;
+    max-width: var(--sidebar-width);
 }
 .menu__item span {
     padding-left: 0.5rem;
     flex-grow: 1;
+    max-width: var(--sidebar-width);
+    display:-webkit-box;
+    -webkit-line-clamp:1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
 }
+.menu-toggle {
+    position: absolute;
+    top: 4rem;
+    left: calc(100% + 1rem);
 
+    
+    font-size:3rem;
+    color: var(--main-color);
+    background-color: transparent;
+    /* padding-left: 0.5rem; */
+    /* box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border-radius: .5rem; */
+    transition: all 0.5s ease;
+    cursor: pointer;
+    
+}
+.menu-toggle i{
+    background-color: transparent;
+}
+.menu-toggle:hover {
+    color: rgb(88, 91, 185);;
+
+}
 @media screen and (max-width: 1279px) {
     :root {
         --sidebar-width: 75px;

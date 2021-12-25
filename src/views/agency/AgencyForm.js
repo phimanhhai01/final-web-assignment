@@ -148,7 +148,7 @@ export default function AgencyForm({label, action, initData=init}) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpen}>
         Thêm đơn vị
       </Button>
       <Dialog open={open} onClose={handleClose}>

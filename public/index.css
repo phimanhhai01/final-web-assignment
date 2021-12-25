@@ -251,3 +251,21 @@ body{
     font-size: 14px;
   }
 }
+
+.circle {
+  --w: 16px;
+  width: var(--w);
+  height: var(--w);
+  border-radius: 50%;
+  background-color: var(--main-color);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
+
+}
+
+.circle-active {
+  background-color: rgb(1, 185, 161);
+}
+
+main {
+  transition: margin 0.5s ease;
+}
