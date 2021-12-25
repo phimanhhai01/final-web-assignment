@@ -10,9 +10,6 @@ import HomeRoute from "./core/HomeRoute";
 import ListCitizens from "./views/ListCitizens/ListCitizens";
 import ListAgencies from "./views/ListAgencies/ListAgencies";
 import Analysis from "./views/Analysis/Analysis";
-import UpdateCitizensData from "./views/UpdateCitizensData/UpdateCitizensData";
-import ManageFamily from "./views/ManageFamily/ManageFamily";
-
 import Profile from "./views/ListCitizens/Profile";
 import AgencySetting from "./views/agency/AgencySetting";
 import Agencies from "./views/agency/Agencies";
@@ -34,8 +31,6 @@ const Mainrouter = () => {
                     
                     {/* <Route exact path="agency/add" element={<AddAgency />} /> */}
                     <Route exact path="analys-citizens" element={<Analysis />} />
-                    <Route exact path="update-citizens-data" element={<UpdateCitizensData />} />
-                    <Route exact path="family" element={<ManageFamily/>} />
                 </Route>
             </Routes>
         </div>
