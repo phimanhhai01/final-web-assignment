@@ -41,7 +41,7 @@ const AddCitizen = () => {
   for(var i = 0; i < agencies.length; i++) {
     subAgencies.push(agencies[i].name);
   }
-  const [declarePermission, setDeclarePermission] = useState(currentUser.declared_permission);
+  const [declarePermission, setDeclarePermission] = useState(currentUser.actually_declared_permission);
   useEffect(() => {
     if (agencies.length === 0) {
       dispatch(loadAgenciesAsync());
@@ -50,7 +50,7 @@ const AddCitizen = () => {
 
   useEffect(() => {
     console.log(declarePermission)
-    if (currentUser.declared_permission !== declarePermission) {
+    if (currentUser.actually_declared_permission !== declarePermission) {
       setDeclarePermission(!declarePermission);
     }
     console.log(declarePermission)
