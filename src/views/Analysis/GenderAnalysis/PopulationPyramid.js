@@ -1,6 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {  useSelector } from 'react-redux';
 import { groupAge } from '../../../constants/analysis/analysis';
+import Button from '@mui/material/Button';
+//import Button from "../../../components/Button/Button";
+import TextField from '@mui/material/TextField';
 
 import {
   Bar,
@@ -10,15 +13,21 @@ import {
   BarChart,
   ResponsiveContainer,
   Tooltip,
+  Legend
 } from "recharts";
 const PopulationPyramid = () => {
     const { citizens } = useSelector(state => state.citizens);
-    const data = caculateMaleData(citizens, "2021");
+    const rawData = caculateData(citizens, "2021");
+    const [year, setYear] = useState("2021");
+    const [data, setData] = useState(null);
     const styles={
         root: {
+            width: "100%",
+            boxSizing: "border-box",
+        },
+        pyramid: {
             display: "flex",
             alignItems: "flex-end",
-            width: "60%",
             background: "white",
             flexWrap: "nowrap"
         },
@@ -29,68 +38,105 @@ const PopulationPyramid = () => {
         groupAge: {
             display: "flex",
             flexDirection: "column",
-            marginBottom: "3rem",
-            gap: "0.37rem",
+            marginBottom: "2.2rem",
+            gap: "0.28rem",
             justifyContent: "space-around",
             fontSize: "1.03rem",
         },
         li: {
             width: "4.5rem",
-            textAlign: "end"
+            textAlign: "end",
+            color: "#9199a8"
+        },
+        title: {
+            background: "white",
+            padding: "1rem",
+            borderTopLeftRadius: "10px",
+            borderTopRightRadius: "10px"
+        },
+        year: {
+            display: "flex",
+            justifyContent: "center",
+            background: "white",
+            gap: "1rem",
+            paddingBottom: "1rem",
+            borderBottomLeftRadius: "10px",
+            borderBottomRightRadius: "10px"
+        },
+        ageStyle:{
+            textAlign: "end",
+            marginRight: "-6px",
+            marginTop: "12px"
         }
     }
+    const handleChange = (e) => {
+        setYear(e.target.value);
+    }
+    const handleClick = () =>{
+        setData(caculateData(citizens, year));
+    }
     return (
-    <div style={styles.root}>
-        <div style={styles.chart}>
-            <ResponsiveContainer>
-                <BarChart
-                    layout="vertical"
-                    width={"20%"}
-                    height={500}
-                    data={data}
-                    margin={{
-                        top: 20,
-                        right: 20,
-                        bottom: 20,
-                        left: 50
-                    }}
-                >
-                    <CartesianGrid stroke="#f5f5f5" />
-                    <XAxis orientation="bottom" type="number" reversed domain={[0, getMaxQuantity(data)]}/>
-                    <YAxis tick={false} mirror={true} orientation="right" dataKey="name" type="category" scale="band" />
-                    <Tooltip />
-                    <Bar layout="vertical" dataKey="male" barSize={20} fill="#446080" />
-                </BarChart>
-            </ResponsiveContainer>
+        <div style={styles.root}>
+            <h2 style={styles.title}>Tháp dân số</h2>
+            <div style={styles.pyramid}>
+                <div style={styles.chart}>
+                    <ResponsiveContainer>
+                        <BarChart
+                            layout="vertical"
+                            width={"20%"}
+                            height={500}
+                            data={data ? data : rawData}
+                            margin={{
+                                top: 20,
+                                right: 20,
+                                bottom: 20,
+                                left: 50
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="2" stroke="#8c919c" />
+                            <XAxis orientation="bottom" type="number" reversed domain={[0, getMaxQuantity(data ? data : rawData)]}/>
+                            <YAxis tick={false} mirror={true} orientation="right" dataKey="name" type="category" scale="band" />
+                            <Tooltip />
+                            <Bar layout="vertical" dataKey="male" barSize={20} fill="#446080" />
+                            <Legend />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+                <div style={styles.groupAge}>
+                    {groupAge.map((element, i) => {
+                        return <div style={styles.li} key={i}>{element}</div>
+                    })}
+                    <p style={styles.ageStyle}>Độ Tuổi</p>
+                </div>
+                <div style={styles.chart}>
+                    <ResponsiveContainer>
+                        <BarChart
+                            layout="vertical"
+                            width={500}
+                            height={500}
+                            data={data ? data : rawData}
+                            margin={{
+                                top: 20,
+                                right: 20,
+                                bottom: 20,
+                                left: 50
+                            }}
+                            >
+                            <CartesianGrid strokeDasharray="2" stroke="#8c919c" />
+                            <XAxis orientation="bottom" type="number" domain={[0, getMaxQuantity(data ? data : rawData)]}/>
+                            <Tooltip />
+                            <YAxis tick={false} mirror={true} dataKey="name" type="category" scale="band" />
+                            <Bar layout="vertical" dataKey="female" barSize={20} fill="#db5858" />
+                            <Legend />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+            <div style={styles.year}>
+                <TextField id="standard-basic" label="Nhập năm" variant="outlined" size={"small"} onChange={handleChange} value={year} />
+                <Button onClick={handleClick} variant="contained">Phân tích</Button>
+            </div>
         </div>
-        <div style={styles.groupAge}>
-            {groupAge.map((element, i) => {
-                return <div style={styles.li} key={i}>{element}</div>
-            })}
-        </div>
-        <div style={styles.chart}>
-            <ResponsiveContainer>
-                <BarChart
-                    layout="vertical"
-                    width={500}
-                    height={500}
-                    data={caculateMaleData(citizens, "2021")}
-                    margin={{
-                        top: 20,
-                        right: 20,
-                        bottom: 20,
-                        left: 50
-                    }}
-                    >
-                    <CartesianGrid stroke="#f5f5f5" />
-                    <XAxis orientation="bottom" type="number" domain={[0, getMaxQuantity(data)]}/>
-                    <Tooltip />
-                    <YAxis tick={false} mirror={true} dataKey="name" type="category" scale="band" />
-                    <Bar layout="vertical" dataKey="female" barSize={20} fill="#db5858" />
-                </BarChart>
-            </ResponsiveContainer>
-        </div>
-    </div>
     );
   }
 const extractCitizensByAge = (citizens, from, to, year) => {
@@ -108,13 +154,14 @@ const extractCitizensByAge = (citizens, from, to, year) => {
         female: countGirls
     }
 }
-const caculateMaleData = (citizens, year) => {
+const caculateData = (citizens, year) => {
     let result = [];
     for (let i = 0 ; i<90 ; i=i + 5){
         let element = extractCitizensByAge(citizens, i, i+4, year);
         result.push(element);
     }
     result = result.reverse();
+    console.log(result);
     return result;
 }
 const getMaxQuantity = (arrayData) => {
