@@ -368,9 +368,9 @@ const AddCitizenByCSV = () => {
       for (var i = 0; i < citizenCSVData.length; i++) {
         var err = validateBeforeSubmit(citizenCSVData[i]);
         if (err.name === "" && err.id_number === "" && err.dob === "" && err.gender === "" && err.ethnic === "" && err.religion === "" && err.educational === "" && err.occupations === "" && err.village_id === "" && err.home_town === "" && err.address_line1 === "" && err.address_line2 === "") {
-          errors.push(false);
-        } else {
           errors.push(true);
+        } else {
+          errors.push(false);
         }
       }
       setError({
