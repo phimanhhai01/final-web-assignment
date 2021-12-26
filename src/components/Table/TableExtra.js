@@ -84,7 +84,7 @@ export default function TableExtra(props) {
                 <SearchBar name={name} input ={search} handleChange={handleSearch} searchBy={searchBy}/>
             </div>
         </div>
-      <TableContainer sx={{ maxHeight: "70vh" }}>
+      <TableContainer sx={{ maxHeight: "cacl(100vh - 125px)" }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -114,6 +114,7 @@ export default function TableExtra(props) {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+        labelRowsPerPage="Số  hàng"
       />
     </Paper>
   );

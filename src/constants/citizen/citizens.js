@@ -13,11 +13,11 @@ export const ListCitizensTitles = [
 ];
 
 export const citizen_columns = [
-    {id: "id_number",  label:"Số CMND/CCCD"},
-    {id: "name",  label:"Họ và tên"},
-    {id: "dob",  label:"Ngày sinh"},
-    {id: "gender",  label:"Giới tính"},
-    {id: "ethnic",  label:"Dân tộc"},
+    {id: "id_number",  label:"Số CMND/CCCD", minWidth: "125px"},
+    {id: "name",  label:"Họ và tên", minWidth: "200px"},
+    {id: "dob",  label:"Ngày sinh", minWidth: "75px"},
+    {id: "gender",  label:"Giới tính", minWidth: "100px"},
+    {id: "ethnic",  label:"Dân tộc", minWidth: "75px"},
     // {id: "religion",  label:"Tôn giáo"},
     // {id: "educational",  label:"Trình độ học vấn"},
     // {id: "occupations",  label:"Nghề nghiệp"},

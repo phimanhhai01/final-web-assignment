@@ -32,7 +32,7 @@ const Menu = () => {
             t.pop()
         }
         return t
-    }, [current_level, sidebar_items])
+    }, [current_level, sidebar_items, location])
     
     return (
         <div className="sidebar">
