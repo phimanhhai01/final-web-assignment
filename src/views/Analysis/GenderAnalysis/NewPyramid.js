@@ -150,6 +150,7 @@ class NewPyramid extends React.PureComponent {
         <div>
                 <Paper style={{height: "567px"}}>
                     <Chart
+                    style={{height: "100%"}}
                     data={data}
                     rotated
                     >
@@ -158,13 +159,13 @@ class NewPyramid extends React.PureComponent {
                     <ValueScale modifyDomain={modifyDomain} />
 
                     <BarSeries
-                        name="Male"
+                        name="Nam"
                         valueField="male"
                         argumentField="age"
                         color="#3F7FBF"
                     />
                     <BarSeries
-                        name="Female"
+                        name="Nữ"
                         valueField="female"
                         argumentField="age"
                         color="#F87CCC"

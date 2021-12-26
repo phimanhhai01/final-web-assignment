@@ -36,7 +36,7 @@ const FilterComponent = ({type, data, setOpen, filterList}) => {
                 </li>
             )}
             onChange={handleChange}
-            style={{ width: 500 }}
+            style={{ width: "100%", maxWidth: 600 }}
             renderInput={(params) => (
                 <TextField {...params} size="small" label="Chọn đơn vị" placeholder="Nhập tên" />
             )}

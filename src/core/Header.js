@@ -70,9 +70,9 @@ const Header = () => {
         <div className="header" style={styles.root}>
             <p className="header__name">{agency && agency.name}</p>
             <div style={styles.right}>
-                <Tooltip title={`${declare? "Bạn có thể khai kháo":"Hiện tại bạn không thể khai báo"}`}>
+                {user_level !== "0" && <Tooltip title={`${declare? "Bạn có thể khai kháo":"Hiện tại bạn không thể khai báo"}`}>
                     <div className={`circle ${declare? "circle-active":""}`}></div>
-                </Tooltip>
+                </Tooltip>}
                 <div style={{marginLeft: "2rem"}}>
             
                     {/* <Button onClick={handleLogOut} variant="contained">Đăng xuất</Button> */}

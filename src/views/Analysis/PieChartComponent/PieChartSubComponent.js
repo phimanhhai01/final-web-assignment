@@ -1,6 +1,6 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Legend, ResponsiveContainer, Tooltip } from "recharts";
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8d42f5", "#1e5f94", "#511e94"];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8d42f5", "#1e5f94", "#511e94", "#a84a32"];
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
     cx,

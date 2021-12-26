@@ -497,7 +497,7 @@ const AddCitizenByCSV = () => {
 
   const renderData = (item, index) => {
     return (
-        <TableRow key={index} hover role="checkbox" tabIndex={-1} style={{background: isError[index] === true ? "red":"#82DD55"}}>
+        <TableRow key={index} hover role="checkbox" tabIndex={-1} style={{background: isError[index] === true ? "rgb(255 0 0 / 46%)":"#82DD55"}}>
             <TableCell>{item.id_number? item.id_number: "-"}</TableCell>
             <TableCell>{item.name}</TableCell>
             <TableCell>{new Date(item.dob).toLocaleDateString('en-GB')}</TableCell>
