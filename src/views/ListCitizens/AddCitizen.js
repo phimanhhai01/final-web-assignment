@@ -626,7 +626,7 @@ const AddCitizen = () => {
                   fullWidth
                   onBlur={validateAddress_line1Input}
                   variant="standard" {...params} 
-                  label="Địa chỉ tạm trú"
+                  label="Địa chỉ thường trú"
                   required 
                   />}
               />
