@@ -47,7 +47,7 @@ export const searchByCitizen = [
     {value: "dob",  label:"Ngày sinh"},
     // {value: "gender",  label:"Giới tính"},
     {value: "ethnic",  label:"Dân tộc"},
-    {value: "religion",  label:"Tôn giáo"},
+    /* {value: "religion",  label:"Tôn giáo"}, */
     // {value: "educational",  label:"Trình độ học vấn"},
     // {value: "occupations",  label:"Nghề nghiệp"},
     // {value: "home_town",  label:"Quê quán"},
