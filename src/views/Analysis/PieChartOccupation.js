@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Button, TextField } from "@mui/material";
 import PieChartSubComponent from "./PieChartComponent/PieChartSubComponent";
 import {filterCitizensFunc} from './GenderAnalysis/filterCitizensFunc';
+import { Occupations } from "../../constants/citizen/citizens";
 
 const extractCitizens = (citizens, startYear, endYear) => {
   return citizens.filter(element => {
@@ -11,12 +12,14 @@ const extractCitizens = (citizens, startYear, endYear) => {
 };
 
 const categorizeCitizensByOccupation = (citizens) => {
-  let result = [
-      { name: "Học Sinh", value: 0 },
-      { name: "Công Chức", value: 0 },
-      { name: "Nông Dân", value: 0 },
-      { name: "Khác", value: 0 }
-    ];
+  const initialValue = () => {
+    let value = [];
+    for(let i = 0 ; i < Occupations.length ; i++){
+        value.push({name: Occupations[i], value: 0})
+    }
+    return value;
+  }
+  const result = initialValue();
   citizens.forEach(element => {
       let exist = false;
       for(let i = 0 ; i<result.length - 1 ; i++){

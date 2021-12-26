@@ -160,22 +160,14 @@ export const Religions = [
     "Tịnh độ Cư sỹ Phật hội", 
     "Tin lành", 
 ];
-
-
-export const pieChartData = [
-    "Học Sinh",
-    "Công Chức",
-    "Nông Dân",
-    "Khác"
-]
 export const Occupations = [
-    "Lãnh đạo, quản lý trong các ngành, các cấp và các đơn vị",
-    "Nhà chuyên môn bậc cao (đại học trở lên)",
-    "Nhà chuyên môn bậc trung (cao đẳng, trung cấp)",
-    "Nhân viên trợ lý văn phòng",
+    "Công chức",
+    // "Nhà chuyên môn bậc cao (đại học trở lên)",
+    // "Nhà chuyên môn bậc trung (cao đẳng, trung cấp)",
+    "Nhân viên văn phòng",
     "Nhân viên dịch vụ và bán hàng",
     "Lao động có kỹ năng trong nông nghiệp, lâm nghiệp và thủy sản",
-    "Lao động thủ công và các nghề nghiệp có liên quan khác",
+    // "Lao động thủ công và các nghề nghiệp có liên quan khác",
     "Thợ lắp ráp và vận hành máy móc, thiết bị",
     "Lao động giản đơn",
     "Lực lượng vũ trang",
