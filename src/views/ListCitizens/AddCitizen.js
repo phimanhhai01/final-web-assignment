@@ -105,7 +105,7 @@ const AddCitizen = () => {
     religion: "Không",
     educational: "none",
     declarer: "",
-    occupations: "Nhà chuyên môn bậc cao (đại học trở lên)",
+    occupations: "Tự do",
     village_id: mapSubAgenciesId(subAgencies[0]),
     home_town: "",
     address_line1: "",
