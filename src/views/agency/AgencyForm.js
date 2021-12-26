@@ -49,7 +49,7 @@ export default function AgencyForm({label, action, initData=init}) {
 
   const [open, setOpen] = React.useState(false)
   const currentUser = useSelector(state => state.user.currentUser)
-  if (!initData.id) {
+  if (true) {
     initData.id = currentUser.username === '00'? '': currentUser.username
     initData.staff.username = currentUser.username === '00'? '': currentUser.username;
   }
@@ -80,10 +80,10 @@ export default function AgencyForm({label, action, initData=init}) {
               dispatch(appendAgency(res.data))
               setData({
                 ...initData,
-                id: currentUser.username,
+                id: currentUser.username === '00'? '': currentUser.username,   
                 staff: {
                   ...initData.staff,
-                  username: currentUser.username,              
+                  username: currentUser.username === '00'? '': currentUser.username,              
                 }
               })
           } else if (res.status === 400) {
