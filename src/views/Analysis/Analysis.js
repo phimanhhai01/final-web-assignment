@@ -51,16 +51,17 @@ const ListUser = () => {
                 <Grid item lg={1}>
                     <Filter type={"analysis"} />
                 </Grid>
+
             </Grid>}
-            <Grid container spacing={2}>
-                <Grid item xs={4}>
-                    <StatisticComponent title={"Dân số"} />
+            <Grid container spacing={1.5}  rowSpacing="0">
+                <Grid item lg={4} md={6} xs={12}>
+                    <StatisticComponent title={"Dân số"} number={192783} />
                 </Grid>
-                <Grid item xs={4}>
-                    <StatisticComponent title={"Số Lượng Nam"} />
+                <Grid item lg={4} md={6} xs={12}>
+                    <StatisticComponent title={"Số Lượng Nam"} number={213456} />
                 </Grid>
-                <Grid item xs={4}>
-                    <StatisticComponent title={"Số Lượng Nữ"} />
+                <Grid item lg={4} md={6} xs={12}>
+                    <StatisticComponent title={"Số Lượng Nữ"} number={345672} />
                 </Grid>
             </Grid>
             <Grid container spacing={1.5} style={{marginBottom: "1rem"}}>

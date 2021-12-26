@@ -315,7 +315,7 @@ const AddAgency = () => {
         <h2>Thiết lập</h2>
         <div></div>
       </div>
-      <div className="grid grid-col-2 grid-col-sm-1" style={{gridAutoRows: '1fr'}}>
+      <div className="grid grid-col-2 grid-col-sm-1" style={{}}>
         <div>
           <div className="card" style={{display: "flex", flexDirection: "column", height: '100%'}}>
             <div style={{padding: '0.5rem'}}className="card__header">
