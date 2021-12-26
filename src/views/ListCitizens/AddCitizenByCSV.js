@@ -368,11 +368,12 @@ const AddCitizenByCSV = () => {
       for (var i = 0; i < citizenCSVData.length; i++) {
         var err = validateBeforeSubmit(citizenCSVData[i]);
         if (err.name === "" && err.id_number === "" && err.dob === "" && err.gender === "" && err.ethnic === "" && err.religion === "" && err.educational === "" && err.occupations === "" && err.village_id === "" && err.home_town === "" && err.address_line1 === "" && err.address_line2 === "") {
-          errors.push(false);
-        } else {
           errors.push(true);
+        } else {
+          errors.push(false);
         }
       }
+      console.log("Errors", errors)
       setError({
         ...er,
         err
@@ -413,7 +414,7 @@ const AddCitizenByCSV = () => {
       setOpen(true);
       setDataLoaded(true);
     }
-  }, [checkError, dataLoaded, citizenCSVData]);
+  }, [dataLoaded, citizenCSVData]);
 
   const handleClose = () => {
     handleResetInput();
@@ -528,7 +529,7 @@ const AddCitizenByCSV = () => {
           <Button style={{marginLeft: "10px"}} variant="light" component="span" onClick={handleClose} >
             Hủy
           </Button>
-          <Button style={{background: "#2E3192", color: "white", marginLeft: "10px"}} variant="contained" component="span" onClick={handleClick} disabled>
+          <Button style={{ marginLeft: "10px"}} variant="contained" component="span" onClick={handleClick} disabled={!ableToSubmit()}>
             Upload
           </Button>
         </DialogActions>
