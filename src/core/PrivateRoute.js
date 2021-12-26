@@ -7,13 +7,14 @@ import { useSelector, useDispatch } from "react-redux";
 import {myUser} from "../api/apiUser"
 import {userFill} from "../redux/reducers/user/user.thunk"
 import { addToast } from "../utils";
+import Footer from "./Footer"
 
 const style = {
     main: {
         marginLeft: "var(--sidebar-width)",
         padding: "0 0.5rem",
         backgroundColor: "var(--second-bg)",
-        minHeight: "100vh",
+       
     }
 }
 const PrivateRoute = (props) => {
@@ -67,11 +68,16 @@ const PrivateRoute = (props) => {
         <div>
             <Menu />
             <main style={style.main}>
-                <Header />
-                <div className="root-content">
-                <Outlet />
+                <div style={{ minHeight: "100vh"}}>
+                    <Header />
+                    <div className="root-content">
+                    <Outlet />
+                    </div>
                 </div>
+                <Footer />
+
             </main>
+
         </div>
     )
 }

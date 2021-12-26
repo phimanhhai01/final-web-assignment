@@ -49,10 +49,10 @@ export const searchByCitizen = [
     {value: "ethnic",  label:"Dân tộc"},
     {value: "religion",  label:"Tôn giáo"},
     // {value: "educational",  label:"Trình độ học vấn"},
-    {value: "occupations",  label:"Nghề nghiệp"},
-    {value: "home_town",  label:"Quê quán"},
-    {value: "address_line1",  label:"Địa chỉ thường trú"},
-    {value: "address_line2",  label:"Địa chỉ tạm trú"},
+    // {value: "occupations",  label:"Nghề nghiệp"},
+    // {value: "home_town",  label:"Quê quán"},
+    // {value: "address_line1",  label:"Địa chỉ thường trú"},
+    // {value: "address_line2",  label:"Địa chỉ tạm trú"},
 ];
 
 export const LearningLevels = [

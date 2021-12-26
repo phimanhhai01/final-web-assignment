@@ -7,6 +7,7 @@ import { sidebar_items } from "../constants/menu/menu";
 import {useSelector} from "react-redux"
 
 import '../style/menu.css'
+import Footer from "./Footer"
 
 const Menu = () => {
     // console.log("render Menu")
@@ -61,6 +62,7 @@ const Menu = () => {
                     // ))
                 }
             </ul>
+            <div style={{flexGrow: 1}}></div>
         </div> 
     );
 }
