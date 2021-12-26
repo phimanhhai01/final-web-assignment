@@ -27,10 +27,10 @@ export const citizen_columns = [
 ];
 
 export const citizen_columns_full = [
-    {id: "id_number",  label:"Số CMND/CCCD"},
-    {id: "name",  label:"Họ và tên"},
-    {id: "dob",  label:"Ngày sinh"},
-    {id: "gender",  label:"Giới tính"},
+    {id: "id_number",  label:"Số CMND/CCCD", minWidth: "125px"},
+    {id: "name",  label:"Họ và tên", minWidth: "150px"},
+    {id: "dob",  label:"Ngày sinh", minWidth: "75px"},
+    {id: "gender",  label:"Giới tính", minWidth: "80px"},
     {id: "ethnic",  label:"Dân tộc"},
     {id: "religion",  label:"Tôn giáo"},
     {id: "educational",  label:"Trình độ học vấn"},
