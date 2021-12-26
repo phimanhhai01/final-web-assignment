@@ -1,6 +1,6 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Legend, ResponsiveContainer, Tooltip } from "recharts";
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8d42f5", "#1e5f94", "#511e94"];
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
     cx,
@@ -23,7 +23,7 @@ const renderCustomizedLabel = ({
         textAnchor={x > cx ? "start" : "end"}
         dominantBaseline="central"
       >
-        {`${(percent * 100).toFixed(0)}%`}
+        {`${(percent * 100).toFixed(2)}%`}
       </text>
     );
   };
