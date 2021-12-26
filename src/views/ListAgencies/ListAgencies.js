@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {column_titles, searchByAgency} from '../../constants/agency/agency';
 import { loadAgenciesAsync } from '../../redux/reducers/agencies/agencies.thunk';
 import { Button } from '@mui/material';
-import { useNavigate } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
 import AgencyForm from '../agency/AgencyForm';
 import {userToggleCompletedDeclare} from "../../redux/reducers/user/user.thunk"
 import {toggleCompletedDeclareApi } from "../../api/apiAgencies"
@@ -64,9 +64,18 @@ const ListAgencies = () => {
                  
                 </TableCell>
                 <TableCell align='center'>
-                    <span className={`badge ${item.completed_declared? 'badge-success': 'badge-pending '}`}>
-                    {item.completed_declared? 'Đã khai báo xong': 'Chưa khai báo xong'}
-                    </span>
+                    {
+                        item.id.length !== 8? (
+                            <span className={`badge ${item.completed_declare? 'badge-success': 'badge-pending '}`}>
+                                {item.completed_declare? 'Đã khai báo xong': 'Chưa khai báo xong'}
+                            </span>
+                        ):(
+                            <span className={`badge badge-success`}>
+                                Do bạn giám sát trực tiếp
+                            </span>
+                        )
+                    }
+                    
                 </TableCell>
             </TableRow>
         )
@@ -92,15 +101,19 @@ const ListAgencies = () => {
             }
         })()
     }
+
+    if (currentUser.level === "4") {
+        navigate('/')
+    }
     
     return (
         <div className="page-limit">
             <div style={styles.header}>
                 <div>
                     {
-                        (currentUser && currentUser.level !== "0" && currentUser && currentUser.level !== "4")? (
+                        (currentUser && currentUser.level === "3")? (
                             <Button variant='contained'
-                            onClick={toggleCompletedDeclare}
+                                onClick={toggleCompletedDeclare}
                             >
                                 {!currentUser.agency.completed_declare? 'Đánh dấu khai báo xong':'Đánh dấu chưa khai báo xong'}
                             </Button>
