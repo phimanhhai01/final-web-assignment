@@ -394,12 +394,25 @@ const AddCitizenByCSV = () => {
     });
   }
 
+  const validateHeaderFormat = (header) => {
+    if (Object.keys(header).length === 12) { 
+      if (header.hasOwnProperty("id_number") && header.hasOwnProperty("name") && header.hasOwnProperty("dob") && header.hasOwnProperty("gender") && header.hasOwnProperty("ethnic") && header.hasOwnProperty("religion") && header.hasOwnProperty("educational") && header.hasOwnProperty("occupations") && header.hasOwnProperty("village_id") && header.hasOwnProperty("home_town") && header.hasOwnProperty("address_line1") && header.hasOwnProperty("address_line2")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   const handleCSVFile = (event) => {
     let fileCSVdata = event.target.files[0];
     (async() => {
       try {
         let data = await parseCSV(fileCSVdata);
-        setDataCSV(data);
+        if (validateHeaderFormat(data[0])) {
+          setDataCSV(data);
+        } else {
+          addToast({type:'error', title:'Hỏng!', message:`File CSV sai format!`, duration: 5000})
+        }
       } catch (err) {
         console.log("ParseCSV error!");
       }
