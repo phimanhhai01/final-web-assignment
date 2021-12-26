@@ -64,7 +64,7 @@ const ListUser = () => {
                     <StatisticComponent title={"Số Lượng Nữ"} number={345672} />
                 </Grid>
             </Grid>
-            <Grid container spacing={1.5} style={{marginBottom: "1rem"}}>
+            <Grid container spacing={1.5} >
                 <Grid item xs={12} lg={7}>
                     <PopulationPyramid />
                 </Grid>
