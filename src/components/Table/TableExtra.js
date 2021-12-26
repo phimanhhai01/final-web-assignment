@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { useSelector } from 'react-redux';
 
 import Filter from '../../components/Filter';
 import SearchBar from '../../components/SearchBar';
@@ -24,6 +25,7 @@ export default function TableExtra(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const {data, renderData, columns, searchBy, name, title, searchEngine, showFilterButton} = props;
+  const user_level = useSelector(state => state.user.currentUser.level);
   
   const styles = {
     searchEngine: {
@@ -78,7 +80,7 @@ export default function TableExtra(props) {
 
         }
         <div style={styles.searchEngine}>
-            {showFilterButton && <div>
+            {showFilterButton && user_level < "4" && <div>
                 <Filter/>
             </div>}
             <div style={styles.searchBarWrapper}>
