@@ -94,6 +94,7 @@ const ListCitizens = () => {
                 data = {filterList.length > 0 ? filteredListCitizens(citizens, filterList) : citizens}
                 renderData = {renderData}
                 searchEngine = {true}
+                showFilterButton = {true}
             />
         </div>
     )

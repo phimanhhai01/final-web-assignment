@@ -3,10 +3,8 @@ import Filter from '../../components/Filter';
 import SearchBar from '../../components/SearchBar';
 import style from './table.css';
 
-
 const Table = (props) => {
     const {heads, data, renderData} = props;
-
     const styles = {
         root: {
             width: "100%",

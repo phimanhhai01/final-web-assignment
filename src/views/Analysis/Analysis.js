@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadCitizensAsync } from '../../redux/reducers/citizens/citizens.thunk';
-import Description from './Description';
 import PieChartOccupation from './PieChartOccupation';
 import PieChartGender from './PieChartGender';
-import BarChartComponent from './BarChart';
-import PopulationPyramid from './GenderAnalysis/PopulationPyramid';
 import { occupationsDescription, genderDescription } from '../../constants/description/description';
 import PopulationLineChart from './LineChart';
 import Filter from '../../components/Filter';
 import { Grid } from '@mui/material';
 import StatisticComponent from './StatisticComponent';
+import NewPyramid from './GenderAnalysis/NewPyramid';
 const ListUser = () => {
     const dispatch = useDispatch();
     const level_current_user = useSelector(state => state.user.currentUser.level);
@@ -66,7 +64,7 @@ const ListUser = () => {
             </Grid>
             <Grid container spacing={1.5} >
                 <Grid item xs={12} lg={7}>
-                    <PopulationPyramid />
+                    <NewPyramid />
                 </Grid>
                 <Grid item xs={12} lg={5}>
                     <PieChartOccupation />
