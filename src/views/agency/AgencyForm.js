@@ -50,8 +50,8 @@ export default function AgencyForm({label, action, initData=init}) {
   const [open, setOpen] = React.useState(false)
   const currentUser = useSelector(state => state.user.currentUser)
   if (!initData.id) {
-    initData.id = currentUser.username;
-    initData.staff.username = currentUser.username;
+    initData.id = currentUser.username === '00'? '': currentUser.username
+    initData.staff.username = currentUser.username === '00'? '': currentUser.username;
   }
 
   const [data, setData] = React.useState(initData)
@@ -62,7 +62,7 @@ export default function AgencyForm({label, action, initData=init}) {
       return 
     }
     clicked = true
-    let err = validate(data, currentUser.username)
+    let err = validate(data, `${currentUser.username==='00'? '': currentUser.username}`)
     if(Object.keys(err).length === 0) {
       (async () => {
         try {
@@ -113,7 +113,10 @@ export default function AgencyForm({label, action, initData=init}) {
     }
   }
   const handleChange = (e) => {
-    const l = currentUser.username.length
+    let l = currentUser.username.length
+    if (currentUser.username === '00') {
+      l = 0
+    }
     // const reg = `/^[0-9]{${l},${l + 2}}$/`;
     let {name, value} = e.target;
     if (name ==='id') {
