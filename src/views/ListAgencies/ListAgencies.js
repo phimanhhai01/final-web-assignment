@@ -134,6 +134,7 @@ const ListAgencies = () => {
                 searchBy = {searchByAgency}
                 renderData = {renderData}
                 searchEngine = {true}
+                showFilterButton = {false}
            />
         </div>
         

@@ -23,7 +23,8 @@ const filterData = (data, search) => {
 export default function TableExtra(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const {data, renderData, columns, searchBy, name, title, searchEngine} = props;
+  const {data, renderData, columns, searchBy, name, title, searchEngine, showFilterButton} = props;
+  
   const styles = {
     searchEngine: {
         display: searchEngine? "flex":"none",
@@ -77,9 +78,9 @@ export default function TableExtra(props) {
 
         }
         <div style={styles.searchEngine}>
-            <div>
+            {showFilterButton && <div>
                 <Filter/>
-            </div>
+            </div>}
             <div style={styles.searchBarWrapper}>
                 <SearchBar name={name} input ={search} handleChange={handleSearch} searchBy={searchBy}/>
             </div>
