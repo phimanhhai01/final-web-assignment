@@ -525,6 +525,9 @@ const AddCitizenByCSV = () => {
           />
         </DialogContent>
         <DialogActions>
+          <Button style={{marginLeft: "10px"}} variant="light" component="span" onClick={handleClose} >
+            Hủy
+          </Button>
           <Button style={{background: "#2E3192", color: "white", marginLeft: "10px"}} variant="contained" component="span" onClick={handleClick} disabled>
             Upload
           </Button>
