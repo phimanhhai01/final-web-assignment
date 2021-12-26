@@ -119,7 +119,7 @@ const AddCitizenByCSV = () => {
         },
   }
 
-  const formatEducational = (learningLevel) => {
+  /* const formatEducational = (learningLevel) => {
     if (learningLevel === "Tiểu học") {
       return "primary";
     } else if (learningLevel === "Trung học cơ sở") {
@@ -141,7 +141,7 @@ const AddCitizenByCSV = () => {
     } else if (learningLevel === "master") {
       return "Sau đại học";
     } 
-  }
+  } */
 
   const dispatch = useDispatch()
     
@@ -280,7 +280,7 @@ const AddCitizenByCSV = () => {
   const validateLearningLevelsInput = (input) => {
     const content = input;
     for (var i = 0; i < LearningLevels.length; i++) {
-      if (content === formatEducational(LearningLevels[i])) {
+      if (content === LearningLevels[i].value) {
         return ""
       }
     }
@@ -373,7 +373,6 @@ const AddCitizenByCSV = () => {
           errors.push(false);
         }
       }
-      console.log("Errors", errors)
       setError({
         ...er,
         err
