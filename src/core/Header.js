@@ -4,6 +4,7 @@ import { userLogout } from "../redux/reducers/user/user.thunk";
 import { resetAgency } from "../redux/reducers/agencies/agencies.thunk";
 import { resetCitizen } from "../redux/reducers/citizens/citizens.thunk";
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 import {ReactComponent as Avatar} from '../images/default-avatar.svg';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -46,6 +47,7 @@ const Header = () => {
     const open = Boolean(anchorEl);
     const agency = useSelector(state => state.user.currentUser.agency);
     const declare = useSelector(state => state.user.currentUser.actually_declared_permission);
+    const user_level = useSelector(state => state.user.currentUser.level);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -95,6 +97,9 @@ const Header = () => {
                         {/* <MenuItem onClick={handleClose}>Profile</MenuItem> */}
                         {/* <MenuItem onClick={handleClose}>Đổi mật khẩu</MenuItem> */}
                         <MenuItem onClick={handleLogOut}>Đăng xuất</MenuItem>
+                        {user_level >= "3" && <MenuItem>
+                            <Link to="/files/form.pdf" target="_blank" download>Tải phiếu khai báo</Link>
+                        </MenuItem>}
                     </Menu>
                 </div>
             </div>
