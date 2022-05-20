@@ -1,18 +1,38 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom"
-import Home from "./core/Home";
+
+//import Home from "./core/Home";
 import Signin from "./users/Signin";
-import Signup from "./users/Signup";
-import Menu from "./core/Menu";
+import  PrivateRoute  from "./core/PrivateRoute";
+import HomeRoute from "./core/HomeRoute";
+// import Menu from "./Menu";
+// import Header from "../Header";
+import ListCitizens from "./views/ListCitizens/ListCitizens";
+import ListAgencies from "./views/ListAgencies/ListAgencies";
+import Analysis from "./views/Analysis/Analysis";
+import Profile from "./views/ListCitizens/Profile";
+import AgencySetting from "./views/agency/AgencySetting";
+import Agencies from "./views/agency/Agencies";
 
 const Mainrouter = () => {
     return (
         <div>
-            <Menu />
+            {/* {location.pathname !== "/signin" && <Menu />}
+            {location.pathname !== "/signin" && <Header />} */}
             <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route exact path="/signin" element={<Signin />} />
-                <Route exact path="/signup" element={<Signup />} />
+                <Route exact path="signin" element={<HomeRoute><Signin /></HomeRoute>} />
+                <Route exact path="" element={<PrivateRoute></PrivateRoute>} >
+                    <Route exact path = "list-citizens/:id" element={<Profile />} />
+                    <Route exact path="list-citizens" element={<ListCitizens />} />
+                    <Route  path="management" element={<Agencies />}>
+                        <Route exact path="" element={<ListAgencies />} />
+                        <Route exact path=":id" element={<AgencySetting />} />
+                    </Route>
+                    
+                    {/* <Route exact path="agency/add" element={<AddAgency />} /> */}
+
+                    <Route exact path="" element={<Analysis />} />
+                </Route>
             </Routes>
         </div>
     );

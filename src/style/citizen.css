@@ -1,0 +1,24 @@
+#profile {
+    background-color: white;
+    border-radius: 16px;
+    padding: 2rem;
+    width: 648px;
+    max-width: 100%;
+}
+
+#mainPanel {
+    margin-right: 0.5rem;
+}
+
+@media screen and (max-width: 739px) {
+    #mainPanel {
+        display: block;
+    }
+}
+
+@media (min-width: 740px) {
+    #mainPanel {
+        display: flex;
+        justify-content: center;
+    }
+}
